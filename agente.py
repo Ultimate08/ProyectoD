@@ -36,7 +36,7 @@ def client(n):
         client_socket.connect((n['host'], n['port']))
         while True:
             message = input("Escribe un mensaje para el servidor: ")
-            tmp = datetime.datetime.now()
+            tmp = str(datetime.datetime.now())
             msg = message+" "+tmp
             client_socket.sendall(msg.encode('utf-8'))
             data = client_socket.recv(1024)
