@@ -6,7 +6,7 @@ import datetime
 # Configura las IP de tus nodos
 nodos = [
     {'host': '192.168.229.128', 'port': 12345},
-    {'host': '192.168.229.139', 'port': 12346},
+    {'host': '192.168.229.129', 'port': 12346},
     {'host': '192.168.229.134', 'port': 12347},
     {'host': '192.168.229.135', 'port': 12348}
 ]
