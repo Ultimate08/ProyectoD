@@ -11,7 +11,7 @@ nodos = [
     {'host': '192.168.229.132', 'port': 12348}
 ]
 
-b = open("/home/eduardo/SD/bitacora.txt", "x")
+b = open("/home/eduardo/SD/bitacora.txt", "w") # Cambien la ruta y creen el archivo
 
 def server(n):
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
