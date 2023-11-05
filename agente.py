@@ -28,6 +28,7 @@ def server(n):
                 if not data:
                     break
                 print(f"Mensaje recibido del cliente: {data.decode('utf-8')}")
+                b.write("\n"+data.decode('utf-8'))
                 response = "El mensaje ha sido recibido\n"
                 conn.sendall(response.encode('utf-8'))
 
