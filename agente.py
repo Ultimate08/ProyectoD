@@ -5,10 +5,10 @@ import datetime
 
 # Configura las IP de tus nodos
 nodos = [
-    {'host': '192.168.229.128', 'port': 12345},
-    {'host': '192.168.229.129', 'port': 12346},
-    {'host': '192.168.229.130', 'port': 12347},
-    {'host': '192.168.229.131', 'port': 12348}
+    {'host': '192.168.153.128', 'port': 12345},
+    {'host': '192.168.153.129', 'port': 12346},
+    {'host': '192.168.153.130', 'port': 12347},
+    {'host': '192.168.153.131', 'port': 12348}
 ]
 
 b = open("/home/eduardo/SD/bitacora.txt", "w") # Cambien la ruta y creen el archivo
