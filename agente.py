@@ -18,7 +18,7 @@ def server(n):
         hn = socket.gethostname()
         ip = socket.gethostbyname(hn)
         port = 0 
-        for a,b in nodos.items():
+        for a,b in enumerate(nodos):
             if (ip == a):
                 port = b
                 break
