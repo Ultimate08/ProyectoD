@@ -20,7 +20,7 @@ def server(n):
         port = 0 
         for i in enumerate(nodos):
             y = nodos[i]
-            if (ip == y['host'])
+            if (ip == y['host']):
                 port = y['port']
                 break
         server_socket.bind((ip, port))
