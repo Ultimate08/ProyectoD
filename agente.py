@@ -18,10 +18,9 @@ def server(n):
         hn = socket.gethostname()
         ip = socket.gethostbyname(hn)
         port = 0 
-        for i in nodos:
-            y = nodos[i]
-            if (ip == y['host']):
-                port = y['port']
+        for a,b in nodos.items():
+            if (ip == a):
+                port = b
                 break
         server_socket.bind((ip, port))
         server_socket.listen()
