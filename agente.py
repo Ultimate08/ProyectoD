@@ -13,7 +13,7 @@ nodos = [
 
 b = open("/home/eduardo/SD/bitacora.txt", "w") # Cambien la ruta y creen el archivo
 
-def server(n):
+def server():
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
         hn = socket.gethostname()
         ip = socket.gethostbyname(hn)
@@ -59,7 +59,7 @@ for i, n in enumerate(nodos):
 choice = int(input("Selecciona el número del servidor: ")) - 1
 
 # Crear y ejecutar hilos para el servidor y el cliente
-server_thread = threading.Thread(target=server, args=(choice,))
+server_thread = threading.Thread(target=server, args=())
 client_thread = threading.Thread(target=client, args=(choice,))
 
 server_thread.start()
