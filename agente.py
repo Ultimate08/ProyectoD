@@ -15,9 +15,10 @@ b = open("/home/eduardo/SD/bitacora.txt", "w") # Cambien la ruta y creen el arch
 
 def server(n):
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
-        server_socket.bind((n['host'], n['port']))
+        s = nodos[n]
+        server_socket.bind((s['host'], s['port']))
         server_socket.listen()
-        print(f"Servidor escuchando en {n['host']}:{n['port']}")
+        print(f"Servidor escuchando en {s['host']}:{s['port']}")
         conn, addr = server_socket.accept()
 
         with conn:
@@ -34,7 +35,8 @@ def server(n):
 
 def client(n):
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
-        client_socket.connect((n['host'], n['port']))
+        c = nodos[n]
+        client_socket.connect((c['host'], c['port']))
         while True:
             message = input("Escribe un mensaje para el servidor: ")
             tmp = str(datetime.datetime.now())
