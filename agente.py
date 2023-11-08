@@ -15,10 +15,17 @@ b = open("/home/eduardo/SD/bitacora.txt", "w") # Cambien la ruta y creen el arch
 
 def server(n):
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
-        s = nodos[n]
-        server_socket.bind((s['host'], s['port']))
+        hn = socket.gethostname()
+        ip = socket.gethostbyname(nombre_de_host)
+        port = 0 
+        for i in enumerate(nodos)
+            y = nodos[i]
+            if (ip == y['host'])
+                port = y['port']
+                break
+        server_socket.bind((ip, port))
         server_socket.listen()
-        print(f"Servidor escuchando en {s['host']}:{s['port']}")
+        print(f"Servidor escuchando en {ip}:{port}")
         conn, addr = server_socket.accept()
 
         with conn:
