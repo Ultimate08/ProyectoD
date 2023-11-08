@@ -42,7 +42,14 @@ def server():
 def client(n):
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
         c = nodos[n]
-        client_socket.connect((c['host'], c['port']))
+        ip = ''
+        port = 0
+        for i,m in enumerate(nodos):
+            if ( i == n):
+                ip = m['host']
+                port = m['port']
+                break
+        client_socket.connect((ip, port))
         while True:
             message = input("Escribe un mensaje para el servidor: ")
             tmp = str(datetime.datetime.now())
