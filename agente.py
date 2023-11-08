@@ -18,7 +18,7 @@ def server(n):
         hn = socket.gethostname()
         ip = socket.gethostbyname(nombre_de_host)
         port = 0 
-        for i in enumerate(nodos)
+        for i in enumerate(nodos):
             y = nodos[i]
             if (ip == y['host'])
                 port = y['port']
