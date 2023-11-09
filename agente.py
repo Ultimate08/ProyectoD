@@ -44,8 +44,8 @@ def client(n):
         c = nodos[n]
         ip = ''
         port = 0
-        for i,m in enumerate(nodos):
-            if ( i == n):
+        for m in enumerate(nodos):
+            if (m == n):
                 ip = m['host']
                 port = m['port']
                 break
