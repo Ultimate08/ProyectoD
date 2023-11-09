@@ -18,9 +18,9 @@ def server():
         hn = socket.gethostname()
         ip = socket.gethostbyname(hn)
         port = 0 
-        for a,b in enumerate(nodos):
-            if (ip == a):
-                port = b
+        for b in nodos:
+            if (ip == b['host']):
+                port = b['port']
                 break
         server_socket.bind((ip, port))
         server_socket.listen()
@@ -42,7 +42,7 @@ def server():
 def client(ip, port):
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
         client_socket.connect((ip, port))
-        while True:
+        if key.lower() == 'e':
             message = input("Escribe un mensaje para el servidor: ")
             tmp = str(datetime.datetime.now())
             msg = message+" "+tmp
