@@ -39,16 +39,8 @@ def server():
                 response = "El mensaje ha sido recibido\n"
                 conn.sendall(response.encode('utf-8'))
 
-def client(n):
+def client(ip, port):
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
-        c = cl
-        ip = ''
-        port = 0
-        for m in enumerate(nodos):
-            if (m == c):
-                ip = m['host']
-                port = m['port']
-                break
         client_socket.connect((ip, port))
         while True:
             message = input("Escribe un mensaje para el servidor: ")
@@ -67,7 +59,7 @@ choice = int(input("Selecciona el número del servidor: ")) - 1
 cl = nodos[choice]
 # Crear y ejecutar hilos para el servidor y el cliente
 server_thread = threading.Thread(target=server)
-client_thread = threading.Thread(target=client, args=(cl))
+client_thread = threading.Thread(target=client, args=(cl['host'],cl['port']))
 
 server_thread.start()
 client_thread.start()
