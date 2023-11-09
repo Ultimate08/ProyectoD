@@ -67,7 +67,7 @@ choice = int(input("Selecciona el número del servidor: ")) - 1
 
 # Crear y ejecutar hilos para el servidor y el cliente
 server_thread = threading.Thread(target=server)
-client_thread = threading.Thread(target=client, args=(choice,))
+client_thread = threading.Thread(target=client, args=(choice))
 
 server_thread.start()
 client_thread.start()
