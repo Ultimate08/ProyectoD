@@ -41,7 +41,7 @@ def server():
 
 def client(n):
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
-        c = nodos[n]
+        c = cl
         ip = ''
         port = 0
         for m in enumerate(nodos):
@@ -64,10 +64,10 @@ for i, n in enumerate(nodos):
     print(f"{i + 1}. {n['host']}:{n['port']}")
 
 choice = int(input("Selecciona el número del servidor: ")) - 1
-
+cl = nodos[choice]
 # Crear y ejecutar hilos para el servidor y el cliente
 server_thread = threading.Thread(target=server)
-client_thread = threading.Thread(target=client, args=(choice))
+client_thread = threading.Thread(target=client, args=(cl))
 
 server_thread.start()
 client_thread.start()
