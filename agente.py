@@ -45,7 +45,7 @@ def client(n):
         ip = ''
         port = 0
         for m in enumerate(nodos):
-            if (m == n):
+            if (m == c):
                 ip = m['host']
                 port = m['port']
                 break
@@ -64,6 +64,7 @@ for i, n in enumerate(nodos):
     print(f"{i + 1}. {n['host']}:{n['port']}")
 
 choice = int(input("Selecciona el número del servidor: ")) - 1
+case = 
 
 # Crear y ejecutar hilos para el servidor y el cliente
 server_thread = threading.Thread(target=server)
