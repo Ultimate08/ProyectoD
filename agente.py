@@ -34,19 +34,20 @@ def server():
                 response = "El mensaje ha sido recibido\n"
                 conn.sendall(response.encode('utf-8'))
 
-def client(ip):
+def client():
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
-        client_socket.connect((ip, 5555))
-        if key.lower() == 'e':
-            message = input("Escribe un mensaje para el servidor: ")
-            tmp = str(datetime.datetime.now())
-            msg = message+" "+tmp
-            client_socket.sendall(msg.encode('utf-8'))
-            data = client_socket.recv(1024)
-            b.write("\n"+msg)
-            print(f"Respuesta del servidor: {data.decode('utf-8')}")
+        client_socket.connect((nodos[choice], 5555))
+        while True:
+            key = input("Presiona 'e' para enviar un mensaje: ")
+            if key.lower() == 'e':
+                message = input("Escribe un mensaje para el servidor: ")
+                tmp = str(datetime.datetime.now())
+                msg = message+" "+tmp
+                client_socket.sendall(msg.encode('utf-8'))
+                data = client_socket.recv(1024)
+                b.write("\n"+msg)
+                print(f"Respuesta del servidor: {data.decode('utf-8')}")
 
-cl = ''
 print("Elige un servidor:")
 for i,j in enumerate(nodos):
     print(f"{i + 1}. {j}:{5555}")
@@ -54,7 +55,7 @@ for i,j in enumerate(nodos):
 choice = int(input("Selecciona el número del servidor: ")) - 1
 # Crear y ejecutar hilos para el servidor y el cliente
 server_thread = threading.Thread(target=server)
-client_thread = threading.Thread(target=client, args=('127.0.1.1',))
+client_thread = threading.Thread(target=client, args=(nodos[choice],))
 
 server_thread.start()
 client_thread.start()
