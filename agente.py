@@ -48,7 +48,7 @@ def client(ip):
 
 print("Elige un servidor:")
 for i,j in enumerate(nodos):
-    print(f"{i + 1}. {nodos[j]}:{5555}")
+    print(f"{i + 1}. {j}:{5555}")
 
 choice = int(input("Selecciona el número del servidor: ")) - 1
 # Crear y ejecutar hilos para el servidor y el cliente
