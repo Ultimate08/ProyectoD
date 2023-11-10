@@ -47,7 +47,7 @@ def client(ip):
             print(f"Respuesta del servidor: {data.decode('utf-8')}")
 
 print("Elige un servidor:")
-for i, n in nodos:
+for i, n in enumerate(nodos):
     print(f"{i + 1}. {nodos[n]}:{5555}")
 
 choice = int(input("Selecciona el número del servidor: ")) - 1
