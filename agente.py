@@ -34,9 +34,9 @@ def server():
                 response = "El mensaje ha sido recibido\n"
                 conn.sendall(response.encode('utf-8'))
 
-def client():
+def client(ip):
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
-        client_socket.connect((nodos[choice], 5555))
+        client_socket.connect((ip, 5555))
         while True:
             message = input("Escribe un mensaje para el servidor: ")
             tmp = str(datetime.datetime.now())
