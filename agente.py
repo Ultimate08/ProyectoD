@@ -38,15 +38,13 @@ def client():
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client_socket:
         client_socket.connect((nodos[choice], 5555))
         while True:
-            key = input("Presiona 'e' para enviar un mensaje: ")
-            if key.lower() == 'e':
-                message = input("Escribe un mensaje para el servidor: ")
-                tmp = str(datetime.datetime.now())
-                msg = message+" "+tmp
-                client_socket.sendall(msg.encode('utf-8'))
-                data = client_socket.recv(1024)
-                b.write("\n"+msg)
-                print(f"Respuesta del servidor: {data.decode('utf-8')}")
+            message = input("Escribe un mensaje para el servidor: ")
+            tmp = str(datetime.datetime.now())
+            msg = message+" "+tmp
+            client_socket.sendall(msg.encode('utf-8'))
+            data = client_socket.recv(1024)
+            b.write("\n"+msg)
+            print(f"Respuesta del servidor: {data.decode('utf-8')}")
 
 print("Elige un servidor:")
 for i,j in enumerate(nodos):
