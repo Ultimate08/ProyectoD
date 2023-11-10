@@ -41,11 +41,12 @@ def client(ip):
             message = input("Escribe un mensaje para el servidor: ")
             tmp = str(datetime.datetime.now())
             msg = message+" "+tmp
-            client_socket.send(msg.encode('utf-8'))
+            client_socket.sendall(msg.encode('utf-8'))
             data = client_socket.recv(1024)
             b.write("\n"+msg)
             print(f"Respuesta del servidor: {data.decode('utf-8')}")
 
+cl = ''
 print("Elige un servidor:")
 for i,j in enumerate(nodos):
     print(f"{i + 1}. {j}:{5555}")
@@ -53,7 +54,7 @@ for i,j in enumerate(nodos):
 choice = int(input("Selecciona el número del servidor: ")) - 1
 # Crear y ejecutar hilos para el servidor y el cliente
 server_thread = threading.Thread(target=server)
-client_thread = threading.Thread(target=client, args=(nodos[choice]))
+client_thread = threading.Thread(target=client, args=(nodos[choice],))
 
 server_thread.start()
 client_thread.start()
