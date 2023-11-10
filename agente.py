@@ -15,7 +15,7 @@ b = open("/home/eduardo/SD/bitacora.txt", "w") # Cambien la ruta y creen el arch
 
 def server():
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
-        hn = socket.gethostname()
+        hn = socket.getfqdn()
         ip = socket.gethostbyname(hn)
         port = 0 
         for b in nodos:
