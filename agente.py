@@ -46,7 +46,7 @@ def client(ip, port):
             message = input("Escribe un mensaje para el servidor: ")
             tmp = str(datetime.datetime.now())
             msg = message+" "+tmp
-            client_socket.sendall(msg.encode('utf-8'))
+            client_socket.send(msg.encode('utf-8'))
             data = client_socket.recv(1024)
             b.write("\n"+msg)
             print(f"Respuesta del servidor: {data.decode('utf-8')}")
