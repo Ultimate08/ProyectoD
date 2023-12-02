@@ -23,9 +23,6 @@ class servidor():
         hilos = []
         socket_servidor = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         socket_servidor.bind(('192.168.153.128', 1111))
-        socket_servidor.bind(('192.168.153.129', 2222))
-        socket_servidor.bind(('192.168.153.130', 3333))
-        socket_servidor.bind(('192.168.153.131', 4444))
         socket_servidor.listen(4) #Permite escuchar 3 conexiones
         conn, addr = s.accept()
         with conn:
