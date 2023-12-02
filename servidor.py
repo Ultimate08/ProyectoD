@@ -36,4 +36,4 @@ class servidor():
             hilos.append(hilo)
             cliente_sockets.append(conexion_socket)
 
-# servidor.iniciar()
+servidor.iniciar()
