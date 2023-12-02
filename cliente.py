@@ -19,7 +19,7 @@ class cliente():
     def iniciar():
         socket_cliente = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         print("\nSocket cliente creado...")
-        socket_cliente.connect(('192.168.74.222', 8888))
+        socket_cliente.connect(('192.168.153.128', 8888))
         print("\nEl socket del cliente se conecto al servidor")
         h1 = hilo_cliente(socket_cliente)
         h1.start()
