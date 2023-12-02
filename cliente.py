@@ -15,7 +15,7 @@ class hilo_cliente(threading.Thread):
             print("dt")
 
 class cliente(server, port):
-    def iniciar():
+    def iniciar(server, port):
         socket_cliente = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         print("\nSocket cliente creado...")
         socket_cliente.connect((server, port))
