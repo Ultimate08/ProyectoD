@@ -29,4 +29,4 @@ class cliente():
             socket_cliente.send(dt)
 
 
-# cliente.iniciar()
+cliente.iniciar()
