@@ -14,12 +14,11 @@ class hilo_cliente(threading.Thread):
                 continue
             print("dt")
 
-class cliente():
+class cliente(server, port):
     def iniciar():
         socket_cliente = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         print("\nSocket cliente creado...")
-        s = socket_cliente.gethostbyname(socket_cliente.gethostname())
-        socket_cliente.connect(('192.168.153.128', 8888))
+        socket_cliente.connect((server, port))
         print("\nEl socket del cliente se conecto al servidor")
         h1 = hilo_cliente(socket_cliente)
         h1.start()
@@ -28,4 +27,4 @@ class cliente():
             dt = data.encode()
             socket_cliente.send(dt)
 
-cliente.iniciar()
+cliente.iniciar('192.168.153.128',8888)
