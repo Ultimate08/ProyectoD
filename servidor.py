@@ -24,14 +24,16 @@ class servidor():
         socket_servidor = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         socket_servidor.bind(('192.168.153.128', 1111))
         socket_servidor.listen(4) #Permite escuchar 3 conexiones
-        print("\nSocket creado, escuchando desde ",addr)
-        while True:
-            #metodo para que acepte conexiones
-            conexion_socket, direccion = socket_servidor.accept()
-            print("Primera conexion desde: ", direccion[0])
-            hilo = hilo_servidor(conexion_socket, direccion, cliente_sockets)
-            hilo.start()
-            hilos.append(hilo)
-            cliente_sockets.append(conexion_socket)
+        conn, addr = socket_servidor.accept()
+        with conn:
+            print("\nSocket creado, escuchando desde ",addr)
+            while True:
+                #metodo para que acepte conexiones
+                conexion_socket, direccion = socket_servidor.accept()
+                print("Primera conexion desde: ", direccion[0])
+                hilo = hilo_servidor(conexion_socket, direccion, cliente_sockets)
+                hilo.start()
+                hilos.append(hilo)
+                cliente_sockets.append(conexion_socket)
 
 servidor.iniciar()
