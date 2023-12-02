@@ -20,7 +20,7 @@ class cliente():
         print("\nSocket cliente creado...")
         socket_cliente.connect((server, port))
         print("\nEl socket del cliente se conecto al servidor")
-        h1 = hilo_cliente(socket_cliente)
+        h1 = hilo_cliente(socket_cliente,server,port)
         h1.start()
         while True:
             data = input("Ingrese el mensaje al servidor: ")
