@@ -1,7 +1,6 @@
 import socket
 import threading
 
-
 class hilo_cliente(threading.Thread):
     def __init__(self, socket, ip, puerto):
         self.socket = socket
