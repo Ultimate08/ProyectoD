@@ -24,7 +24,7 @@ class servidor():
         socket_servidor = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         socket_servidor.bind(('0.0.0.0', 8888))
         socket_servidor.listen(3) #Permite escuchar 3 conexiones
-        print("\nSocket creado, escuchando desde [192.168.74.222] y en el puerto [8888]")
+        print("\nSocket creado, escuchando desde [192.168.153.128] y en el puerto [8888]")
 
 
         while True:
