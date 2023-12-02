@@ -28,5 +28,4 @@ class cliente():
             dt = data.encode()
             socket_cliente.send(dt)
 
-
-# cliente.iniciar()
+cliente.iniciar()
