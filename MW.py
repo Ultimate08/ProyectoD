@@ -1,6 +1,8 @@
 import socket
 import threading
 import time
+import sqlite3
+import random
 
 def cliente(conn, addr):
     print(f'Conectado por {addr}')
