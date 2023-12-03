@@ -20,7 +20,7 @@ def servidor(host, port):
 
         while True:
             conn, addr = s.accept()
-            client_thread = threading.Thread(target=handle_client_connection, args=(conn, addr))
+            client_thread = threading.Thread(target=cliente, args=(conn, addr))
             client_thread.start()
 
 def mensaje(server_ip, server_port, message):
