@@ -1,5 +1,6 @@
 import socket
 import threading
+import time
 
 def cliente(conn, addr):
     print(f'Conectado por {addr}')
@@ -7,8 +8,17 @@ def cliente(conn, addr):
         data = conn.recv(1024)
         if not data:
             break
-        print(f'Mensaje recibido de {addr}: {data.decode()}')
-        # Aquí puedes procesar el mensaje como desees
+        received_message = data.decode()
+        print(f'Mensaje recibido de {addr}: {received_message}')
+        
+        # Almacenar mensaje recibido en un archivo
+        with open(f"/home/eduardo/msgs.txt", "a") as file:
+            file.write(f"[Recibido] {time.strftime('%Y-%m-%d %H:%M:%S')} - {received_message}\n")
+        
+        # Enviar un mensaje de confirmación al cliente
+        confirmation_message = "Mensaje recibido por el servidor"
+        conn.sendall(confirmation_message.encode())
+        print(f'Mensaje de confirmación enviado a {addr}: {confirmation_message}')
 
     conn.close()
 
@@ -26,8 +36,22 @@ def servidor(host, port):
 def mensaje(server_ip, server_port, message):
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         s.connect((server_ip, server_port))
-        s.sendall(message.encode())
-        print(f"Mensaje enviado a {server_ip}:{server_port}: {message}")
+        t = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+        mt = f"[{t}] {message}"
+        s.sendall(mt.encode())
+        print(f"Mensaje enviado a {server_ip}:{server_port}: {mt}")
+        
+        # Almacenar mensaje enviado en un archivo
+        with open(f"client_messages.txt", "a") as file:
+            file.write(f"[Enviado] {t} - {message}\n")
+        
+        response = s.recv(1024)
+        decoded_response = response.decode()
+        print(f"Respuesta del servidor {server_ip}:{server_port}: {decoded_response}")
+        
+        # Almacenar mensaje de confirmación recibido en un archivo
+        with open(f"/home/eduardo/msgs.txt", "a") as file:
+            file.write(f"[Recibido] {time.strftime('%Y-%m-%d %H:%M:%S')} - {decoded_response}\n")
 
 if __name__ == "__main__":
     # Configuración de los servidores en cada máquina virtual
@@ -64,3 +88,4 @@ if __name__ == "__main__":
                 print("Opción inválida. Intente de nuevo.")
         except ValueError:
             print("Entrada inválida. Ingrese un número válido o 'q' para salir.")
+
