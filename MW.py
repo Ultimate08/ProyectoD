@@ -16,7 +16,7 @@ def cliente(conn, addr):
             file.write(f"[Recibido] {time.strftime('%Y-%m-%d %H:%M:%S')} - {received_message}\n")
         
         # Enviar un mensaje de confirmación al cliente
-        confirmation_message = "Mensaje recibido por el servidor"
+        confirmation_message = "Confirmo"
         conn.sendall(confirmation_message.encode())
         print(f'Mensaje de confirmación enviado a {addr}: {confirmation_message}')
 
