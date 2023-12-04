@@ -44,7 +44,7 @@ def mensaje(server_ip, server_port, message):
         print(f"Mensaje enviado a {server_ip}:{server_port}: {mt}")
         
         # Almacenar mensaje enviado en un archivo
-        with open(f"client_messages.txt", "a") as file:
+        with open(f"/home/eduardo/msgs.txt", "a") as file:
             file.write(f"[Enviado] {t} - {message}\n")
         
         response = s.recv(1024)
@@ -57,7 +57,7 @@ def mensaje(server_ip, server_port, message):
 
 def maestro(h, m)
     try:
-        choice_idx = int(choice) - 1
+        choice_idx = m - 1
         if 0 <= choice_idx < len(h):
             server_ip = h[choice_idx]
             message = ""
@@ -66,12 +66,13 @@ def maestro(h, m)
         print("Sin conexión")
 
 def mutex()
-    #Do
+    print(" ")
 
 def compra()
-
+    print(" ")
+    
 def n_cliente()
-
+    print(" ")
 
 if __name__ == "__main__":
     # Configuración de los servidores en cada máquina virtual
@@ -85,19 +86,34 @@ if __name__ == "__main__":
 
     maestro = 0 # Bandera que indica que nodo es el maestro
 
-    r = False # Bandera que espera respuesta
+    espera = False # Bandera que espera respuesta
 
-    bd = sqlite3.connect('base.sqlite')
+    bd = sqlite3.connect('/home/eduardo/base.sqlite')
     cur = bd.cursor()
     idP = 1
     idC = 1
     cur.execute('DROP TABLE IF EXISTS PRODUCTOS')
     cur.execute('DROP TABLE IF EXISTS CLIENTES')
     cur.execute('DROP TABLE IF EXISTS INVENTARIO')
+    # Creacion de tablas
     cur.execute('CREATE TABLE PRODUCTOS (idProducto INTEGER, nombre TEXT)')
     cur.execute('CREATE TABLE CLIENTES (idCliente INTEGER, nombre TEXT, apPaterno TEXT, apMaterno TEXT)')
     cur.execute('CREATE TABLE INVENTARIO (idSucursal, producto TEXT, cantidad INTEGER)')
-    
+
+    #cur.execute('INSERT INTO PRODUCTOS (idProducto, nombre) VALUES (?, ?)', ('My Way', 15))
+    cur.execute('INSERT INTO PRODUCTOS (idProducto, nombre) VALUES (?, ?)',(idP,'Zapatos'))
+    idP += 1
+    cur.execute('INSERT INTO PRODUCTOS (idProducto, nombre) VALUES (?, ?)',(idP,'Gorra'))
+    idP += 1
+    cur.execute('INSERT INTO PRODUCTOS (idProducto, nombre) VALUES (?, ?)',(idP,'Hoodie'))
+    idP += 1
+    conn.execute('INSERT INTO CLIENTES (idCliente, nombre, apPaterno, apMaterno) VALUES (?,?,?,?)',(idC,'Brayan','Ambriz','Zuloaga'))
+    idC += 1
+    conn.execute('INSERT INTO CLIENTES (idCliente, nombre, apPaterno, apMaterno) VALUES (?,?,?,?)',(idC,'Eduardo','Fajardo','Tellez'))
+    idC += 1
+    conn.execute('INSERT INTO CLIENTES (idCliente, nombre, apPaterno, apMaterno) VALUES (?,?,?,?)',(idC,'Marcos','Vega','Alvarez'))
+    idC += 1
+    conn.commit()
     #conn.close()
     
     # Iniciar los servidores en cada máquina virtual
@@ -118,44 +134,44 @@ if __name__ == "__main__":
             break
         try:
             if choice == 1:
-                server_ip = hosts[choice_idx]
-                
-                s = True
+                cur.execute('SELECT * FROM CLIENTES')
+                for fila in cur:
+                    print(fila)
             else if choice == 2:
 
-                s = True
+                espera = True
             else if choice == 3:
                 
-                s = True
+                espera = True
             else if choice == 4:
                 
-                s = True
+                espera = True
             else if choice == 5:
-                s = True
+                
+                espera = True
             else:
                 print("Opción inválida. Intente de nuevo.")
         except ValueError:
             print("Entrada inválida. Ingrese un número válido o '0' para salir.")
 
-        seguir = True
-      while seguir:
-         # Espera por datos
-         peticion = socket_cliente.recv(1024)
+        while seguir:
+            # Espera por datos
+            peticion = socket_cliente.recv(1024)
          
-         # Si recibimos cero bytes, es que el cliente ha cerrado el socket
-         if not peticion:
+            # Si recibimos cero bytes, es que el cliente ha cerrado el socket
+            if not peticion:
             seguir = False
 
-         # Contestacion a maestro"
-         if ("maestro"==peticion.decode()):
-             print (str(datos_cliente)+ " envia hola: contesto")
-             socket_cliente.send("pues hola".encode())
+            # Contestacion a maestro"
+            if ("maestro"==peticion.decode()):
+                print (str(datos_cliente)+ " envia hola: contesto")
+                socket_cliente.send("pues hola".encode())
              
-         # Contestacion y cierre a "adios"
-         if ("adios"==peticion.decode()):
-             print (str(datos_cliente)+ " envia adios: contesto y desconecto")
-             socket_cliente.send("pues adios".encode())
-             socket_cliente.close()
-             print ("desconectado "+str(datos_cliente))
-             seguir = False
+            # Contestacion y cierre a "adios"
+            if ("adios"==peticion.decode()):
+                print (str(datos_cliente)+ " envia adios: contesto y desconecto")
+                socket_cliente.send("pues adios".encode())
+                socket_cliente.close()
+                print ("desconectado "+str(datos_cliente))
+                seguir = False
 
