@@ -171,9 +171,9 @@ if __name__ == "__main__":
                 
                 #espera = True
             elif choice == '3':
-               
+               print("")
             elif choice == '4':
-                
+                print("")
             elif choice == '5':
                 cur.execute('SELECT * FROM INVENTARIO')
                 print("(idSucursal, producto, cantidad)")
