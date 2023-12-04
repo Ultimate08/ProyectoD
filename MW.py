@@ -86,7 +86,7 @@ if __name__ == "__main__":
 
     maestro = 0 # Bandera que indica que nodo es el maestro
 
-    espera = False # Bandera que espera respuesta
+    espera = True # Bandera que espera respuesta
 
     bd = sqlite3.connect('/home/eduardo/base.sqlite')
     cur = bd.cursor()
@@ -142,11 +142,13 @@ if __name__ == "__main__":
                 nom = input("\nCuál es el nombre del cliente?: ")
                 apPat = input("\nCuál es el apellido paterno del cliente?: ")
                 apMat = input("\nCuál es el apellido materno del cliente?: ")
-                mensaje(hosts[0],)
+                for host in hosts:
+                    mensaje(host,port,"cliente")
+                    mensaje(host,port,nom)
+                    mensaje(host,port,apPat)
+                    mensaje(host,port,apMat)
                 
-                cur.execute('INSERT INTO CLIENTES (idCliente, nombre, apPaterno, apMaterno) VALUES (?,?,?,?)',(idC,nom,apPat,apMat))
-                idC += 1
-                bd.commit()
+                
                 espera = True
             elif choice == '3':
                 
@@ -171,17 +173,17 @@ if __name__ == "__main__":
                 espera = False
 
             # Contestacion a "maestro"
-            if ("maestro"==peticion.decode()):
+            if ("maestro" in peticion.decode()):
                 print (str(datos_cliente)+ " envia hola: contesto")
                 socket_cliente.send("pues hola".encode())
              
             # Contestacion y cierre a "cliente"
-            if ("cliente"==peticion.decode()):
+            if ("cliente" in peticion.decode()):
                 nom = socket_cliente.recv(1024)
                 apPat = socket_cliente.recv(1024)
                 apMat = socket_cliente.recv(1024)
                 socket_cliente.send("pues adios".encode())
-                socket_cliente.close()
-                print ("desconectado "+str(datos_cliente))
-                espera = False
+                cur.execute('INSERT INTO CLIENTES (idCliente, nombre, apPaterno, apMaterno) VALUES (?,?,?,?)',(idC,nom,apPat,apMat))
+                idC += 1
+                bd.commit()
 
