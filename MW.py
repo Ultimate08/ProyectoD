@@ -123,10 +123,12 @@ if __name__ == "__main__":
     idC += 1
     cur.execute('INSERT INTO CLIENTES (idCliente, nombre, apPaterno, apMaterno) VALUES (?,?,?,?)',(idC,'Marcos','Vega','Alvarez'))
     idC += 1
-    
-    for y in idP:
-        cur.execute('SELECT total FROM PRODUCTOS WHERE idProducto == ?',(y))
-        cur.execute('INSERT INTO INVENTARIO (idSucursal, producto INTEGER, cantidad INTEGER) VALUES (?,?,?)',(x,y,))
+
+    for x in len(hosts):
+        for y in idP:
+            t = cur.execute('SELECT total FROM PRODUCTOS WHERE idProducto == ?',(y))
+            t /= 4
+            cur.execute('INSERT INTO INVENTARIO (idSucursal, producto, cantidad) VALUES (?,?,?)',(x,y,t))
     
     
     bd.commit()
@@ -173,7 +175,10 @@ if __name__ == "__main__":
             elif choice == '4':
                 
             elif choice == '5':
-                
+                cur.execute('SELECT * FROM INVENTARIO')
+                print("(idSucursal, producto, cantidad)")
+                for fila in cur:
+                    print(fila)
         except ValueError:
             print("Entrada inválida. Ingrese un número válido o '0' para salir.")
 
