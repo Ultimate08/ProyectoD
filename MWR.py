@@ -110,7 +110,7 @@ def n_cliente():
 if __name__ == "__main__":
     # Configuración de los servidores en cada máquina virtual
     hosts = [
-        'localhost'
+        #'localhost'
         '''
         "192.168.153.128",
         "192.168.153.129",
