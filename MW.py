@@ -113,7 +113,7 @@ if __name__ == "__main__":
     idC += 1
     cur.execute('INSERT INTO CLIENTES (idCliente, nombre, apPaterno, apMaterno) VALUES (?,?,?,?)',(idC,'Marcos','Vega','Alvarez'))
     idC += 1
-    conn.commit()
+    bd.commit()
     #conn.close()
     
     # Iniciar los servidores en cada máquina virtual
