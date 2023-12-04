@@ -4,6 +4,11 @@ import time
 import sqlite3
 import random
 
+bd = sqlite3.connect('/home/eduardo/base.sqlite')
+cur = bd.cursor()
+idP = 1
+idC = 1
+
 def cliente(conn, addr):
     print(f'Conectado por {addr}')
     while True:
@@ -11,6 +16,13 @@ def cliente(conn, addr):
         if not data:
             break
         received_message = data.decode()
+        if received_message == "cliente"
+            n = conn.recv(1024)
+            p = conn.recv(1024)
+            a = conn.recv(1024)
+            cur.execute('INSERT INTO CLIENTES (idCliente, nombre, apPaterno, apMaterno) VALUES (?,?,?,?)',idC,n,p,m)
+            idC += 1
+            bd.commit()
         print(f'Mensaje recibido de {addr}: {received_message}')
         
         # Almacenar mensaje recibido en un archivo
@@ -55,15 +67,23 @@ def mensaje(server_ip, server_port, message):
         with open(f"/home/eduardo/msgs.txt", "a") as file:
             file.write(f"[Recibido] {time.strftime('%Y-%m-%d %H:%M:%S')} - {decoded_response}\n")
 
-def maestro(h, m):
-    try:
-        choice_idx = m - 1
-        if 0 <= choice_idx < len(h):
-            server_ip = h[choice_idx]
-            message = ""
-            mensaje(server_ip, port, message)
-    except ValueError:
-        print("Sin conexión")
+def elect_leader(my_id, servers):
+    global coordinator
+    higher_servers = [server for server in servers if int(server.split('.')[-1]) > int(my_id.split('.')[-1])]
+    for higher_server in higher_servers:
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+            try:
+                s.connect((higher_server, port))
+                s.sendall("Election".encode())
+                response = s.recv(1024).decode()
+                if response == "I_am_leader":
+                    coordinator = higher_server
+                    print(f"{my_id} - Coordinador es {coordinator}")
+                    return
+            except ConnectionRefusedError:
+                pass
+    coordinator = my_id
+    print(f"{my_id} - Coordinador es {coordinator}")
 
 def mutex():
     print(" ")
@@ -88,10 +108,7 @@ if __name__ == "__main__":
 
     espera = True # Bandera que espera respuesta
 
-    bd = sqlite3.connect('/home/eduardo/base.sqlite')
-    cur = bd.cursor()
-    idP = 1
-    idC = 1
+    
     cur.execute('DROP TABLE IF EXISTS PRODUCTOS')
     cur.execute('DROP TABLE IF EXISTS CLIENTES')
     cur.execute('DROP TABLE IF EXISTS INVENTARIO')
@@ -107,11 +124,11 @@ if __name__ == "__main__":
     idP += 1
     cur.execute('INSERT INTO PRODUCTOS (idProducto, nombre) VALUES (?, ?)',(idP,'Hoodie'))
     idP += 1
-    cur.execute('INSERT INTO CLIENTES (idCliente, nombre, apPaterno, apMaterno) VALUES (?,?,?,?)',(idC,'Brayan','Ambriz','Zuloaga'))
+    cur.execute('INSERT INTO CLIENTES (idCliente, nombre, apPaterno, apMaterno) VALUES (?,?,?,?)',idC,'Brayan','Ambriz','Zuloaga')
     idC += 1
-    cur.execute('INSERT INTO CLIENTES (idCliente, nombre, apPaterno, apMaterno) VALUES (?,?,?,?)',(idC,'Eduardo','Fajardo','Tellez'))
+    cur.execute('INSERT INTO CLIENTES (idCliente, nombre, apPaterno, apMaterno) VALUES (?,?,?,?)',idC,'Eduardo','Fajardo','Tellez')
     idC += 1
-    cur.execute('INSERT INTO CLIENTES (idCliente, nombre, apPaterno, apMaterno) VALUES (?,?,?,?)',(idC,'Marcos','Vega','Alvarez'))
+    cur.execute('INSERT INTO CLIENTES (idCliente, nombre, apPaterno, apMaterno) VALUES (?,?,?,?)',idC,'Marcos','Vega','Alvarez')
     idC += 1
     bd.commit()
     #conn.close()
@@ -159,12 +176,6 @@ if __name__ == "__main__":
             elif choice == '5':
                 
                 espera = True
-            else:
-                print("Opción inválida. Intente de nuevo.")
-        except ValueError:
-            print("Entrada inválida. Ingrese un número válido o '0' para salir.")
-
-        while espera:
             # Espera por datos
             peticion = server_thread.client_thread.recv(1024)
          
@@ -179,10 +190,10 @@ if __name__ == "__main__":
              
             # Contestacion y cierre a "cliente"
             if ("cliente" in peticion.decode()):
-                n = server_thread.client_thread.recv(1024)
-                p = server_thread.client_thread.recv(1024)
-                a = server_thread.client_thread.recv(1024)
-                cur.execute('INSERT INTO CLIENTES (idCliente, nombre, apPaterno, apMaterno) VALUES (?,?,?,?)',(idC,nom,apPat,apMat))
-                idC += 1
-                bd.commit()
+                
+
+            else:
+                print("Opción inválida. Intente de nuevo.")
+        except ValueError:
+            print("Entrada inválida. Ingrese un número válido o '0' para salir.")
 
