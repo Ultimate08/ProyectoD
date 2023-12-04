@@ -179,9 +179,9 @@ if __name__ == "__main__":
              
             # Contestacion y cierre a "cliente"
             if ("cliente" in peticion.decode()):
-                nom = server_thread.recv(1024)
-                apPat = server_thread.recv(1024)
-                apMat = server_thread.recv(1024)
+                n = server_thread.client_thread.recv(1024)
+                p = server_thread.client_thread.recv(1024)
+                a = server_thread.client_thread.recv(1024)
                 cur.execute('INSERT INTO CLIENTES (idCliente, nombre, apPaterno, apMaterno) VALUES (?,?,?,?)',(idC,nom,apPat,apMat))
                 idC += 1
                 bd.commit()
