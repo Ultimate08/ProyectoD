@@ -16,13 +16,6 @@ def cliente(conn, addr):
         if not data:
             break
         received_message = data.decode()
-        if received_message == "cliente":
-            n = conn.recv(1024)
-            p = conn.recv(1024)
-            a = conn.recv(1024)
-            cur.execute('INSERT INTO CLIENTES (idCliente, nombre, apPaterno, apMaterno) VALUES (?,?,?,?)',(idC,n,p,m))
-            idC += 1
-            bd.commit()
         print(f'Mensaje recibido de {addr}: {received_message}')
         
         # Almacenar mensaje recibido en un archivo
@@ -113,16 +106,16 @@ if __name__ == "__main__":
     cur.execute('DROP TABLE IF EXISTS CLIENTES')
     cur.execute('DROP TABLE IF EXISTS INVENTARIO')
     # Creacion de tablas
-    cur.execute('CREATE TABLE PRODUCTOS (idProducto INTEGER, nombre TEXT)')
+    cur.execute('CREATE TABLE PRODUCTOS (idProducto INTEGER, nombre TEXT, total INTEGER)')
     cur.execute('CREATE TABLE CLIENTES (idCliente INTEGER, nombre TEXT, apPaterno TEXT, apMaterno TEXT)')
-    cur.execute('CREATE TABLE INVENTARIO (idSucursal, producto TEXT, cantidad INTEGER)')
+    cur.execute('CREATE TABLE INVENTARIO (idSucursal, producto INTEGER, cantidad INTEGER)')
 
     #cur.execute('INSERT INTO PRODUCTOS (idProducto, nombre) VALUES (?, ?)', ('My Way', 15))
-    cur.execute('INSERT INTO PRODUCTOS (idProducto, nombre) VALUES (?, ?)',(idP,'Zapatos'))
+    cur.execute('INSERT INTO PRODUCTOS (idProducto, nombre, total) VALUES (?, ?, ?)',(idP,'Zapatos', 20))
     idP += 1
-    cur.execute('INSERT INTO PRODUCTOS (idProducto, nombre) VALUES (?, ?)',(idP,'Gorra'))
+    cur.execute('INSERT INTO PRODUCTOS (idProducto, nombre, total) VALUES (?, ?, ?)',(idP,'Gorra', 16))
     idP += 1
-    cur.execute('INSERT INTO PRODUCTOS (idProducto, nombre) VALUES (?, ?)',(idP,'Hoodie'))
+    cur.execute('INSERT INTO PRODUCTOS (idProducto, nombre, total) VALUES (?, ?, ?)',(idP,'Hoodie', 12))
     idP += 1
     cur.execute('INSERT INTO CLIENTES (idCliente, nombre, apPaterno, apMaterno) VALUES (?,?,?,?)',(idC,'Brayan','Ambriz','Zuloaga'))
     idC += 1
@@ -130,6 +123,12 @@ if __name__ == "__main__":
     idC += 1
     cur.execute('INSERT INTO CLIENTES (idCliente, nombre, apPaterno, apMaterno) VALUES (?,?,?,?)',(idC,'Marcos','Vega','Alvarez'))
     idC += 1
+    
+    for y in idP:
+        cur.execute('SELECT total FROM PRODUCTOS WHERE idProducto == ?',(y))
+        cur.execute('INSERT INTO INVENTARIO (idSucursal, producto INTEGER, cantidad INTEGER) VALUES (?,?,?)',(x,y,))
+    
+    
     bd.commit()
     #conn.close()
     
@@ -156,25 +155,25 @@ if __name__ == "__main__":
                 for fila in cur:
                     print(fila)
             elif choice == '2':
-                nom = input("\nCuál es el nombre del cliente?: ")
-                apPat = input("\nCuál es el apellido paterno del cliente?: ")
-                apMat = input("\nCuál es el apellido materno del cliente?: ")
-                for host in hosts:
-                    mensaje(host,port,"cliente")
-                    mensaje(host,port,nom)
-                    mensaje(host,port,apPat)
-                    mensaje(host,port,apMat)
+                n = input("\nCuál es el nombre del cliente?: ")
+                p = input("\nCuál es el apellido paterno del cliente?: ")
+                m = input("\nCuál es el apellido materno del cliente?: ")
+                cur.execute('INSERT INTO CLIENTES (idCliente, nombre, apPaterno, apMaterno) VALUES (?,?,?,?)',(idC,n,p,m))
+                idC += 1
+                bd.commit()
+                #for host in hosts:
+                #    mensaje(host,port,"cliente")
+                #    mensaje(host,port,nom)
+                #    mensaje(host,port,apPat)
+                #    mensaje(host,port,apMat)
                 
-                espera = True
+                #espera = True
             elif choice == '3':
-                
-                espera = True
+               
             elif choice == '4':
                 
-                espera = True
             elif choice == '5':
                 
-                espera = True
         except ValueError:
             print("Entrada inválida. Ingrese un número válido o '0' para salir.")
 
