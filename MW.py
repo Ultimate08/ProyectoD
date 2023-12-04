@@ -166,7 +166,7 @@ if __name__ == "__main__":
 
         while espera:
             # Espera por datos
-            peticion = server_thread.recv(1024)
+            peticion = server_thread.client_thread.recv(1024)
          
             # Si recibimos cero bytes, es que el cliente ha cerrado el socket
             if not peticion:
