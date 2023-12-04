@@ -154,7 +154,7 @@ if __name__ == "__main__":
         except ValueError:
             print("Entrada inválida. Ingrese un número válido o '0' para salir.")
 
-        while seguir:
+        while espera:
             # Espera por datos
             peticion = socket_cliente.recv(1024)
          
