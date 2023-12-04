@@ -160,7 +160,7 @@ if __name__ == "__main__":
          
             # Si recibimos cero bytes, es que el cliente ha cerrado el socket
             if not peticion:
-            seguir = False
+                seguir = False
 
             # Contestacion a maestro"
             if ("maestro"==peticion.decode()):
