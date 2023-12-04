@@ -16,7 +16,7 @@ def cliente(conn, addr):
         if not data:
             break
         received_message = data.decode()
-        if received_message == "cliente"
+        if received_message == "cliente":
             n = conn.recv(1024)
             p = conn.recv(1024)
             a = conn.recv(1024)
