@@ -124,11 +124,14 @@ if __name__ == "__main__":
     cur.execute('INSERT INTO CLIENTES (idCliente, nombre, apPaterno, apMaterno) VALUES (?,?,?,?)',(idC,'Marcos','Vega','Alvarez'))
     idC += 1
 
-    for x in len(hosts):
-        for y in idP:
-            t = cur.execute('SELECT total FROM PRODUCTOS WHERE idProducto == ?',(y))
+    i = 1
+    j = 1
+    while i <= len(hosts):
+        while j < idP:
+            t = cur.execute('SELECT total FROM PRODUCTOS WHERE idProducto == ?',(j))
             t /= 4
-            cur.execute('INSERT INTO INVENTARIO (idSucursal, producto, cantidad) VALUES (?,?,?)',(x,y,t))
+            cur.execute('INSERT INTO INVENTARIO (idSucursal, producto, cantidad) VALUES (?,?,?)',(i,j,t))
+        i += 1
     
     
     bd.commit()
