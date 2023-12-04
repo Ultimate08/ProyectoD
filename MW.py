@@ -135,10 +135,18 @@ if __name__ == "__main__":
         try:
             if choice == '1':
                 cur.execute('SELECT * FROM CLIENTES')
+                print("(idCliente, nombre, apPaterno, apMaterno)")
                 for fila in cur:
                     print(fila)
             elif choice == '2':
-
+                nom = input("\nCuál es el nombre del cliente?: ")
+                apPat = input("\nCuál es el apellido paterno del cliente?: ")
+                apMat = input("\nCuál es el apellido materno del cliente?: ")
+                mensaje(hosts[0],)
+                
+                cur.execute('INSERT INTO CLIENTES (idCliente, nombre, apPaterno, apMaterno) VALUES (?,?,?,?)',(idC,nom,apPat,apMat))
+                idC += 1
+                bd.commit()
                 espera = True
             elif choice == '3':
                 
@@ -162,14 +170,16 @@ if __name__ == "__main__":
             if not peticion:
                 espera = False
 
-            # Contestacion a maestro"
+            # Contestacion a "maestro"
             if ("maestro"==peticion.decode()):
                 print (str(datos_cliente)+ " envia hola: contesto")
                 socket_cliente.send("pues hola".encode())
              
-            # Contestacion y cierre a "adios"
-            if ("adios"==peticion.decode()):
-                print (str(datos_cliente)+ " envia adios: contesto y desconecto")
+            # Contestacion y cierre a "cliente"
+            if ("cliente"==peticion.decode()):
+                nom = socket_cliente.recv(1024)
+                apPat = socket_cliente.recv(1024)
+                apMat = socket_cliente.recv(1024)
                 socket_cliente.send("pues adios".encode())
                 socket_cliente.close()
                 print ("desconectado "+str(datos_cliente))
