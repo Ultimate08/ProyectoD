@@ -175,7 +175,7 @@ if __name__ == "__main__":
             # Contestacion a "maestro"
             if ("maestro" in peticion.decode()):
                 print (str(datos_cliente)+ " envia hola: contesto")
-               servidor.send("pues hola".encode())
+                servidor.send("pues hola".encode())
              
             # Contestacion y cierre a "cliente"
             if ("cliente" in peticion.decode()):
