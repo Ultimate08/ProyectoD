@@ -20,7 +20,7 @@ def cliente(conn, addr):
             n = conn.recv(1024)
             p = conn.recv(1024)
             a = conn.recv(1024)
-            cur.execute('INSERT INTO CLIENTES (idCliente, nombre, apPaterno, apMaterno) VALUES (?,?,?,?)',idC,n,p,m)
+            cur.execute('INSERT INTO CLIENTES (idCliente, nombre, apPaterno, apMaterno) VALUES (?,?,?,?)',(idC,n,p,m))
             idC += 1
             bd.commit()
         print(f'Mensaje recibido de {addr}: {received_message}')
@@ -124,11 +124,11 @@ if __name__ == "__main__":
     idP += 1
     cur.execute('INSERT INTO PRODUCTOS (idProducto, nombre) VALUES (?, ?)',(idP,'Hoodie'))
     idP += 1
-    cur.execute('INSERT INTO CLIENTES (idCliente, nombre, apPaterno, apMaterno) VALUES (?,?,?,?)',idC,'Brayan','Ambriz','Zuloaga')
+    cur.execute('INSERT INTO CLIENTES (idCliente, nombre, apPaterno, apMaterno) VALUES (?,?,?,?)',(idC,'Brayan','Ambriz','Zuloaga'))
     idC += 1
-    cur.execute('INSERT INTO CLIENTES (idCliente, nombre, apPaterno, apMaterno) VALUES (?,?,?,?)',idC,'Eduardo','Fajardo','Tellez')
+    cur.execute('INSERT INTO CLIENTES (idCliente, nombre, apPaterno, apMaterno) VALUES (?,?,?,?)',(idC,'Eduardo','Fajardo','Tellez'))
     idC += 1
-    cur.execute('INSERT INTO CLIENTES (idCliente, nombre, apPaterno, apMaterno) VALUES (?,?,?,?)',idC,'Marcos','Vega','Alvarez')
+    cur.execute('INSERT INTO CLIENTES (idCliente, nombre, apPaterno, apMaterno) VALUES (?,?,?,?)',(idC,'Marcos','Vega','Alvarez'))
     idC += 1
     bd.commit()
     #conn.close()
