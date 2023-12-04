@@ -166,7 +166,7 @@ if __name__ == "__main__":
 
         while espera:
             # Espera por datos
-            peticion = servidor.recv(1024)
+            peticion = server_thread.recv(1024)
          
             # Si recibimos cero bytes, es que el cliente ha cerrado el socket
             if not peticion:
@@ -175,13 +175,13 @@ if __name__ == "__main__":
             # Contestacion a "maestro"
             if ("maestro" in peticion.decode()):
                 print (str(datos_cliente)+ " envia hola: contesto")
-                servidor.send("pues hola".encode())
+                server_thread.send("pues hola".encode())
              
             # Contestacion y cierre a "cliente"
             if ("cliente" in peticion.decode()):
-                nom = servidor.recv(1024)
-                apPat = servidor.recv(1024)
-                apMat = servidor.recv(1024)
+                nom = server_thread.recv(1024)
+                apPat = server_thread.recv(1024)
+                apMat = server_thread.recv(1024)
                 cur.execute('INSERT INTO CLIENTES (idCliente, nombre, apPaterno, apMaterno) VALUES (?,?,?,?)',(idC,nom,apPat,apMat))
                 idC += 1
                 bd.commit()
