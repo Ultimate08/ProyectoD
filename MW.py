@@ -55,6 +55,24 @@ def mensaje(server_ip, server_port, message):
         with open(f"/home/eduardo/msgs.txt", "a") as file:
             file.write(f"[Recibido] {time.strftime('%Y-%m-%d %H:%M:%S')} - {decoded_response}\n")
 
+def maestro(h, m)
+    try:
+        choice_idx = int(choice) - 1
+        if 0 <= choice_idx < len(h):
+            server_ip = h[choice_idx]
+            message = ""
+            mensaje(server_ip, port, message)
+    except ValueError:
+        print("Sin conexión")
+
+def mutex()
+    #Do
+
+def compra()
+
+def n_cliente()
+
+
 if __name__ == "__main__":
     # Configuración de los servidores en cada máquina virtual
     hosts = [
@@ -65,29 +83,79 @@ if __name__ == "__main__":
     ]
     port = 12345  # Puerto para la comunicación entre las máquinas
 
+    maestro = 0 # Bandera que indica que nodo es el maestro
+
+    r = False # Bandera que espera respuesta
+
+    bd = sqlite3.connect('base.sqlite')
+    cur = bd.cursor()
+    idP = 1
+    idC = 1
+    cur.execute('DROP TABLE IF EXISTS PRODUCTOS')
+    cur.execute('DROP TABLE IF EXISTS CLIENTES')
+    cur.execute('DROP TABLE IF EXISTS INVENTARIO')
+    cur.execute('CREATE TABLE PRODUCTOS (idProducto INTEGER, nombre TEXT)')
+    cur.execute('CREATE TABLE CLIENTES (idCliente INTEGER, nombre TEXT, apPaterno TEXT, apMaterno TEXT)')
+    cur.execute('CREATE TABLE INVENTARIO (idSucursal, producto TEXT, cantidad INTEGER)')
+    
+    #conn.close()
+    
     # Iniciar los servidores en cada máquina virtual
     for host in hosts:
         server_thread = threading.Thread(target=servidor, args=(host, port))
         server_thread.start()
-
-    # Menú del cliente para enviar mensajes
+    
     while True:
-        print("\nSeleccione a qué servidor desea enviar un mensaje:")
-        for i, host in enumerate(hosts, start=1):
-            print(f"{i}. {host}")
+        # Menu de seleccion
+        print("\nBienvenido al sistema de inventarios, que deseas hacer?:")
+        print("\n1. Consultar clientes")
+        print("\n2. Agregar nuevo cliente")
+        print("\n3. Comprar articulo")
+        print("\n4. Agregar articulo\n")
 
-        choice = input("Ingrese el número correspondiente al servidor o 'q' para salir: ")
-        if choice.lower() == 'q':
+        choice = input("Ingrese el número de opción correspondiente o '0' para salir: ")
+        if choice == '0':
             break
-
         try:
-            choice_idx = int(choice) - 1
-            if 0 <= choice_idx < len(hosts):
+            if choice == 1:
                 server_ip = hosts[choice_idx]
-                message = input("Ingrese el mensaje a enviar: ")
-                mensaje(server_ip, port, message)
+                
+                s = True
+            else if choice == 2:
+
+                s = True
+            else if choice == 3:
+                
+                s = True
+            else if choice == 4:
+                
+                s = True
+            else if choice == 5:
+                s = True
             else:
                 print("Opción inválida. Intente de nuevo.")
         except ValueError:
-            print("Entrada inválida. Ingrese un número válido o 'q' para salir.")
+            print("Entrada inválida. Ingrese un número válido o '0' para salir.")
+
+        seguir = True
+      while seguir:
+         # Espera por datos
+         peticion = socket_cliente.recv(1024)
+         
+         # Si recibimos cero bytes, es que el cliente ha cerrado el socket
+         if not peticion:
+            seguir = False
+
+         # Contestacion a maestro"
+         if ("maestro"==peticion.decode()):
+             print (str(datos_cliente)+ " envia hola: contesto")
+             socket_cliente.send("pues hola".encode())
+             
+         # Contestacion y cierre a "adios"
+         if ("adios"==peticion.decode()):
+             print (str(datos_cliente)+ " envia adios: contesto y desconecto")
+             socket_cliente.send("pues adios".encode())
+             socket_cliente.close()
+             print ("desconectado "+str(datos_cliente))
+             seguir = False
 
