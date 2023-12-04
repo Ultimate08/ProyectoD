@@ -160,7 +160,7 @@ if __name__ == "__main__":
          
             # Si recibimos cero bytes, es que el cliente ha cerrado el socket
             if not peticion:
-                seguir = False
+                espera = False
 
             # Contestacion a maestro"
             if ("maestro"==peticion.decode()):
@@ -173,5 +173,5 @@ if __name__ == "__main__":
                 socket_cliente.send("pues adios".encode())
                 socket_cliente.close()
                 print ("desconectado "+str(datos_cliente))
-                seguir = False
+                espera = False
 
