@@ -165,7 +165,6 @@ if __name__ == "__main__":
                     mensaje(host,port,apPat)
                     mensaje(host,port,apMat)
                 
-                
                 espera = True
             elif choice == '3':
                 
@@ -176,24 +175,6 @@ if __name__ == "__main__":
             elif choice == '5':
                 
                 espera = True
-            # Espera por datos
-            peticion = server_thread.client_thread.recv(1024)
-         
-            # Si recibimos cero bytes, es que el cliente ha cerrado el socket
-            if not peticion:
-                espera = False
-
-            # Contestacion a "maestro"
-            if ("maestro" in peticion.decode()):
-                print (str(datos_cliente)+ " envia hola: contesto")
-                server_thread.send("pues hola".encode())
-             
-            # Contestacion y cierre a "cliente"
-            if ("cliente" in peticion.decode()):
-                
-
-            else:
-                print("Opción inválida. Intente de nuevo.")
         except ValueError:
             print("Entrada inválida. Ingrese un número válido o '0' para salir.")
 
