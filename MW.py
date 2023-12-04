@@ -133,20 +133,20 @@ if __name__ == "__main__":
         if choice == '0':
             break
         try:
-            if choice == 1:
+            if choice == '1':
                 cur.execute('SELECT * FROM CLIENTES')
                 for fila in cur:
                     print(fila)
-            elif choice == 2:
+            elif choice == '2':
 
                 espera = True
-            elif choice == 3:
+            elif choice == '3':
                 
                 espera = True
-            elif choice == 4:
+            elif choice == '4':
                 
                 espera = True
-            elif choice == 5:
+            elif choice == '5':
                 
                 espera = True
             else:
