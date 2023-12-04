@@ -55,7 +55,7 @@ def mensaje(server_ip, server_port, message):
         with open(f"/home/eduardo/msgs.txt", "a") as file:
             file.write(f"[Recibido] {time.strftime('%Y-%m-%d %H:%M:%S')} - {decoded_response}\n")
 
-def maestro(h, m)
+def maestro(h, m):
     try:
         choice_idx = m - 1
         if 0 <= choice_idx < len(h):
@@ -65,13 +65,13 @@ def maestro(h, m)
     except ValueError:
         print("Sin conexión")
 
-def mutex()
+def mutex():
     print(" ")
 
-def compra()
+def compra():
     print(" ")
     
-def n_cliente()
+def n_cliente():
     print(" ")
 
 if __name__ == "__main__":
