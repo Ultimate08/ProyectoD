@@ -59,11 +59,6 @@ if __name__ == "__main__":
             cur.execute('INSERT INTO INVENTARIO (idSucursal, producto, cantidad) VALUES (?,?,?)',(j,i,t))
             j += 1
         i += 1
-    while (a <= len(hosts)) and (total != 0):
-                    t = random.randint(0, total)
-                    total -= t
-                    cur.execute('INSERT INTO INVENTARIO (idSucursal, producto, cantidad) VALUES (?,?,?)',(a,idP-1,t))
-                    a += 1
     bd.commit()
     #conn.close()
     
