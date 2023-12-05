@@ -105,6 +105,16 @@ if __name__ == "__main__":
                 m = input("\nCuál es la cantidad total del producto??: ")
                 cur.execute('INSERT INTO PRODUCTO (idProducto, nombre, total) VALUES (?,?,?)',(idP,n,m))
                 idP += 1
+
+                a = 1
+                while a < len(hosts):
+                    cur.execute('SELECT total FROM PRODUCTO WHERE idProducto = ?',(idP-1, ))
+                    r = cur.fetchone()
+                    t = r[0]
+                    t /= len(hosts)
+                    cur.execute('INSERT INTO INVENTARIO (idSucursal, producto, cantidad) VALUES (?,?,?)',(a,idP-1,t))
+                    a += 1
+                
                 bd.commit()
                 print("Se agrego el producto ",n," correctamente.")
             elif choice == '5':
