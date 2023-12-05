@@ -52,7 +52,7 @@ if __name__ == "__main__":
             print(t)
             #tt = int(t)
             #tt /= 4
-            cur.execute('INSERT INTO INVENTARIO (idSucursal, producto, cantidad) VALUES (?,?,?)',(i,j,tt))
+            #cur.execute('INSERT INTO INVENTARIO (idSucursal, producto, cantidad) VALUES (?,?,?)',(i,j,tt))
             j += 1
         i += 1
     
