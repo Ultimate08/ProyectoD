@@ -106,5 +106,7 @@ if __name__ == "__main__":
                 print("(idSucursal, producto, cantidad)")
                 for fila in cur:
                     print(fila)
+                a = cur.execute('SELECT total FROM PRODUCTOS WHERE idProducto = 1')
+                print(a)
         except ValueError:
             print("Entrada inválida. Ingrese un número válido o '0' para salir.")
