@@ -47,17 +47,23 @@ if __name__ == "__main__":
 
     i = 1
     j = 1
-    while i <= len(hosts):
+    total = 0
+    while (i < idP) and (t != 0):
         j = 1
-        while j < idP:
-            cur.execute('SELECT total FROM PRODUCTO WHERE idProducto = ?',(j, ))
-            r = cur.fetchone()
-            t = r[0]
-            t /= len(hosts)
-            cur.execute('INSERT INTO INVENTARIO (idSucursal, producto, cantidad) VALUES (?,?,?)',(i,j,t))
+        cur.execute('SELECT total FROM PRODUCTO WHERE idProducto = ?',(i, ))
+        r = cur.fetchone()
+        t = r[0]
+        while j <= len(hosts):
+            rr = random.randint(0, t)
+            t -= rr
+            cur.execute('INSERT INTO INVENTARIO (idSucursal, producto, cantidad) VALUES (?,?,?)',(j,i,t))
             j += 1
         i += 1
-    
+    while (a <= len(hosts)) and (total != 0):
+                    t = random.randint(0, total)
+                    total -= t
+                    cur.execute('INSERT INTO INVENTARIO (idSucursal, producto, cantidad) VALUES (?,?,?)',(a,idP-1,t))
+                    a += 1
     bd.commit()
     #conn.close()
     
@@ -107,11 +113,10 @@ if __name__ == "__main__":
                 idP += 1
 
                 a = 1
-                while a < len(hosts):
-                    cur.execute('SELECT total FROM PRODUCTO WHERE idProducto = ?',(idP-1, ))
-                    r = cur.fetchone()
-                    t = r[0]
-                    t /= len(hosts)
+                total = m
+                while (a <= len(hosts)) and (total != 0):
+                    t = random.randint(0, total)
+                    total -= t
                     cur.execute('INSERT INTO INVENTARIO (idSucursal, producto, cantidad) VALUES (?,?,?)',(a,idP-1,t))
                     a += 1
                 
