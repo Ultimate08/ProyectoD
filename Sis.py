@@ -2,6 +2,9 @@ import sqlite3
 import random
 import MWf
 
+bd = sqlite3.connect('/home/eduardo/base.sqlite')
+cur = bd.cursor()
+
 if __name__ == "__main__":
     # Configuración de los servidores en cada máquina virtual
     hosts = [
