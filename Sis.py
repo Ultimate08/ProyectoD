@@ -1,3 +1,5 @@
+import sqlite3
+import random
 import MWf
 
 if __name__ == "__main__":
