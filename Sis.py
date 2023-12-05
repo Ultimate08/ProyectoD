@@ -4,6 +4,8 @@ import MWf
 
 bd = sqlite3.connect('/home/eduardo/base.sqlite')
 cur = bd.cursor()
+idP = 1
+idC = 1
 
 if __name__ == "__main__":
     # Configuración de los servidores en cada máquina virtual
