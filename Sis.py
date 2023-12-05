@@ -63,8 +63,8 @@ if __name__ == "__main__":
     
     # Iniciar los servidores en cada máquina virtual
     for host in hosts:
-        MWf.server_thread = threading.Thread(target=servidor, args=(host, port))
-        MWf.server_thread.start()
+        server_thread = threading.Thread(target=MWf.servidor, args=(host, port))
+        server_thread.start()
     
     while True:
         # Menu de seleccion
