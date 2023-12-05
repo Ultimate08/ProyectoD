@@ -48,6 +48,7 @@ if __name__ == "__main__":
     i = 1
     j = 1
     while i <= len(hosts):
+        j = 1
         while j < idP:
             cur.execute('SELECT total FROM PRODUCTOS WHERE idProducto = ?',(j, ))
             r = cur.fetchone()
