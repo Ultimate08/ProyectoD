@@ -58,7 +58,6 @@ if __name__ == "__main__":
             j += 1
         i += 1
     
-    
     bd.commit()
     #conn.close()
     
@@ -104,7 +103,7 @@ if __name__ == "__main__":
             elif choice == '4':
                 n = input("\nCuál es el nombre del nuevo articulo?: ")
                 m = input("\nCuál es la cantidad total del producto??: ")
-                cur.execute('INSERT INTO PRODUCTO (idProducto, nombre, total) VALUES (?,?,?)',(id,n,m))
+                cur.execute('INSERT INTO PRODUCTO (idProducto, nombre, total) VALUES (?,?,?)',(idP,n,m))
                 idP += 1
                 bd.commit()
                 print("Se agrego el producto ",n," correctamente.")
