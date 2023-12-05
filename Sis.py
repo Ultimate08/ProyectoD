@@ -52,7 +52,7 @@ if __name__ == "__main__":
             cur.execute('SELECT total FROM PRODUCTOS WHERE idProducto = ?',(j, ))
             r = cur.fetchone()
             t = r[0]
-            t /= 4
+            t /= len(hosts)
             cur.execute('INSERT INTO INVENTARIO (idSucursal, producto, cantidad) VALUES (?,?,?)',(i,j,t))
             j += 1
         i += 1
@@ -104,7 +104,6 @@ if __name__ == "__main__":
             elif choice == '5':
                 cur.execute('SELECT * FROM INVENTARIO')
                 print("(idSucursal, producto, cantidad)")
-                cur.execute('SELECT total FROM PRODUCTOS WHERE idProducto = 1')
                 for fila in cur:
                     print(fila)
         except ValueError:
