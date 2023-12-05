@@ -51,10 +51,9 @@ if __name__ == "__main__":
         while j < idP:
             cur.execute('SELECT total FROM PRODUCTOS WHERE idProducto = ?',(j, ))
             r = cur.fetchone()
-            print(r)
-            #tt = int(t)
-            #tt /= 4
-            #cur.execute('INSERT INTO INVENTARIO (idSucursal, producto, cantidad) VALUES (?,?,?)',(i,j,tt))
+            t = r[0]
+            t /= 4
+            cur.execute('INSERT INTO INVENTARIO (idSucursal, producto, cantidad) VALUES (?,?,?)',(i,j,t))
             j += 1
         i += 1
     
