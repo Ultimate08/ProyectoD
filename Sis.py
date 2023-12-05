@@ -23,26 +23,26 @@ if __name__ == "__main__":
     espera = True # Bandera que espera respuesta
 
     
-    cur.execute('DROP TABLE IF EXISTS PRODUCTOS')
-    cur.execute('DROP TABLE IF EXISTS CLIENTES')
+    cur.execute('DROP TABLE IF EXISTS PRODUCTO')
+    cur.execute('DROP TABLE IF EXISTS CLIENTE')
     cur.execute('DROP TABLE IF EXISTS INVENTARIO')
     # Creacion de tablas
-    cur.execute('CREATE TABLE PRODUCTOS (idProducto INTEGER, nombre TEXT, total INTEGER)')
-    cur.execute('CREATE TABLE CLIENTES (idCliente INTEGER, nombre TEXT, apPaterno TEXT, apMaterno TEXT)')
+    cur.execute('CREATE TABLE PRODUCTO (idProducto INTEGER, nombre TEXT, total INTEGER)')
+    cur.execute('CREATE TABLE CLIENTE (idCliente INTEGER, nombre TEXT, apPaterno TEXT, apMaterno TEXT)')
     cur.execute('CREATE TABLE INVENTARIO (idSucursal, producto INTEGER, cantidad INTEGER)')
 
     #cur.execute('INSERT INTO PRODUCTOS (idProducto, nombre) VALUES (?, ?)', ('My Way', 15))
-    cur.execute('INSERT INTO PRODUCTOS (idProducto, nombre, total) VALUES (?, ?, ?)',(idP,'Zapatos', 20))
+    cur.execute('INSERT INTO PRODUCTO (idProducto, nombre, total) VALUES (?, ?, ?)',(idP,'Zapatos', 20))
     idP += 1
-    cur.execute('INSERT INTO PRODUCTOS (idProducto, nombre, total) VALUES (?, ?, ?)',(idP,'Gorra', 16))
+    cur.execute('INSERT INTO PRODUCTO (idProducto, nombre, total) VALUES (?, ?, ?)',(idP,'Gorra', 16))
     idP += 1
-    cur.execute('INSERT INTO PRODUCTOS (idProducto, nombre, total) VALUES (?, ?, ?)',(idP,'Hoodie', 12))
+    cur.execute('INSERT INTO PRODUCTO (idProducto, nombre, total) VALUES (?, ?, ?)',(idP,'Hoodie', 12))
     idP += 1
-    cur.execute('INSERT INTO CLIENTES (idCliente, nombre, apPaterno, apMaterno) VALUES (?,?,?,?)',(idC,'Brayan','Ambriz','Zuloaga'))
+    cur.execute('INSERT INTO CLIENTE (idCliente, nombre, apPaterno, apMaterno) VALUES (?,?,?,?)',(idC,'Brayan','Ambriz','Zuloaga'))
     idC += 1
-    cur.execute('INSERT INTO CLIENTES (idCliente, nombre, apPaterno, apMaterno) VALUES (?,?,?,?)',(idC,'Eduardo','Fajardo','Tellez'))
+    cur.execute('INSERT INTO CLIENTE (idCliente, nombre, apPaterno, apMaterno) VALUES (?,?,?,?)',(idC,'Eduardo','Fajardo','Tellez'))
     idC += 1
-    cur.execute('INSERT INTO CLIENTES (idCliente, nombre, apPaterno, apMaterno) VALUES (?,?,?,?)',(idC,'Marcos','Vega','Alvarez'))
+    cur.execute('INSERT INTO CLIENTE (idCliente, nombre, apPaterno, apMaterno) VALUES (?,?,?,?)',(idC,'Marcos','Vega','Alvarez'))
     idC += 1
 
     i = 1
@@ -50,7 +50,7 @@ if __name__ == "__main__":
     while i <= len(hosts):
         j = 1
         while j < idP:
-            cur.execute('SELECT total FROM PRODUCTOS WHERE idProducto = ?',(j, ))
+            cur.execute('SELECT total FROM PRODUCTO WHERE idProducto = ?',(j, ))
             r = cur.fetchone()
             t = r[0]
             t /= len(hosts)
@@ -80,7 +80,7 @@ if __name__ == "__main__":
             break
         try:
             if choice == '1':
-                cur.execute('SELECT * FROM CLIENTES')
+                cur.execute('SELECT * FROM CLIENTE')
                 print("(idCliente, nombre, apPaterno, apMaterno)")
                 for fila in cur:
                     print(fila)
@@ -88,9 +88,10 @@ if __name__ == "__main__":
                 n = input("\nCuál es el nombre del cliente?: ")
                 p = input("\nCuál es el apellido paterno del cliente?: ")
                 m = input("\nCuál es el apellido materno del cliente?: ")
-                cur.execute('INSERT INTO CLIENTES (idCliente, nombre, apPaterno, apMaterno) VALUES (?,?,?,?)',(idC,n,p,m))
+                cur.execute('INSERT INTO CLIENTE (idCliente, nombre, apPaterno, apMaterno) VALUES (?,?,?,?)',(idC,n,p,m))
                 idC += 1
                 bd.commit()
+                print("Se agrego el producto ",n," "," ",p," ",m," correctamente")
                 #for host in hosts:
                 #    mensaje(host,port,"cliente")
                 #    mensaje(host,port,nom)
@@ -101,7 +102,12 @@ if __name__ == "__main__":
             elif choice == '3':
                print("")
             elif choice == '4':
-                print("")
+                n = input("\nCuál es el nombre del nuevo articulo?: ")
+                m = input("\nCuál es la cantidad total del producto??: ")
+                cur.execute('INSERT INTO PRODUCTO (idProducto, nombre, total) VALUES (?,?,?)',(id,n,m))
+                idP += 1
+                bd.commit()
+                print("Se agrego el producto ",n," correctamente.")
             elif choice == '5':
                 cur.execute('SELECT * FROM INVENTARIO')
                 print("(idSucursal, producto, cantidad)")
