@@ -128,7 +128,7 @@ if __name__ == "__main__":
     j = 1
     while i <= len(hosts):
         while j < idP:
-            t = cur.execute('SELECT total FROM PRODUCTOS WHERE idProducto = ?',(j))
+            t = cur.execute('SELECT total FROM PRODUCTOS WHERE idProducto = ?',(j, ))
             t /= 4
             cur.execute('INSERT INTO INVENTARIO (idSucursal, producto, cantidad) VALUES (?,?,?)',(i,j,t))
             j += 1
