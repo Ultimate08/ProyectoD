@@ -1,3 +1,5 @@
+from netifaces import interfaces, ifaddresses, AF_INET
+import socket
 import threading
 import sqlite3
 import random
@@ -46,9 +48,8 @@ if __name__ == "__main__":
     idC += 1
 
     i = 1
-    j = 0
+    j = -1
     while (i < idP):
-        j = 0
         cur.execute('SELECT total FROM PRODUCTO WHERE idProducto = ?',(i, ))
         a = cur.fetchone()
         n = a[0]
@@ -57,9 +58,17 @@ if __name__ == "__main__":
         r = n % m
         for x in range(r):
             t[x] += 1
-        while j < len(hosts):
-            cur.execute('INSERT INTO INVENTARIO (idSucursal, producto, cantidad) VALUES (?,?,?)',(j+1,i,t[j]))
-            j += 1
+        hn = locals.gethostname()
+        ipl = locals.gethostbyname(hn)
+        if (ipl == hosts[0]):
+            j = 1
+        elif (ipl == hosts[1]):
+            j = 2
+        elif (ipl == hosts[2]):
+            j = 3
+        elif (ipl == hosts[3]):
+            j = 4
+        cur.execute('INSERT INTO INVENTARIO (idSucursal, producto, cantidad) VALUES (?,?,?)',(j,i,t[j-1]))
         i += 1
     bd.commit()
     #conn.close()
