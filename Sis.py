@@ -58,11 +58,10 @@ if __name__ == "__main__":
         for x in range(r):
             t[x] += 1
         ipl = ''
-        try:
-            hn = locals.gethostname()
-            ipl = locals.gethostbyname(hn)
-        except locals.error as e:
-            print(f"No se pudo obtener la dirección IP: {e}")
+        ss = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        hn = ss.gethostname()
+        ipl = ss.gethostbyname(hn)
+        
         if (ipl == hosts[0]):
             j = 1
         elif (ipl == hosts[1]):
