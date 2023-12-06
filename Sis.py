@@ -57,8 +57,10 @@ if __name__ == "__main__":
         r = n % m
         for x in range(r):
             t[x] += 1
-        hn = locals.gethostname()
-        ipl = locals.gethostbyname(hn)
+        ipl = ''
+        try:
+            hn = locals.gethostname()
+            ipl = locals.gethostbyname(hn)
         if (ipl == hosts[0]):
             j = 1
         elif (ipl == hosts[1]):
