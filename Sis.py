@@ -120,7 +120,7 @@ if __name__ == "__main__":
                     cur.execute('INSERT INTO INVENTARIO (idSucursal, producto, cantidad) VALUES (?,?,?)',(a,idP-1,t[x]))
                     x += 1
                 bd.commit()
-                print("Se agrego el producto ",n," correctamente.")
+                print("Se agrego el producto ",a," correctamente.")
                 
             elif choice == '5':
                 cur.execute('SELECT * FROM INVENTARIO')
