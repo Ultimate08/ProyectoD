@@ -114,8 +114,8 @@ if __name__ == "__main__":
                 m = len(hosts)
                 t = [n//m]*m
                 r = n % m
-                for x in range(r):
-                    t[x] += 1
+                for z in range(r):
+                    t[z] += 1
                 while x < len(hosts):
                     cur.execute('INSERT INTO INVENTARIO (idSucursal, producto, cantidad) VALUES (?,?,?)',(x+1,idP-1,t[x]))
                     x += 1
