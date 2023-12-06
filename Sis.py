@@ -1,4 +1,3 @@
-from netifaces import interfaces, ifaddresses, AF_INET
 import socket
 import threading
 import sqlite3
