@@ -58,7 +58,7 @@ if __name__ == "__main__":
         for x in range(r):
             t[x] += 1
         while j < len(hosts):
-            cur.execute('INSERT INTO INVENTARIO (idSucursal, producto, cantidad) VALUES (?,?,?)',(j,i,t[j]))
+            cur.execute('INSERT INTO INVENTARIO (idSucursal, producto, cantidad) VALUES (?,?,?)',(j+1,i,t[j]))
             j += 1
         i += 1
     bd.commit()
