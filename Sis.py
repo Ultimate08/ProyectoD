@@ -110,14 +110,14 @@ if __name__ == "__main__":
                 idP += 1
 
                 x = 0
-                n = p
+                nn = p
                 m = len(hosts)
-                t = [n//m]*m
-                r = n % m
+                t = [nn//m]*m
+                r = nn % m
                 for x in range(r):
                     t[x] += 1
                 while x < len(hosts):
-                    cur.execute('INSERT INTO INVENTARIO (idSucursal, producto, cantidad) VALUES (?,?,?)',(a,idP-1,t[x]))
+                    cur.execute('INSERT INTO INVENTARIO (idSucursal, producto, cantidad) VALUES (?,?,?)',(x+1,idP-1,t[x]))
                     x += 1
                 bd.commit()
                 print("Se agrego el producto ",a," correctamente.")
