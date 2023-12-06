@@ -46,9 +46,9 @@ if __name__ == "__main__":
     idC += 1
 
     i = 1
-    j = 1
+    j = 0
     while (i < idP):
-        j = 1
+        j = 0
         cur.execute('SELECT total FROM PRODUCTO WHERE idProducto = ?',(i, ))
         a = cur.fetchone()
         n = a[0]
@@ -57,7 +57,7 @@ if __name__ == "__main__":
         r = n % m
         for x in range(r):
             t[x] += 1
-        while j <= len(hosts):
+        while j < len(hosts):
             cur.execute('INSERT INTO INVENTARIO (idSucursal, producto, cantidad) VALUES (?,?,?)',(j,i,t[j]))
             j += 1
         i += 1
@@ -109,14 +109,14 @@ if __name__ == "__main__":
                 cur.execute('INSERT INTO PRODUCTO (idProducto, nombre, total) VALUES (?,?,?)',(idP,a,p))
                 idP += 1
 
-                x = 1
+                x = 0
                 n = p
                 m = len(hosts)
                 t = [n//m]*m
                 r = n % m
                 for x in range(r):
                     t[x] += 1
-                while (x <= len(hosts)):
+                while x < len(hosts):
                     cur.execute('INSERT INTO INVENTARIO (idSucursal, producto, cantidad) VALUES (?,?,?)',(a,idP-1,t[x]))
                     x += 1
                 bd.commit()
