@@ -110,10 +110,10 @@ if __name__ == "__main__":
                 idP += 1
 
                 x = 0
-                nn = p
+                n = int(p)
                 m = len(hosts)
-                t = [nn//m]*m
-                r = nn % m
+                t = [n//m]*m
+                r = n % m
                 for x in range(r):
                     t[x] += 1
                 while x < len(hosts):
