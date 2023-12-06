@@ -61,6 +61,8 @@ if __name__ == "__main__":
         try:
             hn = locals.gethostname()
             ipl = locals.gethostbyname(hn)
+        except locals.error as e:
+            print(f"No se pudo obtener la dirección IP: {e}")
         if (ipl == hosts[0]):
             j = 1
         elif (ipl == hosts[1]):
