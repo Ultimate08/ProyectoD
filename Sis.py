@@ -47,16 +47,18 @@ if __name__ == "__main__":
 
     i = 1
     j = 1
-    t = -1
-    while (i < idP) and (t != 0):
+    while (i < idP):
         j = 1
         cur.execute('SELECT total FROM PRODUCTO WHERE idProducto = ?',(i, ))
-        r = cur.fetchone()
-        t = r[0]
+        a = cur.fetchone()
+        n = a[0]
+        m = len(hosts)
+        t = [n//m]*m
+        r = n % m
+        for x in range(r):
+            t[x] += 1
         while j <= len(hosts):
-            rr = random.randint(0, t)
-            t -= rr
-            cur.execute('INSERT INTO INVENTARIO (idSucursal, producto, cantidad) VALUES (?,?,?)',(j,i,t))
+            cur.execute('INSERT INTO INVENTARIO (idSucursal, producto, cantidad) VALUES (?,?,?)',(j,i,t[j]))
             j += 1
         i += 1
     bd.commit()
@@ -102,21 +104,24 @@ if __name__ == "__main__":
             elif choice == '3':
                print("")
             elif choice == '4':
-                n = input("\nCuál es el nombre del nuevo articulo?: ")
-                m = input("\nCuál es la cantidad total del producto??: ")
-                cur.execute('INSERT INTO PRODUCTO (idProducto, nombre, total) VALUES (?,?,?)',(idP,n,m))
+                a = input("\nCuál es el nombre del nuevo articulo?: ")
+                p = input("\nCuál es la cantidad total del producto??: ")
+                cur.execute('INSERT INTO PRODUCTO (idProducto, nombre, total) VALUES (?,?,?)',(idP,a,p))
                 idP += 1
 
-                a = 1
-                total = m
-                while (a <= len(hosts)) and (total != 0):
-                    t = random.randint(0, total)
-                    total -= t
-                    cur.execute('INSERT INTO INVENTARIO (idSucursal, producto, cantidad) VALUES (?,?,?)',(a,idP-1,t))
-                    a += 1
-                
+                x = 1
+                n = p
+                m = len(hosts)
+                t = [n//m]*m
+                r = n % m
+                for x in range(r):
+                    t[x] += 1
+                while (x <= len(hosts)):
+                    cur.execute('INSERT INTO INVENTARIO (idSucursal, producto, cantidad) VALUES (?,?,?)',(a,idP-1,t[x]))
+                    x += 1
                 bd.commit()
                 print("Se agrego el producto ",n," correctamente.")
+                
             elif choice == '5':
                 cur.execute('SELECT * FROM INVENTARIO')
                 print("(idSucursal, producto, cantidad)")
