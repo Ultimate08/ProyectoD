@@ -48,6 +48,12 @@ if __name__ == "__main__":
 
     i = 1
     j = -1
+
+    ipl = ''
+    ss = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    hn = ss.gethostname()
+    ipl = ss.gethostbyname(hn)
+    
     while (i < idP):
         cur.execute('SELECT total FROM PRODUCTO WHERE idProducto = ?',(i, ))
         a = cur.fetchone()
@@ -57,11 +63,6 @@ if __name__ == "__main__":
         r = n % m
         for x in range(r):
             t[x] += 1
-        ipl = ''
-        ss = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        hn = ss.gethostname()
-        ipl = ss.gethostbyname(hn)
-        
         if (ipl == hosts[0]):
             j = 1
         elif (ipl == hosts[1]):
