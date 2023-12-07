@@ -77,7 +77,7 @@ if __name__ == "__main__":
             print(f"{i}. {host}")
 
         choice = input("Ingrese el número correspondiente al servidor o 'q' para salir: ")
-        if choice.lower() == 'q':
+        if == '0':
             break
 
         try:
