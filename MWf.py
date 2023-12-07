@@ -27,7 +27,7 @@ def cliente(conn, addr):
 def servidor(host, port):
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         s.bind((host, port))
-        s.listen(5)
+        s.listen(4)
         print(f"Servidor escuchando en {host}:{port}")
 
         while True:
