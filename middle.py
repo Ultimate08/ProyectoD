@@ -61,12 +61,21 @@ if __name__ == "__main__":
         "192.168.153.130",
         "192.168.153.131"
     ]
-    port = 12345  # Puerto para la comunicación entre las máquinas
-
+    port = [      # Puerto para la comunicación entre las máquinas
+        1111,
+        2222,
+        3333,
+        4444
+    ]
     # Iniciar los servidores en cada máquina virtual
-    for host in hosts:
-        server_thread = threading.Thread(target=servidor, args=(host, port))
-        server_thread.start()
+    vm1 = threading.Thread(target=servidor, args=(host[0], port[0]))
+    vm1.start()
+    vm2 = threading.Thread(target=servidor, args=(host[1], port[1]))
+    vm2.start()
+    vm3 = threading.Thread(target=servidor, args=(host[2], port[2]))
+    vm3.start()
+    vm4 = threading.Thread(target=servidor, args=(host[3], port[3]))
+    vm4.start()
 
     # Menú del cliente para enviar mensajes
     while True:
@@ -82,8 +91,9 @@ if __name__ == "__main__":
             choice_idx = int(choice) - 1
             if 0 <= choice_idx < len(hosts):
                 server_ip = hosts[choice_idx]
+                port_i = port[choice_idx]
                 message = input("Ingrese el mensaje a enviar: ")
-                mensaje(server_ip, port, message)
+                mensaje(server_ip, port_i, message)
             else:
                 print("Opción inválida. Intente de nuevo.")
         except ValueError:
