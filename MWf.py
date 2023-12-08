@@ -10,7 +10,7 @@ def cliente(conn, addr):
             break
         received_message = data.decode()
         str = received_message.split(sep=' ')
-        for y in str:
+        for y in range(len(str)):
             print(str[y])
         #print(f'Mensaje recibido de {addr}: {received_message}')
         
