@@ -17,7 +17,12 @@ if __name__ == "__main__":
         "192.168.153.130",
         "192.168.153.131"
     ]
-    port = 12345  # Puerto para la comunicación entre las máquinas
+    port = [      # Puerto para la comunicación entre las máquinas
+        1111,
+        2222,
+        3333,
+        4444
+    ]
 
     maestro = 0 # Bandera que indica que nodo es el maestro
 
@@ -75,11 +80,20 @@ if __name__ == "__main__":
         i += 1
     bd.commit()
     #conn.close()
-    
+
     # Iniciar los servidores en cada máquina virtual
-    for host in hosts:
-        server_thread = threading.Thread(target=MWf.servidor, args=(host, port))
-        server_thread.start()
+    if (ipl == hosts[0]):
+        vm1 = threading.Thread(target=servidor, args=(hosts[0], port[0]))
+        vm1.start()
+    elif (ipl == hosts[1]):
+        vm2 = threading.Thread(target=servidor, args=(hosts[1], port[1]))
+        vm2.start()
+    elif (ipl == hosts[2]):
+        vm3 = threading.Thread(target=servidor, args=(hosts[2], port[2]))
+        vm3.start()
+    elif (ipl == hosts[3]):
+        vm4 = threading.Thread(target=servidor, args=(hosts[3], port[3]))
+        vm4.start()
     
     while True:
         # Menu de seleccion
@@ -102,17 +116,12 @@ if __name__ == "__main__":
                 n = input("\nCuál es el nombre del cliente?: ")
                 p = input("\nCuál es el apellido paterno del cliente?: ")
                 m = input("\nCuál es el apellido materno del cliente?: ")
-                cur.execute('INSERT INTO CLIENTE (idCliente, nombre, apPaterno, apMaterno) VALUES (?,?,?,?)',(idC,n,p,m))
+                mensaje(hosts[0],port[0],bd)
+                mensaje(hosts[1],port[1],bd)
+                mensaje(hosts[2],port[2],bd)
+                mensaje(hosts[3],port[3],bd)
                 idC += 1
-                bd.commit()
-                print("Se agrego el producto ",n," "," ",p," ",m," correctamente")
-                #for host in hosts:
-                #    mensaje(host,port,"cliente")
-                #    mensaje(host,port,nom)
-                #    mensaje(host,port,apPat)
-                #    mensaje(host,port,apMat)
-                
-                #espera = True
+        
             elif choice == '3':
                print("")
             elif choice == '4':
