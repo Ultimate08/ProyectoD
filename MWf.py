@@ -9,11 +9,14 @@ def cliente(conn, addr):
         if not data:
             break
         received_message = data.decode()
-        print(f'Mensaje recibido de {addr}: {received_message}')
+        str = received_message.split(sep=' ')
+        for y in str:
+            print(str[y])
+        #print(f'Mensaje recibido de {addr}: {received_message}')
         
         # Almacenar mensaje recibido en un archivo
         with open(f"/home/eduardo/msgs.txt", "a") as file:
-            file.write(f"[Recibido] {time.strftime('%Y-%m-%d %H:%M:%S')} - {received_message}\n")
+            file.write(f"[Recibido] {time.strftime('%Y-%m-%d_%H:%M:%S')} - {received_message}\n")
         
         # Enviar un mensaje de confirmación al cliente
         confirmation_message = "El mensaje fue recibido"
@@ -36,7 +39,7 @@ def servidor(host, port):
 def mensaje(server_ip, server_port, message):
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         s.connect((server_ip, server_port))
-        t = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+        t = time.strftime("%Y-%m-%d_%H:%M:%S", time.localtime())
         mt = f"[{t}] {message}"
         s.sendall(mt.encode())
         print(f"Mensaje enviado a {server_ip}:{server_port}: {mt}")
@@ -51,7 +54,7 @@ def mensaje(server_ip, server_port, message):
         
         # Almacenar mensaje de confirmación recibido en un archivo
         with open(f"/home/eduardo/msgs.txt", "a") as file:
-            file.write(f"[Recibido] {time.strftime('%Y-%m-%d %H:%M:%S')} - {decoded_response}\n")
+            file.write(f"[Recibido] {time.strftime('%Y-%m-%d_%H:%M:%S')} - {decoded_response}\n")
 
 #if __name__ == "__main__":
     # Configuración de los servidores en cada máquina virtual
