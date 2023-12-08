@@ -2,7 +2,7 @@ import socket
 import threading
 import time
 
-def cliente(conn, addr):
+def cliente(conn, addr, bd):
     print(f'Conectado por {addr}')
     while True:
         data = conn.recv(1024)
@@ -10,8 +10,18 @@ def cliente(conn, addr):
             break
         received_message = data.decode()
         str = received_message.split(sep=' ')
-        for y in range(len(str)):
-            print(str[y])
+        if str[1] == 'cliente':
+            c = bd.cursor()
+            n = str[2]
+            p = str[3]
+            m = str[4]
+            id = str[5]
+            c.execute('INSERT INTO CLIENTE (idCliente, nombre, apPaterno, apMaterno) VALUES (?,?,?,?)',(id,n,p,m))
+            bd.commit()
+            print("Se agrego el cliente ",n," "," ",p," ",m," correctamente")
+        elif str[1] == 'producto':
+
+        elif str[1] == 'compra':
         #print(f'Mensaje recibido de {addr}: {received_message}')
         
         # Almacenar mensaje recibido en un archivo
