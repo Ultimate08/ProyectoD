@@ -68,13 +68,13 @@ if __name__ == "__main__":
         4444
     ]
     # Iniciar los servidores en cada máquina virtual
-    vm1 = threading.Thread(target=servidor, args=(host[0], port[0]))
+    vm1 = threading.Thread(target=servidor, args=(hosts[0], port[0]))
     vm1.start()
-    vm2 = threading.Thread(target=servidor, args=(host[1], port[1]))
+    vm2 = threading.Thread(target=servidor, args=(hosts[1], port[1]))
     vm2.start()
-    vm3 = threading.Thread(target=servidor, args=(host[2], port[2]))
+    vm3 = threading.Thread(target=servidor, args=(hosts[2], port[2]))
     vm3.start()
-    vm4 = threading.Thread(target=servidor, args=(host[3], port[3]))
+    vm4 = threading.Thread(target=servidor, args=(hosts[3], port[3]))
     vm4.start()
 
     # Menú del cliente para enviar mensajes
