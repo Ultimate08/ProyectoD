@@ -115,10 +115,10 @@ if __name__ == "__main__":
                 n = input("\nCuál es el nombre del cliente?: ")
                 p = input("\nCuál es el apellido paterno del cliente?: ")
                 m = input("\nCuál es el apellido materno del cliente?: ")
-                mensaje(hosts[0],port[0],bd)
-                mensaje(hosts[1],port[1],bd)
-                mensaje(hosts[2],port[2],bd)
-                mensaje(hosts[3],port[3],bd)
+                MWf.mensaje(hosts[0],port[0],bd)
+                MWf.mensaje(hosts[1],port[1],bd)
+                MWf.mensaje(hosts[2],port[2],bd)
+                MWf.mensaje(hosts[3],port[3],bd)
                 idC += 1
         
             elif choice == '3':
