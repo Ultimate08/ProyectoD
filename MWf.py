@@ -20,8 +20,9 @@ def cliente(conn, addr, bd):
             bd.commit()
             print("Se agrego el cliente ",n," "," ",p," ",m," correctamente")
         elif str[1] == 'producto':
-
+            print("")
         elif str[1] == 'compra':
+            print("")
         #print(f'Mensaje recibido de {addr}: {received_message}')
         
         # Almacenar mensaje recibido en un archivo
