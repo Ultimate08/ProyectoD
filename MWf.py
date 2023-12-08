@@ -56,48 +56,48 @@ def mensaje(server_ip, server_port, message):
         with open(f"/home/eduardo/msgs.txt", "a") as file:
             file.write(f"[Recibido] {time.strftime('%Y-%m-%d_%H:%M:%S')} - {decoded_response}\n")
 
-#if __name__ == "__main__":
+if __name__ == "__main__":
     # Configuración de los servidores en cada máquina virtual
-    #hosts = [
-        #"192.168.153.128",
-        #"192.168.153.129",
-        #"192.168.153.130",
-        #"192.168.153.131"
-    #]
-    #port = [      # Puerto para la comunicación entre las máquinas
-        #1111,
-        #2222,
-        #3333,
-        #4444
-    #]
+    hosts = [
+        "192.168.153.128",
+        "192.168.153.129",
+        "192.168.153.130",
+        "192.168.153.131"
+    ]
+    port = [      # Puerto para la comunicación entre las máquinas
+        1111,
+        2222,
+        3333,
+        4444
+    ]
     # Iniciar los servidores en cada máquina virtual
-    #vm1 = threading.Thread(target=servidor, args=(hosts[0], port[0]))
-    #vm1.start()
-    #vm2 = threading.Thread(target=servidor, args=(hosts[1], port[1]))
-    #vm2.start()
-    #vm3 = threading.Thread(target=servidor, args=(hosts[2], port[2]))
-    #vm3.start()
-    #vm4 = threading.Thread(target=servidor, args=(hosts[3], port[3]))
-    #vm4.start()
+    vm1 = threading.Thread(target=servidor, args=(hosts[0], port[0]))
+    vm1.start()
+    vm2 = threading.Thread(target=servidor, args=(hosts[1], port[1]))
+    vm2.start()
+    vm3 = threading.Thread(target=servidor, args=(hosts[2], port[2]))
+    vm3.start()
+    vm4 = threading.Thread(target=servidor, args=(hosts[3], port[3]))
+    vm4.start()
 
     # Menú del cliente para enviar mensajes
-    #while True:
-        #print("\nSeleccione a qué servidor desea enviar un mensaje:")
-        #for i, host in enumerate(hosts, start=1):
-            #print(f"{i}. {host}")
+    while True:
+        print("\nSeleccione a qué servidor desea enviar un mensaje:")
+        for i, host in enumerate(hosts, start=1):
+            print(f"{i}. {host}")
 
-        #choice = input("Ingrese el número correspondiente al servidor o '0' para salir: ")
-        #if choice == '0':
-            #break
+        choice = input("Ingrese el número correspondiente al servidor o '0' para salir: ")
+        if choice == '0':
+            break
 
-        #try:
-            #choice_idx = int(choice) - 1
-            #if 0 <= choice_idx < len(hosts):
-                #server_ip = hosts[choice_idx]
-                #port_i = port[choice_idx]
-                #message = input("Ingrese el mensaje a enviar: ")
-                #mensaje(server_ip, port_i, message)
-            #else:
-                #print("Opción inválida. Intente de nuevo.")
-        #except ValueError:
-            #print("Entrada inválida. Ingrese un número válido o '0' para salir.")
+        try:
+            choice_idx = int(choice) - 1
+            if 0 <= choice_idx < len(hosts):
+                server_ip = hosts[choice_idx]
+                port_i = port[choice_idx]
+                message = input("Ingrese el mensaje a enviar: ")
+                mensaje(server_ip, port_i, message)
+            else:
+                print("Opción inválida. Intente de nuevo.")
+        except ValueError:
+            print("Entrada inválida. Ingrese un número válido o '0' para salir.")
