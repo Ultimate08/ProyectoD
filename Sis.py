@@ -70,20 +70,12 @@ if __name__ == "__main__":
                print("")
             elif choice == '4':
                 a = input("\nCuál es el nombre del nuevo articulo?: ")
-                p = input("\nCuál es la cantidad total del producto??: ")
-                cur.execute('INSERT INTO PRODUCTO (idProducto, nombre, total) VALUES (?,?,?)',(idP,a,p))
-                idP += 1
-
-                x = 0
-                n = int(p)
-                m = len(hosts)
-                t = [n//m]*m
-                r = n % m
-                for z in range(r):
-                    t[z] += 1
-                cur.execute('INSERT INTO INVENTARIO (idSucursal, producto, cantidad) VALUES (?,?,?)',(j,idP-1,t[j-1]))
-                bd.commit()
-                print("Se agrego el producto ",a," correctamente.")
+                p = input("\nCuál es la cantidad total del articulo?: ")
+                msj = "articulo "+a+" "+p
+                MWf.mensaje(hosts[0],port[0],msj)
+                MWf.mensaje(hosts[1],port[1],msj)
+                MWf.mensaje(hosts[2],port[2],msj)
+                MWf.mensaje(hosts[3],port[3],msj)
                 
             elif choice == '5':
                 cur.execute('SELECT * FROM INVENTARIO')
