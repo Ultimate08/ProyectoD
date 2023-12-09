@@ -54,7 +54,7 @@ def servidor(host, port):
 
 def mensaje(server_ip, server_port, message):
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-        s.connect((server_ip, server_port))
+        s.connect(server_ip, server_port)
         t = time.strftime("%Y-%m-%d_%H:%M:%S", time.localtime())
         mt = f"[{t}] {message}"
         s.sendall(mt.encode())
