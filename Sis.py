@@ -4,6 +4,8 @@ import sqlite3
 import random
 import MWf
 
+bd = sqlite3.connect('/home/eduardo/base.sqlite')
+cur = bd.cursor()
 ipl = ''
 hn = socket.gethostname()
 ipl = socket.gethostbyname(hn)
