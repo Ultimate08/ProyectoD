@@ -24,8 +24,34 @@ def cliente(conn, addr):
             idC += 1
             bd.commit()
             print("Se agrego el cliente ",n," "," ",p," ",m," correctamente")
-        elif str[1] == 'producto':
-            print("")
+            
+        elif str[1] == 'articulo':
+            ipl = ''
+            hn = socket.gethostname()
+            ipl = socket.gethostbyname(hn)
+            w = -1
+            if (ipl == hosts[0]):
+                w = 1
+            elif (ipl == hosts[1]):
+                w = 2
+            elif (ipl == hosts[2]):
+                w = 3
+            elif (ipl == hosts[3]):
+                w = 4
+            a = str[2]
+            b = str[3]
+            cur.execute('INSERT INTO PRODUCTO (idProducto, nombre, total) VALUES (?,?,?)',(idP,a,b))
+            idP += 1
+            n = int(p)
+            m = len(hosts)
+            t = [n//m]*m
+            r = n % m
+            for z in range(r):
+                t[z] += 1
+            cur.execute('INSERT INTO INVENTARIO (idSucursal, producto, cantidad) VALUES (?,?,?)',(w,idP-1,t[w-1]))
+            bd.commit()
+            print("Se agrego el producto ",a," correctamente.")
+            
         elif str[1] == 'compra':
             print("")
         #print(f'Mensaje recibido de {addr}: {received_message}')
@@ -113,10 +139,6 @@ if __name__ == "__main__":
 
     i = 1
     j = -1
-
-    ipl = ''
-    hn = socket.gethostname()
-    ipl = socket.gethostbyname(hn)
     
     while (i < idP):
         cur.execute('SELECT total FROM PRODUCTO WHERE idProducto = ?',(i, ))
