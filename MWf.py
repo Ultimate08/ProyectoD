@@ -72,6 +72,7 @@ def mensaje(server_ip, server_port, message):
         with open(f"/home/eduardo/msgs.txt", "a") as file:
             file.write(f"[Recibido] {time.strftime('%Y-%m-%d_%H:%M:%S')} - {decoded_response}\n")
 
+if __name__ == "__main__":
 # Configuración de los servidores en cada máquina virtual
     hosts = [
         "192.168.153.128",
