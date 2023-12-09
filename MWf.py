@@ -7,6 +7,21 @@ bd = sqlite3.connect('/home/eduardo/base.sqlite')
 cur = bd.cursor()
 idP = 1
 idC = 1
+# Configuración de los servidores en cada máquina virtual
+hosts = [
+    "192.168.153.128",
+    "192.168.153.129",
+    "192.168.153.130",
+    "192.168.153.131"
+]
+port = [      # Puerto para la comunicación entre las máquinas
+    1111,
+    2222,
+    3333,
+    4444
+]
+
+maestro = 0 # Bandera que indica que nodo es el maestro
 
 def cliente(conn, addr):
     print(f'Conectado por {addr}')
@@ -98,23 +113,7 @@ def mensaje(server_ip, server_port, message):
         with open(f"/home/eduardo/msgs.txt", "a") as file:
             file.write(f"[Recibido] {time.strftime('%Y-%m-%d_%H:%M:%S')} - {decoded_response}\n")
 
-if __name__ == "__main__":
-# Configuración de los servidores en cada máquina virtual
-    hosts = [
-        "192.168.153.128",
-        "192.168.153.129",
-        "192.168.153.130",
-        "192.168.153.131"
-    ]
-    port = [      # Puerto para la comunicación entre las máquinas
-        1111,
-        2222,
-        3333,
-        4444
-    ]
-
-    maestro = 0 # Bandera que indica que nodo es el maestro
-    
+if __name__ == "__main__":    
     cur.execute('DROP TABLE IF EXISTS PRODUCTO')
     cur.execute('DROP TABLE IF EXISTS CLIENTE')
     cur.execute('DROP TABLE IF EXISTS INVENTARIO')
@@ -160,21 +159,6 @@ if __name__ == "__main__":
         cur.execute('INSERT INTO INVENTARIO (idSucursal, producto, cantidad) VALUES (?,?,?)',(j,i,t[j-1]))
         i += 1
     bd.commit()
-
-    # Iniciar los servidores en cada máquina virtual
-    #if (ipl == hosts[0]):
-        #vm1 = threading.Thread(target=servidor, args=(hosts[0], port[0]))
-        #vm1.start()
-    #elif (ipl == hosts[1]):
-        #vm2 = threading.Thread(target=servidor, args=(hosts[1], port[1]))
-        #vm2.start()
-    #elif (ipl == hosts[2]):
-        #vm3 = threading.Thread(target=servidor, args=(hosts[2], port[2]))
-        #vm3.start()
-    #elif (ipl == hosts[3]):
-        #vm4 = threading.Thread(target=servidor, args=(hosts[3], port[3]))
-        #vm4.start()
-    #conn.close()
 
 #if __name__ == "__main__":
     # Configuración de los servidores en cada máquina virtual
