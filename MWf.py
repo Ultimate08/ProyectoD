@@ -160,6 +160,16 @@ if __name__ == "__main__":
         cur.execute('INSERT INTO INVENTARIO (idSucursal, producto, cantidad) VALUES (?,?,?)',(j,i,t[j-1]))
         i += 1
     bd.commit()
+
+    # Iniciar los servidores en cada máquina virtual
+    vm1 = threading.Thread(target=servidor, args=(hosts[0], port[0]))
+    vm1.start()
+    vm2 = threading.Thread(target=servidor, args=(hosts[1], port[1]))
+    vm2.start()
+    vm3 = threading.Thread(target=servidor, args=(hosts[2], port[2]))
+    vm3.start()
+    vm4 = threading.Thread(target=servidor, args=(hosts[3], port[3]))
+    vm4.start()
     #conn.close()
 
 #if __name__ == "__main__":
