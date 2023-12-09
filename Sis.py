@@ -4,11 +4,6 @@ import sqlite3
 import random
 import MWf
 
-bd = sqlite3.connect('/home/eduardo/base.sqlite')
-cur = bd.cursor()
-idP = 1
-idC = 1
-
 if __name__ == "__main__":
     # Configuración de los servidores en cada máquina virtual
     hosts = [
@@ -23,62 +18,6 @@ if __name__ == "__main__":
         3333,
         4444
     ]
-
-    maestro = 0 # Bandera que indica que nodo es el maestro
-
-    espera = True # Bandera que espera respuesta
-
-    
-    cur.execute('DROP TABLE IF EXISTS PRODUCTO')
-    cur.execute('DROP TABLE IF EXISTS CLIENTE')
-    cur.execute('DROP TABLE IF EXISTS INVENTARIO')
-    # Creacion de tablas
-    cur.execute('CREATE TABLE PRODUCTO (idProducto INTEGER, nombre TEXT, total INTEGER)')
-    cur.execute('CREATE TABLE CLIENTE (idCliente INTEGER, nombre TEXT, apPaterno TEXT, apMaterno TEXT)')
-    cur.execute('CREATE TABLE INVENTARIO (idSucursal, producto INTEGER, cantidad INTEGER)')
-
-    #cur.execute('INSERT INTO PRODUCTOS (idProducto, nombre) VALUES (?, ?)', ('My Way', 15))
-    cur.execute('INSERT INTO PRODUCTO (idProducto, nombre, total) VALUES (?, ?, ?)',(idP,'Zapatos', 20))
-    idP += 1
-    cur.execute('INSERT INTO PRODUCTO (idProducto, nombre, total) VALUES (?, ?, ?)',(idP,'Gorra', 16))
-    idP += 1
-    cur.execute('INSERT INTO PRODUCTO (idProducto, nombre, total) VALUES (?, ?, ?)',(idP,'Hoodie', 12))
-    idP += 1
-    cur.execute('INSERT INTO CLIENTE (idCliente, nombre, apPaterno, apMaterno) VALUES (?,?,?,?)',(idC,'Brayan','Ambriz','Zuloaga'))
-    idC += 1
-    cur.execute('INSERT INTO CLIENTE (idCliente, nombre, apPaterno, apMaterno) VALUES (?,?,?,?)',(idC,'Eduardo','Fajardo','Tellez'))
-    idC += 1
-    cur.execute('INSERT INTO CLIENTE (idCliente, nombre, apPaterno, apMaterno) VALUES (?,?,?,?)',(idC,'Marcos','Vega','Alvarez'))
-    idC += 1
-
-    i = 1
-    j = -1
-
-    ipl = ''
-    hn = socket.gethostname()
-    ipl = socket.gethostbyname(hn)
-    
-    while (i < idP):
-        cur.execute('SELECT total FROM PRODUCTO WHERE idProducto = ?',(i, ))
-        a = cur.fetchone()
-        n = a[0]
-        m = len(hosts)
-        t = [n//m]*m
-        r = n % m
-        for x in range(r):
-            t[x] += 1
-        if (ipl == hosts[0]):
-            j = 1
-        elif (ipl == hosts[1]):
-            j = 2
-        elif (ipl == hosts[2]):
-            j = 3
-        elif (ipl == hosts[3]):
-            j = 4
-        cur.execute('INSERT INTO INVENTARIO (idSucursal, producto, cantidad) VALUES (?,?,?)',(j,i,t[j-1]))
-        i += 1
-    bd.commit()
-    #conn.close()
 
     # Iniciar los servidores en cada máquina virtual
     if (ipl == hosts[0]):
@@ -115,11 +54,10 @@ if __name__ == "__main__":
                 n = input("\nCuál es el nombre del cliente?: ")
                 p = input("\nCuál es el apellido paterno del cliente?: ")
                 m = input("\nCuál es el apellido materno del cliente?: ")
-                #MWf.mensaje(hosts[0],port[0],bd)
+                MWf.mensaje(hosts[0],port[0],bd)
                 MWf.mensaje(hosts[1],port[1],bd)
                 MWf.mensaje(hosts[2],port[2],bd)
                 MWf.mensaje(hosts[3],port[3],bd)
-                idC += 1
         
             elif choice == '3':
                print("")
