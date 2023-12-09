@@ -4,6 +4,10 @@ import sqlite3
 import random
 import MWf
 
+ipl = ''
+hn = socket.gethostname()
+ipl = socket.gethostbyname(hn)
+
 if __name__ == "__main__":
     # Configuración de los servidores en cada máquina virtual
     hosts = [
