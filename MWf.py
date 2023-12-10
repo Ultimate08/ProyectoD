@@ -84,7 +84,7 @@ def cliente(conn, addr):
 
 def servidor(host, port):
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-        #s.bind((host, port))
+        s.bind((host, port))
         s.listen(5)
         print(f"Servidor escuchando en {host}:{port}")
 
@@ -159,6 +159,7 @@ if __name__ == "__main__":
         cur.execute('INSERT INTO INVENTARIO (idSucursal, producto, cantidad) VALUES (?,?,?)',(j,i,t[j-1]))
         i += 1
     bd.commit()
+    print(ipl)
 
 #if __name__ == "__main__":
     # Configuración de los servidores en cada máquina virtual
