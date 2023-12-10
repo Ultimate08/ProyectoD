@@ -2,7 +2,7 @@ import socket
 import threading
 import sqlite3
 import time
-import request
+import requests
 
 bd = sqlite3.connect('/home/eduardo/base.sqlite')
 cur = bd.cursor()
