@@ -167,7 +167,6 @@ if __name__ == "__main__":
         cur.execute('INSERT INTO INVENTARIO (idSucursal, producto, cantidad) VALUES (?,?,?)',(j,i,t[j-1]))
         i += 1
     bd.commit()
-    print(ipl)
 
 #if __name__ == "__main__":
     # Configuración de los servidores en cada máquina virtual
