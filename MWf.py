@@ -113,7 +113,7 @@ def mensaje(server_ip, server_port, message):
             file.write(f"[Recibido] {time.strftime('%Y-%m-%d_%H:%M:%S')} - {decoded_response}\n")
 
 def obtener_ip():
-     try:
+    try:
         hostname = socket.gethostname()
         direccion_ip = socket.gethostbyname(hostname)
         return direccion_ip
