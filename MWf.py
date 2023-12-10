@@ -2,6 +2,7 @@ import socket
 import threading
 import sqlite3
 import time
+import request
 
 bd = sqlite3.connect('/home/eduardo/base.sqlite')
 cur = bd.cursor()
@@ -41,9 +42,7 @@ def cliente(conn, addr):
             print("Se agrego el cliente ",n," "," ",p," ",m," correctamente")
             
         elif str[1] == 'articulo':
-            ipl = ''
-            hn = socket.gethostname()
-            ipl = socket.gethostbyname(hn)
+            ipl = obtener_ip()
             w = -1
             if (ipl == hosts[0]):
                 w = 1
@@ -113,6 +112,20 @@ def mensaje(server_ip, server_port, message):
         with open(f"/home/eduardo/msgs.txt", "a") as file:
             file.write(f"[Recibido] {time.strftime('%Y-%m-%d_%H:%M:%S')} - {decoded_response}\n")
 
+def obtener_ip():
+    try:
+        response = requests.get('https://api.ipify.org?format=json')
+        if response.status_code == 200:
+            data = response.json()
+            ip = data['ip']
+            return ip
+        else:
+            print(f"No se pudo obtener la dirección IP. Código de estado: {response.status_code}")
+            return None
+    except requests.RequestException as e:
+        print(f"Error al realizar la solicitud: {e}")
+        return None
+
 if __name__ == "__main__":    
     cur.execute('DROP TABLE IF EXISTS PRODUCTO')
     cur.execute('DROP TABLE IF EXISTS CLIENTE')
@@ -138,7 +151,7 @@ if __name__ == "__main__":
 
     i = 1
     j = -1
-    
+    ip = obtener_ip()
     while (i < idP):
         cur.execute('SELECT total FROM PRODUCTO WHERE idProducto = ?',(i, ))
         a = cur.fetchone()
@@ -148,13 +161,13 @@ if __name__ == "__main__":
         r = n % m
         for x in range(r):
             t[x] += 1
-        if (ipl == hosts[0]):
+        if (ip == hosts[0]):
             j = 1
-        elif (ipl == hosts[1]):
+        elif (ip == hosts[1]):
             j = 2
-        elif (ipl == hosts[2]):
+        elif (ip == hosts[2]):
             j = 3
-        elif (ipl == hosts[3]):
+        elif (ip == hosts[3]):
             j = 4
         cur.execute('INSERT INTO INVENTARIO (idSucursal, producto, cantidad) VALUES (?,?,?)',(j,i,t[j-1]))
         i += 1
