@@ -2,7 +2,7 @@ import socket
 import threading
 import sqlite3
 import time
-import requests
+import urllib.request
 
 bd = sqlite3.connect('/home/eduardo/base.sqlite')
 cur = bd.cursor()
@@ -114,11 +114,12 @@ def mensaje(server_ip, server_port, message):
 
 def obtener_ip():
     try:
-        hostname = socket.gethostname()
-        direccion_ip = socket.gethostbyname(hostname)
-        return direccion_ip
-    except socket.error as e:
-        print(f"No se pudo obtener la dirección IP: {e}")
+        url = 'https://ifconfig.me/ip'
+        with urllib.request.urlopen(url) as response:
+            ip = response.read().decode('utf-8').strip()
+            return ip
+    except urllib.error.URLError as e:
+        print(f"Error al obtener la dirección IP: {e}")
         return None
 
 if __name__ == "__main__":    
