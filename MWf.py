@@ -113,17 +113,12 @@ def mensaje(server_ip, server_port, message):
             file.write(f"[Recibido] {time.strftime('%Y-%m-%d_%H:%M:%S')} - {decoded_response}\n")
 
 def obtener_ip():
-    try:
-        response = requests.get('https://api.ipify.org?format=json')
-        if response.status_code == 200:
-            data = response.json()
-            ip = data['ip']
-            return ip
-        else:
-            print(f"No se pudo obtener la dirección IP. Código de estado: {response.status_code}")
-            return None
-    except requests.RequestException as e:
-        print(f"Error al realizar la solicitud: {e}")
+     try:
+        hostname = socket.gethostname()
+        direccion_ip = socket.gethostbyname(hostname)
+        return direccion_ip
+    except socket.error as e:
+        print(f"No se pudo obtener la dirección IP: {e}")
         return None
 
 if __name__ == "__main__":    
