@@ -31,45 +31,14 @@ if __name__ == "__main__":
 
     # Iniciar los servidores en cada máquina virtual
     hn = socket.gethostname()
-    if (hn == names[0]):
-        vm1 = threading.Thread(target=MWf.servidor, args=(hosts[0], port[0]))
-        vm1.start()
-        vm2 = threading.Thread(target=MWf.servidor, args=(hosts[1], port[0]))
-        vm2.start()
-        vm3 = threading.Thread(target=MWf.servidor, args=(hosts[2], port[0]))
-        vm3.start()
-        vm4 = threading.Thread(target=MWf.servidor, args=(hosts[3], port[0]))
-        vm4.start()
-
-    if (hn == names[1]):
-        vm1 = threading.Thread(target=MWf.servidor, args=(hosts[0], port[1]))
-        vm1.start()
-        vm2 = threading.Thread(target=MWf.servidor, args=(hosts[1], port[1]))
-        vm2.start()
-        vm3 = threading.Thread(target=MWf.servidor, args=(hosts[2], port[1]))
-        vm3.start()
-        vm4 = threading.Thread(target=MWf.servidor, args=(hosts[3], port[1]))
-        vm4.start()
-  
-    if (hn == names[2]):
-        vm1 = threading.Thread(target=MWf.servidor, args=(hosts[0], port[2]))
-        vm1.start()
-        vm2 = threading.Thread(target=MWf.servidor, args=(hosts[1], port[2]))
-        vm2.start()
-        vm3 = threading.Thread(target=MWf.servidor, args=(hosts[2], port[2]))
-        vm3.start()
-        vm4 = threading.Thread(target=MWf.servidor, args=(hosts[3], port[2]))
-        vm4.start()
-
-    if (hn == names[3]):
-        vm1 = threading.Thread(target=MWf.servidor, args=(hosts[0], port[3]))
-        vm1.start()
-        vm2 = threading.Thread(target=MWf.servidor, args=(hosts[1], port[3]))
-        vm2.start()
-        vm3 = threading.Thread(target=MWf.servidor, args=(hosts[2], port[3]))
-        vm3.start()
-        vm4 = threading.Thread(target=MWf.servidor, args=(hosts[3], port[3]))
-        vm4.start()
+    vm1 = threading.Thread(target=MWf.servidor, args=(hosts[0], port[0]))
+    vm1.start()
+    vm2 = threading.Thread(target=MWf.servidor, args=(hosts[1], port[1]))
+    vm2.start()
+    vm3 = threading.Thread(target=MWf.servidor, args=(hosts[2], port[2]))
+    vm3.start()
+    vm4 = threading.Thread(target=MWf.servidor, args=(hosts[3], port[3]))
+    vm4.start()
     
     while True:
         # Menu de seleccion
