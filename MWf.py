@@ -47,7 +47,7 @@ def cliente(conn, addr):
             p = str[3]
             m = str[4]
             try:
-                bd.execute('BEGIN EXCLUSIVE TRANSACTION')
+                #bd.execute('BEGIN EXCLUSIVE TRANSACTION')
                 cur.execute('INSERT INTO CLIENTE (idCliente, nombre, apPaterno, apMaterno) VALUES (?,?,?,?)',(idC,n,p,m))
                 idC += 1
                 bd.commit()
