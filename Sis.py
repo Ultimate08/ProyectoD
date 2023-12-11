@@ -68,17 +68,37 @@ if __name__ == "__main__":
                 p = input("\nCuál es el apellido paterno del cliente?: ")
                 m = input("\nCuál es el apellido materno del cliente?: ")
                 msj = "cliente "+n+" "+p+" "+m
-                i = 0
-                while (i < len(hosts)):
-                    try:
-                        bd.execute('BEGIN EXCLUSIVE TRANSACTION')
-                        MWf.mensaje(hosts[i],port[i],msj)
-                        i += 1
-                        bd.commit()
-                        time.sleep(5) 
-                    except Exception as e:
-                        print(f"Error en la transacción: {e}")
-                        bd.rollback()
+                
+                cur.execute('INSERT INTO CLIENTE (idCliente, nombre, apPaterno, apMaterno) VALUES (?,?,?,?)',(idC,n,p,m))
+                idC += 1
+                if (hn == names[0]):
+                    MWf.mensaje(hosts[1],port[1],msj)
+                    MWf.mensaje(hosts[2],port[2],msj)
+                    MWf.mensaje(hosts[3],port[3],msj)
+                elif (hn == names[1]):
+                    MWf.mensaje(hosts[0],port[0],msj)
+                    MWf.mensaje(hosts[2],port[2],msj)
+                    MWf.mensaje(hosts[3],port[3],msj)
+                elif (hn == names[2]):
+                    MWf.mensaje(hosts[0],port[0],msj)
+                    MWf.mensaje(hosts[1],port[1],msj)
+                    MWf.mensaje(hosts[3],port[3],msj)
+                elif (hn == names[3]):
+                    MWf.mensaje(hosts[0],port[0],msj)
+                    MWf.mensaje(hosts[1],port[1],msj)
+                    MWf.mensaje(hosts[2],port[2],msj)
+
+                #i = 0
+                #while (i < len(hosts)):
+                    #try:
+                        #bd.execute('BEGIN EXCLUSIVE TRANSACTION')
+                        #MWf.mensaje(hosts[i],port[i],msj)
+                        #i += 1
+                        #bd.commit()
+                        #time.sleep(5) 
+                    #except Exception as e:
+                        #print(f"Error en la transacción: {e}")
+                        #bd.rollback()
         
             elif choice == '3':
                print("")
