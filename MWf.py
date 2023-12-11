@@ -46,15 +46,15 @@ def cliente(conn, addr):
             n = str[2]
             p = str[3]
             m = str[4]
-            #try:
-                #bd.execute('BEGIN EXCLUSIVE TRANSACTION')
-            cur.execute('INSERT INTO CLIENTE (idCliente, nombre, apPaterno, apMaterno) VALUES (?,?,?,?)',(idC,n,p,m))
-            idC += 1
-            bd.commit()
-            print("Se agrego el cliente ",n," ",p," ",m," correctamente")
-            #except Exception as e:
-                #print(f"Error en la transacción: {e}")
-                #bd.rollback()
+            try:
+                bd.execute('BEGIN EXCLUSIVE TRANSACTION')
+                cur.execute('INSERT INTO CLIENTE (idCliente, nombre, apPaterno, apMaterno) VALUES (?,?,?,?)',(idC,n,p,m))
+                idC += 1
+                bd.commit()
+                print("Se agrego el cliente ",n," ",p," ",m," correctamente")
+            except Exception as e:
+                print(f"Error en la transacción: {e}")
+                bd.rollback()
             
         elif str[1] == 'articulo':
             hn = socket.gethostname()
