@@ -87,7 +87,7 @@ if __name__ == "__main__":
                 for fila in cur:
                     print(fila)
             elif choice == '2':
-                bd.execute('BEGIN EXCLUSIVE TRANSACTION')
+                #bd.execute('BEGIN EXCLUSIVE TRANSACTION')
                 n = input("\nCuál es el nombre del cliente?: ")
                 p = input("\nCuál es el apellido paterno del cliente?: ")
                 m = input("\nCuál es el apellido materno del cliente?: ")
