@@ -70,14 +70,8 @@ if __name__ == "__main__":
                 msj = "cliente "+n+" "+p+" "+m
                 i = 0
                 while (i < len(hosts)):
-                    try:
-                        bd.execute('BEGIN EXCLUSIVE TRANSACTION')
-                        MWf.mensaje(hosts[i],port[i],msj)
-                        i += 1
-                        bd.commit()
-                    except Exception as e:
-                        print(f"Error en la transacción: {e}")
-                        bd.rollback()
+                    MWf.mensaje(hosts[i],port[i],msj)
+                    i += 1
         
             elif choice == '3':
                print("")
