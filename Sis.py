@@ -22,55 +22,31 @@ if __name__ == "__main__":
         4444
     ]
     
-    names = [    # Identificadores de las máquinas
-    "56 4d b8 d4 59 5c 11 53-09 55 ae 8a 8f ff 51 50",
-    "56 4d dc 63 62 9c cb 1c-13 45 ad 0f 02 0f df 22",
-    "56 4d 94 6e e2 81 de 60-8e eb 92 b6 22 ca 2c 9a",
-    "56 4d a3 80 4a 63 88 e9-63 94 0e eb 5e af 4c 5c"
+    names = [    # Nombres dehost de las máquinas
+    "VM1",
+    "VM2",
+    "VM3",
+    "VM4"
     ]
 
     # Iniciar los servidores en cada máquina virtual
-    uuid = MWf.obtener_uuid()
-    if (uuid == names[0]):
+    hn = socket.gethostname()
+    if (hn == names[0]):
         vm1 = threading.Thread(target=MWf.servidor, args=(hosts[0], port[0]))
         vm1.start()
-        vm2 = threading.Thread(target=MWf.servidor, args=(hosts[0], port[1]))
-        vm2.start()
-        vm3 = threading.Thread(target=MWf.servidor, args=(hosts[0], port[2]))
-        vm3.start()
-        vm4 = threading.Thread(target=MWf.servidor, args=(hosts[0], port[3]))
-        vm4.start()
-    elif (uuid == names[1]):
-        vm1 = threading.Thread(target=MWf.servidor, args=(hosts[1], port[0]))
-        vm1.start()
+    elif (hn == names[1]):
         vm2 = threading.Thread(target=MWf.servidor, args=(hosts[1], port[1]))
         vm2.start()
-        vm3 = threading.Thread(target=MWf.servidor, args=(hosts[1], port[2]))
-        vm3.start()
-        vm4 = threading.Thread(target=MWf.servidor, args=(hosts[1], port[3]))
-        vm4.start()
-    elif (uuid == names[2]):
-        vm1 = threading.Thread(target=MWf.servidor, args=(hosts[2], port[0]))
-        vm1.start()
-        vm2 = threading.Thread(target=MWf.servidor, args=(hosts[2], port[1]))
-        vm2.start()
+    elif (hn == names[2]):
         vm3 = threading.Thread(target=MWf.servidor, args=(hosts[2], port[2]))
         vm3.start()
-        vm4 = threading.Thread(target=MWf.servidor, args=(hosts[2], port[3]))
-        vm4.start()
-    elif (uuid == names[3]):
-        vm1 = threading.Thread(target=MWf.servidor, args=(hosts[3], port[0]))
-        vm1.start()
-        vm2 = threading.Thread(target=MWf.servidor, args=(hosts[3], port[1]))
-        vm2.start()
-        vm3 = threading.Thread(target=MWf.servidor, args=(hosts[3], port[2]))
-        vm3.start()
+    elif (hn == names[3]):
         vm4 = threading.Thread(target=MWf.servidor, args=(hosts[3], port[3]))
         vm4.start()
     
     while True:
         # Menu de seleccion
-        print(uuid)
+        print(hn)
         print("\nBienvenido al sistema de inventarios, que deseas hacer?:")
         print("\n1. Consultar clientes")
         print("\n2. Agregar nuevo cliente")
