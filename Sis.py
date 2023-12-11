@@ -67,10 +67,12 @@ if __name__ == "__main__":
                 n = input("\nCuál es el nombre del cliente?: ")
                 p = input("\nCuál es el apellido paterno del cliente?: ")
                 m = input("\nCuál es el apellido materno del cliente?: ")
-                msj = "cliente "+n+" "+p+" "+m
+                cur.execute('SELECT COUNT(*) FROM CLIENTE')
+                id = cur.fetchone()[0]
+                id += 1
+                msj = "cliente "+id+" "+n+" "+p+" "+m
+                cur.execute('INSERT INTO CLIENTE (idCliente, nombre, apPaterno, apMaterno) VALUES (?,?,?,?)',(id,n,p,m))
                 
-                cur.execute('INSERT INTO CLIENTE (idCliente, nombre, apPaterno, apMaterno) VALUES (?,?,?,?)',(idC,n,p,m))
-                idC += 1
                 if (hn == names[0]):
                     MWf.mensaje(hosts[1],port[1],msj)
                     MWf.mensaje(hosts[2],port[2],msj)
