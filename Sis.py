@@ -34,13 +34,37 @@ if __name__ == "__main__":
     if (hn == names[0]):
         vm1 = threading.Thread(target=MWf.servidor, args=(hosts[0], port[0]))
         vm1.start()
+        vm2 = threading.Thread(target=MWf.servidor, args=(hosts[0], port[1]))
+        vm2.start()
+        vm3 = threading.Thread(target=MWf.servidor, args=(hosts[0], port[2]))
+        vm3.start()
+        vm4 = threading.Thread(target=MWf.servidor, args=(hosts[0], port[3]))
+        vm4.start()
     elif (hn == names[1]):
+        vm1 = threading.Thread(target=MWf.servidor, args=(hosts[1], port[0]))
+        vm1.start()
         vm2 = threading.Thread(target=MWf.servidor, args=(hosts[1], port[1]))
         vm2.start()
+        vm3 = threading.Thread(target=MWf.servidor, args=(hosts[1], port[2]))
+        vm3.start()
+        vm4 = threading.Thread(target=MWf.servidor, args=(hosts[1], port[3]))
+        vm4.start()
     elif (hn == names[2]):
+        vm1 = threading.Thread(target=MWf.servidor, args=(hosts[2], port[0]))
+        vm1.start()
+        vm2 = threading.Thread(target=MWf.servidor, args=(hosts[2], port[1]))
+        vm2.start()
         vm3 = threading.Thread(target=MWf.servidor, args=(hosts[2], port[2]))
         vm3.start()
+        vm4 = threading.Thread(target=MWf.servidor, args=(hosts[2], port[3]))
+        vm4.start()
     elif (hn == names[3]):
+        vm1 = threading.Thread(target=MWf.servidor, args=(hosts[3], port[0]))
+        vm1.start()
+        vm2 = threading.Thread(target=MWf.servidor, args=(hosts[3], port[1]))
+        vm2.start()
+        vm3 = threading.Thread(target=MWf.servidor, args=(hosts[3], port[2]))
+        vm3.start()
         vm4 = threading.Thread(target=MWf.servidor, args=(hosts[3], port[3]))
         vm4.start()
     
@@ -63,19 +87,15 @@ if __name__ == "__main__":
                 for fila in cur:
                     print(fila)
             elif choice == '2':
-                try:
-                    bd.execute('BEGIN EXCLUSIVE TRANSACTION')
-                    n = input("\nCuál es el nombre del cliente?: ")
-                    p = input("\nCuál es el apellido paterno del cliente?: ")
-                    m = input("\nCuál es el apellido materno del cliente?: ")
-                    msj = "cliente "+n+" "+p+" "+m
-                    MWf.mensaje(hosts[0],port[0],msj)
-                    MWf.mensaje(hosts[1],port[1],msj)
-                    MWf.mensaje(hosts[2],port[2],msj)
-                    MWf.mensaje(hosts[3],port[3],msj)
-                except Exception as e:
-                    print(f"Error en la transacción: {e}")
-                    bd.rollback()
+                bd.execute('BEGIN EXCLUSIVE TRANSACTION')
+                n = input("\nCuál es el nombre del cliente?: ")
+                p = input("\nCuál es el apellido paterno del cliente?: ")
+                m = input("\nCuál es el apellido materno del cliente?: ")
+                msj = "cliente "+n+" "+p+" "+m
+                MWf.mensaje(hosts[0],port[0],msj)
+                MWf.mensaje(hosts[1],port[1],msj)
+                MWf.mensaje(hosts[2],port[2],msj)
+                MWf.mensaje(hosts[3],port[3],msj)
         
             elif choice == '3':
                print("")
