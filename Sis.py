@@ -63,15 +63,19 @@ if __name__ == "__main__":
                 for fila in cur:
                     print(fila)
             elif choice == '2':
-                #bd.execute('BEGIN EXCLUSIVE TRANSACTION')
-                n = input("\nCuál es el nombre del cliente?: ")
-                p = input("\nCuál es el apellido paterno del cliente?: ")
-                m = input("\nCuál es el apellido materno del cliente?: ")
-                msj = "cliente "+n+" "+p+" "+m
-                MWf.mensaje(hosts[0],port[0],msj)
-                MWf.mensaje(hosts[1],port[1],msj)
-                MWf.mensaje(hosts[2],port[2],msj)
-                MWf.mensaje(hosts[3],port[3],msj)
+                try:
+                    bd.execute('BEGIN EXCLUSIVE TRANSACTION')
+                    n = input("\nCuál es el nombre del cliente?: ")
+                    p = input("\nCuál es el apellido paterno del cliente?: ")
+                    m = input("\nCuál es el apellido materno del cliente?: ")
+                    msj = "cliente "+n+" "+p+" "+m
+                    MWf.mensaje(hosts[0],port[0],msj)
+                    MWf.mensaje(hosts[1],port[1],msj)
+                    MWf.mensaje(hosts[2],port[2],msj)
+                    MWf.mensaje(hosts[3],port[3],msj)
+                except Exception as e:
+                    print(f"Error en la transacción: {e}")
+                    bd.rollback()
         
             elif choice == '3':
                print("")
