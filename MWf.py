@@ -43,13 +43,13 @@ def cliente(conn, addr):
         received_message = data.decode()
         str = received_message.split(sep=' ')
         if str[1] == 'cliente':
-            n = str[2]
-            p = str[3]
-            m = str[4]
+            id = str[2]
+            n = str[3]
+            p = str[4]
+            m = str[5]
             #try:
                 #bd.execute('BEGIN EXCLUSIVE TRANSACTION')
-            cur.execute('INSERT INTO CLIENTE (idCliente, nombre, apPaterno, apMaterno) VALUES (?,?,?,?)',(idC,n,p,m))
-            idC += 1
+            cur.execute('INSERT INTO CLIENTE (idCliente, nombre, apPaterno, apMaterno) VALUES (?,?,?,?)',(id,n,p,m))
                 #bd.commit()
             print("Se agrego el cliente ",n," ",p," ",m," correctamente")
             #except Exception as e:
