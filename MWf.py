@@ -34,10 +34,11 @@ def cliente(conn, addr):
         received_message = data.decode()
         str = received_message.split(sep=' ')
         if str[1] == 'cliente':
+            id = idC
             n = str[2]
             p = str[3]
             m = str[4]
-            cur.execute('INSERT INTO CLIENTE (idCliente, nombre, apPaterno, apMaterno) VALUES (?,?,?,?)',(idC,n,p,m))
+            cur.execute('INSERT INTO CLIENTE (idCliente, nombre, apPaterno, apMaterno) VALUES (?,?,?,?)',(id,n,p,m))
             idC += 1
             bd.commit()
             print("Se agrego el cliente ",n," "," ",p," ",m," correctamente")
