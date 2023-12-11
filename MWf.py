@@ -127,6 +127,18 @@ def mensaje(server_ip, server_port, message):
         # Almacenar mensaje de confirmación recibido en un archivo
         with open(f"/home/eduardo/msgs.txt", "a") as file:
             file.write(f"[Recibido] {time.strftime('%Y-%m-%d_%H:%M:%S')} - {decoded_response}\n")
+            
+def what_vm(hostname):
+    v = 0
+    if (hostname == names[0]):
+        v = 1
+    elif (hostname == names[1]):
+        v = 2
+    elif (hostname == names[2]):
+        v = 3
+    elif (hostname == names[3]):
+        v = 4
+    return v
 
 if __name__ == "__main__":    
     cur.execute('DROP TABLE IF EXISTS PRODUCTO')
