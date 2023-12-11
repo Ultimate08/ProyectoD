@@ -39,6 +39,7 @@ def cliente(conn, addr):
             n = str[2]
             p = str[3]
             m = str[4]
+            bd.execute('BEGIN EXCLUSIVE TRANSACTION')
             cur.execute('INSERT INTO CLIENTE (idCliente, nombre, apPaterno, apMaterno) VALUES (?,?,?,?)',(idC,n,p,m))
             idC += 1
             bd.commit()
@@ -57,6 +58,7 @@ def cliente(conn, addr):
                 w = 4
             a = str[2]
             b = str[3]
+            bd.execute('BEGIN EXCLUSIVE TRANSACTION')
             cur.execute('INSERT INTO PRODUCTO (idProducto, nombre, total) VALUES (?,?,?)',(idP,a,b))
             idP += 1
             n = int(p)
