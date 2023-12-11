@@ -6,8 +6,8 @@ import urllib.request
 
 bd = sqlite3.connect('/home/eduardo/base.sqlite')
 cur = bd.cursor()
-idP = 1
-idC = 1
+global idP = 1
+global idC = 1
 # Configuración de los servidores en cada máquina virtual
 hosts = [
     "192.168.153.128",
