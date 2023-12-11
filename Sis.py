@@ -70,8 +70,10 @@ if __name__ == "__main__":
                 cur.execute('SELECT COUNT(*) FROM CLIENTE')
                 id = cur.fetchone()[0]
                 id += 1
-                msj = "cliente "+id+" "+n+" "+p+" "+m
-                cur.execute('INSERT INTO CLIENTE (idCliente, nombre, apPaterno, apMaterno) VALUES (?,?,?,?)',(id,n,p,m))
+                id = cur.fetchone()[0]
+                ids = str(id)
+                msj = "cliente "+ids+" "+n+" "+p+" "+m
+                cur.execute('INSERT INTO CLIENTE (idCliente, nombre, apPaterno, apMaterno) VALUES (?,?,?,?)',(ids,n,p,m))
                 
                 if (hn == names[0]):
                     MWf.mensaje(hosts[1],port[1],msj)
