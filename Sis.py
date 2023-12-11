@@ -1,7 +1,7 @@
 import socket
 import threading
 import sqlite3
-import random
+import time
 import MWf
 
 bd = sqlite3.connect('/home/eduardo/base.sqlite')
@@ -75,6 +75,7 @@ if __name__ == "__main__":
                         MWf.mensaje(hosts[i],port[i],msj)
                         i += 1
                         bd.commit()
+                        time.sleep(5) 
                     except Exception as e:
                         print(f"Error en la transacción: {e}")
                         bd.rollback()
