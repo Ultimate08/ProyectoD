@@ -2,7 +2,7 @@ import socket
 import threading
 import sqlite3
 import time
-import urllib.request
+import subprocess
 
 bd = sqlite3.connect('/home/eduardo/base.sqlite')
 cur = bd.cursor()
@@ -21,6 +21,13 @@ port = [      # Puerto para la comunicación entre las máquinas
     2222,
     3333,
     4444
+]
+
+names = [
+    "56 4d b8 d4 59 5c 11 53-09 55 ae 8a 8f ff 51 50",
+    "56 4d dc 63 62 9c cb 1c-13 45 ad 0f 02 0f df 22",
+    "56 4d 94 6e e2 81 de 60-8e eb 92 b6 22 ca 2c 9a",
+    "56 4d a3 80 4a 63 88 e9-63 94 0e eb 5e af 4c 5c"
 ]
 
 maestro = 0 # Bandera que indica que nodo es el maestro
@@ -50,15 +57,15 @@ def cliente(conn, addr):
                 bd.rollback()
             
         elif str[1] == 'articulo':
-            ipl = obtener_ip()
+            uuid = obtener_uuid()
             w = -1
-            if (ipl == hosts[0]):
+            if (uuid == names[0]):
                 w = 1
-            elif (ipl == hosts[1]):
+            elif (uuid == names[1]):
                 w = 2
-            elif (ipl == hosts[2]):
+            elif (uuid == names[2]):
                 w = 3
-            elif (ipl == hosts[3]):
+            elif (uuid == names[3]):
                 w = 4
             a = str[2]
             b = str[3]
@@ -121,6 +128,23 @@ def mensaje(server_ip, server_port, message):
         with open(f"/home/eduardo/msgs.txt", "a") as file:
             file.write(f"[Recibido] {time.strftime('%Y-%m-%d_%H:%M:%S')} - {decoded_response}\n")
 
+def obtener_uuid():
+    try:
+        # Ejecutar el comando dmidecode para obtener la información del sistema
+        proceso = subprocess.Popen(['sudo', 'dmidecode', '-s', 'system-uuid'], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        salida, errores = proceso.communicate()
+
+        if proceso.returncode == 0:
+            # Si el comando se ejecutó con éxito, se imprime el UUID
+            return salida.strip()
+        else:
+            # Si hay errores, se imprime un mensaje de error
+            print(f"Error al ejecutar dmidecode: {errores}")
+            return None
+    except Exception as e:
+        print(f"Error: {e}")
+        return None
+
 if __name__ == "__main__":    
     cur.execute('DROP TABLE IF EXISTS PRODUCTO')
     cur.execute('DROP TABLE IF EXISTS CLIENTE')
@@ -146,7 +170,7 @@ if __name__ == "__main__":
 
     i = 1
     j = -1
-    ip = obtener_ip()
+    uuid = obtener_uuid()
     while (i < idP):
         cur.execute('SELECT total FROM PRODUCTO WHERE idProducto = ?',(i, ))
         a = cur.fetchone()
@@ -156,13 +180,13 @@ if __name__ == "__main__":
         r = n % m
         for x in range(r):
             t[x] += 1
-        if (ip == hosts[0]):
+        if (uuid == names[0]):
             j = 1
-        elif (ip == hosts[1]):
+        elif (uuid == names[1]):
             j = 2
-        elif (ip == hosts[2]):
+        elif (uuid == names[2]):
             j = 3
-        elif (ip == hosts[3]):
+        elif (uuid == names[3]):
             j = 4
         cur.execute('INSERT INTO INVENTARIO (idSucursal, producto, cantidad) VALUES (?,?,?)',(j,i,t[j-1]))
         i += 1
