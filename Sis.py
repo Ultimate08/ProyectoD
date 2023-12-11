@@ -23,10 +23,10 @@ if __name__ == "__main__":
     ]
     
     names = [    # Nombres dehost de las máquinas
-    "VM1",
-    "VM2",
-    "VM3",
-    "VM4"
+        "VM1",
+        "VM2",
+        "VM3",
+        "VM4"
     ]
 
     # Iniciar los servidores en cada máquina virtual
@@ -71,10 +71,10 @@ if __name__ == "__main__":
                 p = input("\nCuál es el apellido paterno del cliente?: ")
                 m = input("\nCuál es el apellido materno del cliente?: ")
                 msj = "cliente "+n+" "+p+" "+m
-                MWf.mensaje(hosts[0],port[0],msj)
-                MWf.mensaje(hosts[1],port[1],msj)
-                MWf.mensaje(hosts[2],port[2],msj)
-                MWf.mensaje(hosts[3],port[3],msj)
+                i = 0
+                while (i < len(hosts)):
+                    MWf.mensaje(hosts[i],port[i],msj)
+                    i++
         
             elif choice == '3':
                print("")
@@ -83,10 +83,10 @@ if __name__ == "__main__":
                 a = input("\nCuál es el nombre del nuevo articulo?: ")
                 p = input("\nCuál es la cantidad total del articulo?: ")
                 msj = "articulo "+a+" "+p
-                MWf.mensaje(hosts[0],port[0],msj)
-                MWf.mensaje(hosts[1],port[1],msj)
-                MWf.mensaje(hosts[2],port[2],msj)
-                MWf.mensaje(hosts[3],port[3],msj)
+                i = 0
+                while (i < len(hosts)):
+                    MWf.mensaje(hosts[i],port[i],msj)
+                    i++
                 
             elif choice == '5':
                 cur.execute('SELECT * FROM INVENTARIO')
