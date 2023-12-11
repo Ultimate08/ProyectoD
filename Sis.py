@@ -35,7 +35,6 @@ if __name__ == "__main__":
     while True:
         # Menu de seleccion
         #hn = socket.gethostbyname(socket.gethostname())
-        print(hn)
         print("\nBienvenido al sistema de inventarios, que deseas hacer?:")
         print("\n1. Consultar clientes")
         print("\n2. Agregar nuevo cliente")
