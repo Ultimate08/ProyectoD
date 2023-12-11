@@ -74,7 +74,7 @@ if __name__ == "__main__":
                 i = 0
                 while (i < len(hosts)):
                     MWf.mensaje(hosts[i],port[i],msj)
-                    i++
+                    i += 1
         
             elif choice == '3':
                print("")
@@ -86,7 +86,7 @@ if __name__ == "__main__":
                 i = 0
                 while (i < len(hosts)):
                     MWf.mensaje(hosts[i],port[i],msj)
-                    i++
+                    i += 1
                 
             elif choice == '5':
                 cur.execute('SELECT * FROM INVENTARIO')
