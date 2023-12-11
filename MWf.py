@@ -23,7 +23,7 @@ port = [      # Puerto para la comunicación entre las máquinas
     4444
 ]
 
-names = [
+names = [    # Nombres dehost de las máquinas
     "VM1",
     "VM2",
     "VM3",
