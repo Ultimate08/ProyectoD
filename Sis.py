@@ -51,7 +51,7 @@ if __name__ == "__main__":
                 for fila in cur:
                     print(fila)
             elif choice == '2':
-                bd.execute('BEGIN EXCLUSIVE TRANSACTION')
+                #bd.execute('BEGIN EXCLUSIVE TRANSACTION')
                 n = input("\nCuál es el nombre del cliente?: ")
                 p = input("\nCuál es el apellido paterno del cliente?: ")
                 m = input("\nCuál es el apellido materno del cliente?: ")
@@ -64,7 +64,7 @@ if __name__ == "__main__":
             elif choice == '3':
                print("")
             elif choice == '4':
-                bd.execute('BEGIN EXCLUSIVE TRANSACTION')
+                #bd.execute('BEGIN EXCLUSIVE TRANSACTION')
                 a = input("\nCuál es el nombre del nuevo articulo?: ")
                 p = input("\nCuál es la cantidad total del articulo?: ")
                 msj = "articulo "+a+" "+p
