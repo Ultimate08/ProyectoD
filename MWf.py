@@ -26,6 +26,8 @@ port = [      # Puerto para la comunicación entre las máquinas
 maestro = 0 # Bandera que indica que nodo es el maestro
 
 def cliente(conn, addr):
+    global idC
+    global idP
     print(f'Conectado por {addr}')
     while True:
         data = conn.recv(1024)
@@ -34,14 +36,13 @@ def cliente(conn, addr):
         received_message = data.decode()
         str = received_message.split(sep=' ')
         if str[1] == 'cliente':
-            id = idC
             n = str[2]
             p = str[3]
             m = str[4]
-            cur.execute('INSERT INTO CLIENTE (idCliente, nombre, apPaterno, apMaterno) VALUES (?,?,?,?)',(id,n,p,m))
+            cur.execute('INSERT INTO CLIENTE (idCliente, nombre, apPaterno, apMaterno) VALUES (?,?,?,?)',(idC,n,p,m))
             idC += 1
             bd.commit()
-            print("Se agrego el cliente ",n," "," ",p," ",m," correctamente")
+            print("Se agrego el cliente ",n," ",p," ",m," correctamente")
             
         elif str[1] == 'articulo':
             ipl = obtener_ip()
@@ -113,16 +114,6 @@ def mensaje(server_ip, server_port, message):
         # Almacenar mensaje de confirmación recibido en un archivo
         with open(f"/home/eduardo/msgs.txt", "a") as file:
             file.write(f"[Recibido] {time.strftime('%Y-%m-%d_%H:%M:%S')} - {decoded_response}\n")
-
-def obtener_ip():
-    try:
-        url = 'https://ifconfig.me/ip'
-        with urllib.request.urlopen(url) as response:
-            ip = response.read().decode('utf-8').strip()
-            return ip
-    except urllib.error.URLError as e:
-        print(f"Error al obtener la dirección IP: {e}")
-        return None
 
 if __name__ == "__main__":    
     cur.execute('DROP TABLE IF EXISTS PRODUCTO')
