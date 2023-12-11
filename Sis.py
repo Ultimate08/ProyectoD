@@ -6,7 +6,6 @@ import MWf
 
 bd = sqlite3.connect('/home/eduardo/base.sqlite')
 cur = bd.cursor()
-ipl = MWf.obtener_ip()
 
 if __name__ == "__main__":
     # Configuración de los servidores en cada máquina virtual
@@ -35,7 +34,7 @@ if __name__ == "__main__":
     
     while True:
         # Menu de seleccion
-        hn = socket.gethostbyname(socket.gethostname())
+        #hn = socket.gethostbyname(socket.gethostname())
         print(hn)
         print("\nBienvenido al sistema de inventarios, que deseas hacer?:")
         print("\n1. Consultar clientes")
