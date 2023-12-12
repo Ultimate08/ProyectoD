@@ -57,7 +57,7 @@ if __name__ == "__main__":
     # Creacion de tablas
     cur.execute('CREATE TABLE PRODUCTO (idProducto INTEGER, nombre TEXT, total INTEGER)')
     cur.execute('CREATE TABLE CLIENTE (idCliente INTEGER, nombre TEXT, apPaterno TEXT, apMaterno TEXT)')
-    cur.execute('CREATE TABLE INVENTARIO (idSucursal, producto INTEGER, cantidad INTEGER)')
+    cur.execute('CREATE TABLE INVENTARIO (idSucursal INTEGER, idProducto INTEGER, cantidad INTEGER)')
 
     #cur.execute('INSERT INTO PRODUCTOS (idProducto, nombre) VALUES (?, ?)', ('My Way', 15))
     cur.execute('INSERT INTO PRODUCTO (idProducto, nombre, total) VALUES (?, ?, ?)',(idP,'Zapatos', 20))
@@ -94,7 +94,7 @@ if __name__ == "__main__":
             j = 3
         elif (hn == names[3]):
             j = 4
-        cur.execute('INSERT INTO INVENTARIO (idSucursal, producto, cantidad) VALUES (?,?,?)',(j,i,t[j-1]))
+        cur.execute('INSERT INTO INVENTARIO (idSucursal, idProducto, cantidad) VALUES (?,?,?)',(j,i,t[j-1]))
         i += 1
     bd.commit()
 
@@ -139,23 +139,34 @@ if __name__ == "__main__":
                 id += 1
                 ids = str(id)
                 msj = "cliente "+ids+" "+n+" "+p+" "+m
-                cur.execute('INSERT INTO CLIENTE (idCliente, nombre, apPaterno, apMaterno) VALUES (?,?,?,?)',(ids,n,p,m))
-                propaga(hn,msj)
-
-                #i = 0
-                #while (i < len(hosts)):
-                    #try:
-                        #bd.execute('BEGIN EXCLUSIVE TRANSACTION')
-                        #MWf.mensaje(hosts[i],port[i],msj)
-                        #i += 1
-                        #bd.commit()
-                        #time.sleep(5) 
-                    #except Exception as e:
-                        #print(f"Error en la transacción: {e}")
-                        #bd.rollback()
+                #cur.execute('INSERT INTO CLIENTE (idCliente, nombre, apPaterno, apMaterno) VALUES (?,?,?,?)',(ids,n,p,m))
+                #propaga(hn,msj)
+                MWf.mensaje(hosts[0],port[0],msj)
+                MWf.mensaje(hosts[1],port[1],msj)
+                MWf.mensaje(hosts[2],port[2],msj)
+                MWf.mensaje(hosts[3],port[3],msj)
         
             elif choice == '3':
-               print("")
+                print("\nEste es el inventario del nodo ",hn,": ")
+                cur.execute('SELECT * FROM INVENTARIO')
+                print("(idSucursal, idProducto, cantidad)")
+                for fila in cur:
+                    print(fila)
+                print("Donde los idProducto corresponden a: ")
+                cur.execute('SELECT * FROM PRODUCTO')
+                print("(idProducto, nombre, total)")
+                for fila in cur:
+                    print(fila)
+                idp = input("\nCuál es el ID del producto que deseas comprar?: ")
+                c = input("Qué cantidad de producto deseas comprar?: \n")
+                idps = str(idp)
+                cs = str(c)
+                msj = "compra "+idps+" "+cs
+                MWf.mensaje(hosts[0],port[0],msj)
+                MWf.mensaje(hosts[1],port[1],msj)
+                MWf.mensaje(hosts[2],port[2],msj)
+                MWf.mensaje(hosts[3],port[3],msj)
+            
             elif choice == '4':
                 a = input("\nCuál es el nombre del nuevo articulo?: ")
                 p = input("\nCuál es la cantidad total del articulo?: ")
@@ -174,10 +185,12 @@ if __name__ == "__main__":
                 print("(idSucursal, producto, cantidad)")
                 for fila in cur:
                     print(fila)
+                    
             elif choice == '6':
                 cur.execute('SELECT * FROM PRODUCTO')
                 print("(idProducto, nombre, total)")
                 for fila in cur:
                     print(fila)
+                    
         except ValueError:
             print("Entrada inválida. Ingrese un número válido o '0' para salir.")
