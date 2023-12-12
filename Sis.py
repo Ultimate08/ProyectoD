@@ -161,7 +161,7 @@ if __name__ == "__main__":
                 c = input("Qué cantidad de producto deseas comprar?: \n")
                 idps = str(idp)
                 cs = str(c)
-                msj = "compra "+idps+" "+cs
+                msj = "compra "+idps+" "+cs+" "+hn
                 MWf.mensaje(hosts[0],port[0],msj)
                 MWf.mensaje(hosts[1],port[1],msj)
                 MWf.mensaje(hosts[2],port[2],msj)
