@@ -140,7 +140,10 @@ if __name__ == "__main__":
                 ids = str(id)
                 msj = "cliente "+ids+" "+n+" "+p+" "+m
                 cur.execute('INSERT INTO CLIENTE (idCliente, nombre, apPaterno, apMaterno) VALUES (?,?,?,?)',(ids,n,p,m))
-                propaga(hn,msj)
+                MWf.mensaje(hosts[0],port[0],msj)
+                MWf.mensaje(hosts[1],port[1],msj)
+                MWf.mensaje(hosts[2],port[2],msj)
+                MWf.mensaje(hosts[3],port[3],msj)
 
                 #i = 0
                 #while (i < len(hosts)):
