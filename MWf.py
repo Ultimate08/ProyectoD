@@ -50,15 +50,7 @@ def cliente(conn, addr):
             print("Se agrego el cliente ",n," ",p," ",m," correctamente")
             
         elif str[1] == 'articulo':
-            w = -1
-            if (hn == names[0]):
-                w = 1
-            elif (hn == names[1]):
-                w = 2
-            elif (hn == names[2]):
-                w = 3
-            elif (hn == names[3]):
-                w = 4
+            w = getSucId(hn)
             id = str[2]
             a = str[3]
             b = str[4]
@@ -78,7 +70,9 @@ def cliente(conn, addr):
             id = str[2]
             c = str[3]
             h = str[4]
+            cl = str[5]
             cn = int(c)
+            suc = getSucId(h):
             cur.execute('SELECT total FROM PRODUCTO WHERE idProducto = ?',(id, ))
             a = cur.fetchone()
             t = a[0]
@@ -91,11 +85,13 @@ def cliente(conn, addr):
                 bd.execute('BEGIN EXCLUSIVE TRANSACTION')
                 cur.execute('UPDATE PRODUCTO SET total = ? WHERE idProducto = ?',(t-cn,id))
                 cur.execute('UPDATE INVENTARIO SET cantidad = ? WHERE idProducto = ?',(tl-cn,id))
+                cur.execute('INSERT INTO ENVIO (idProducto, idSucursal, idCliente) VALUES (?,?,?)',(id,suc,cl))
                 bd.commit()
                 print("La compra se realizo correctamente.")
             elif (h != hn) and ((tl - cn) >= 0):
                 bd.execute('BEGIN EXCLUSIVE TRANSACTION')
                 cur.execute('UPDATE PRODUCTO SET total = ? WHERE idProducto = ?',(t-cn,id))
+                cur.execute('INSERT INTO ENVIO (idProducto, idSucursal, idCliente) VALUES (?,?,?)',(id,suc,cl))
                 bd.commit()
         #print(f'Mensaje recibido de {addr}: {received_message}')
         
@@ -141,6 +137,17 @@ def mensaje(server_ip, server_port, message):
         with open(f"/home/eduardo/msgs.txt", "a") as file:
             file.write(f"[Recibido] {time.strftime('%Y-%m-%d_%H:%M:%S')} - {decoded_response}\n")
 
+def getSucId(hn):
+    n = -1
+    if (hn == names[0]):
+        n = 1
+    elif (hn == names[1]):
+        n = 2
+    elif (hn == names[2]):
+        n = 3
+    elif (hn == names[3]):
+        n = 4
+    return n
 #if __name__ == "__main__":
     # Configuración de los servidores en cada máquina virtual
     #hosts = [
