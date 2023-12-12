@@ -78,7 +78,7 @@ def cliente(conn, addr):
                 t[z] += 1
             bd.execute('BEGIN EXCLUSIVE TRANSACTION')
             cur.execute('INSERT INTO PRODUCTO (idProducto, nombre, total) VALUES (?,?,?)',(id,a,b))
-            cur.execute('INSERT INTO INVENTARIO (idSucursal, producto, cantidad) VALUES (?,?,?)',(w,id,t[w-1]))
+            cur.execute('INSERT INTO INVENTARIO (idSucursal, idProducto, cantidad) VALUES (?,?,?)',(w,id,t[w-1]))
             bd.commit()
             print("Se agrego el producto ",a," correctamente.")
             
