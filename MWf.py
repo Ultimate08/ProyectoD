@@ -48,9 +48,9 @@ def cliente(conn, addr):
             p = str[4]
             m = str[5]
             #try:
-                #bd.execute('BEGIN EXCLUSIVE TRANSACTION')
+            bd.execute('BEGIN EXCLUSIVE TRANSACTION')
             cur.execute('INSERT INTO CLIENTE (idCliente, nombre, apPaterno, apMaterno) VALUES (?,?,?,?)',(id,n,p,m))
-                #bd.commit()
+            bd.commit()
             print("Se agrego el cliente ",n," ",p," ",m," correctamente")
             #except Exception as e:
                 #print(f"Error en la transacción: {e}")
