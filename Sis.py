@@ -53,11 +53,13 @@ if __name__ == "__main__":
     cur.execute('DROP TABLE IF EXISTS PRODUCTO')
     cur.execute('DROP TABLE IF EXISTS CLIENTE')
     cur.execute('DROP TABLE IF EXISTS INVENTARIO')
+    cur.execute('DROP TABLE IF EXISTS ENVIO')
     
     # Creacion de tablas
     cur.execute('CREATE TABLE PRODUCTO (idProducto INTEGER, nombre TEXT, total INTEGER)')
     cur.execute('CREATE TABLE CLIENTE (idCliente INTEGER, nombre TEXT, apPaterno TEXT, apMaterno TEXT)')
     cur.execute('CREATE TABLE INVENTARIO (idSucursal INTEGER, idProducto INTEGER, cantidad INTEGER)')
+    cur.execute('CREATE TABLE ENVIO (idProducto INTEGER, idSucursal INTEGER, idCliente INTEGER)')
 
     #cur.execute('INSERT INTO PRODUCTOS (idProducto, nombre) VALUES (?, ?)', ('My Way', 15))
     cur.execute('INSERT INTO PRODUCTO (idProducto, nombre, total) VALUES (?, ?, ?)',(idP,'Zapatos', 20))
@@ -120,6 +122,7 @@ if __name__ == "__main__":
         print("\n2. Agregar nuevo cliente")
         print("\n3. Comprar articulo")
         print("\n4. Agregar articulo\n")
+        print("\n5. Consultar envios\n")
 
         choice = input("Ingrese el número de opción correspondiente o '0' para salir: ")
         if choice == '0':
@@ -159,9 +162,11 @@ if __name__ == "__main__":
                     print(fila)
                 idp = input("\nCuál es el ID del producto que deseas comprar?: ")
                 c = input("Qué cantidad de producto deseas comprar?: \n")
+                idc = input("\nCuál es el su ID de cliente?: ")
                 idps = str(idp)
                 cs = str(c)
-                msj = "compra "+idps+" "+cs+" "+hn
+                idcs = str(idc)
+                msj = "compra "+idps+" "+cs+" "+hn+""+idcs
                 MWf.mensaje(hosts[0],port[0],msj)
                 MWf.mensaje(hosts[1],port[1],msj)
                 MWf.mensaje(hosts[2],port[2],msj)
@@ -181,12 +186,18 @@ if __name__ == "__main__":
                 MWf.mensaje(hosts[3],port[3],msj)
                 
             elif choice == '5':
+                cur.execute('SELECT * FROM ENVIO')
+                print("(idProducto, idSucursal, idCliente)")
+                for fila in cur:
+                    print(fila)
+                    
+            elif choice == '6':
                 cur.execute('SELECT * FROM INVENTARIO')
                 print("(idSucursal, producto, cantidad)")
                 for fila in cur:
                     print(fila)
                     
-            elif choice == '6':
+            elif choice == '7':
                 cur.execute('SELECT * FROM PRODUCTO')
                 print("(idProducto, nombre, total)")
                 for fila in cur:
