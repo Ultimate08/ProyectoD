@@ -85,15 +85,18 @@ def cliente(conn, addr):
             cur.execute('SELECT cantidad FROM INVENTARIO WHERE idProducto = ?',(id, ))
             a = cur.fetchone()
             tl = a[0]
-            if (h == hn):
-                if ((tl - cn) < 0):
-                    print("\nEn el inventario de este nodo no es suficiente para tu compra. Intenta en otro nodo o reduce el numero de articulos de tu compra")
-                else:
-                    bd.execute('BEGIN EXCLUSIVE TRANSACTION')
-                    cur.execute('UPDATE PRODUCTO total = ? WHERE idProducto = ?',(t-cn,id))
-                    cur.execute('UPDATE INVENTARIO cantidad = ? WHERE idProducto = ?',(tl-cn,id))
-                    bd.commit()
-                    print("La compra se realizo correctamente.")
+            if (h == hn) and ((tl - cn) < 0):
+                print("\nEn el inventario de este nodo no es suficiente para tu compra. Intenta en otro nodo o reduce el numero de articulos de tu compra")
+            elif (h == hn) and ((tl - cn) >= 0):
+                bd.execute('BEGIN EXCLUSIVE TRANSACTION')
+                cur.execute('UPDATE PRODUCTO SET total = ? WHERE idProducto = ?',(t-cn,id))
+                cur.execute('UPDATE INVENTARIO SET cantidad = ? WHERE idProducto = ?',(tl-cn,id))
+                bd.commit()
+                print("La compra se realizo correctamente.")
+            elif (h != hn) and ((tl - cn) >= 0):
+                bd.execute('BEGIN EXCLUSIVE TRANSACTION')
+                cur.execute('UPDATE PRODUCTO SET total = ? WHERE idProducto = ?',(t-cn,id))
+                bd.commit()
         #print(f'Mensaje recibido de {addr}: {received_message}')
         
         # Almacenar mensaje recibido en un archivo
