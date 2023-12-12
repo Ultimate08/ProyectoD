@@ -8,8 +8,6 @@ bd = sqlite3.connect('/home/eduardo/base.sqlite', check_same_thread=False)
 cur = bd.cursor()
 
 if __name__ == "__main__":
-
-    cur.execute('CREATE TABLE INVENTARIO (idSucursal, producto INTEGER, cantidad INTEGER)')
     # Configuración de los servidores en cada máquina virtual
     hosts = [
         "192.168.153.128",
