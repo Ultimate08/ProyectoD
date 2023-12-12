@@ -9,7 +9,6 @@ cur = bd.cursor()
 
 if __name__ == "__main__":
 
-    cur.execute('CREATE TABLE CLIENTE (idCliente INTEGER, nombre TEXT, apPaterno TEXT, apMaterno TEXT)')
     cur.execute('CREATE TABLE INVENTARIO (idSucursal, producto INTEGER, cantidad INTEGER)')
     # Configuración de los servidores en cada máquina virtual
     hosts = [
