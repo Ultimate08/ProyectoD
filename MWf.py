@@ -6,8 +6,6 @@ import subprocess
 
 bd = sqlite3.connect('/home/eduardo/base.sqlite', check_same_thread=False)
 cur = bd.cursor()
-idP = 1
-idC = 1
 
 # Configuración de los servidores en cada máquina virtual
 hosts = [
@@ -33,8 +31,7 @@ names = [    # Nombres dehost de las máquinas
 maestro = 0 # Bandera que indica que nodo es el maestro
 
 def cliente(conn, addr):
-    global idC
-    global idP
+    hn = socket.gethostname()
     print(f'Conectado por {addr}')
     while True:
         data = conn.recv(1024)
@@ -47,17 +44,12 @@ def cliente(conn, addr):
             n = str[3]
             p = str[4]
             m = str[5]
-            #try:
             bd.execute('BEGIN EXCLUSIVE TRANSACTION')
             cur.execute('INSERT INTO CLIENTE (idCliente, nombre, apPaterno, apMaterno) VALUES (?,?,?,?)',(id,n,p,m))
             bd.commit()
             print("Se agrego el cliente ",n," ",p," ",m," correctamente")
-            #except Exception as e:
-                #print(f"Error en la transacción: {e}")
-                #bd.rollback()
             
         elif str[1] == 'articulo':
-            hn = socket.gethostname()
             w = -1
             if (hn == names[0]):
                 w = 1
@@ -83,7 +75,25 @@ def cliente(conn, addr):
             print("Se agrego el producto ",a," correctamente.")
             
         elif str[1] == 'compra':
-            print("")
+            id = str[2]
+            c = str[3]
+            h = str[4]
+            cn = int(c)
+            cur.execute('SELECT total FROM PRODUCTO ',(id, ))
+            a = cur.fetchone()
+            t = a[0]
+            cur.execute('SELECT cantidad FROM INVENTARIO WHERE idProducto = ?',(id, ))
+            a = cur.fetchone()
+            tl = a[0]
+            if (h == hn):
+                if ((tl - cn) < 0):
+                    print("\nEn el inventario de este nodo no es suficiente para tu compra. Intenta en otro nodo o reduce el numero de articulos de tu compra")
+                else:
+                    bd.execute('BEGIN EXCLUSIVE TRANSACTION')
+                    cur.execute('UPDATE PRODUCTO total = ? WHERE idProducto = ?',(t-cn,id))
+                    cur.execute('UPDATE INVENTARIO cantidad = ? WHERE idProducto = ?',(tl-cn,id))
+                    bd.commit()
+                    print("La compra se realizo correctamente.")
         #print(f'Mensaje recibido de {addr}: {received_message}')
         
         # Almacenar mensaje recibido en un archivo
