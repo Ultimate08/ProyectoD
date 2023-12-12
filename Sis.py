@@ -121,7 +121,7 @@ if __name__ == "__main__":
         print("\n1. Consultar clientes")
         print("\n2. Agregar nuevo cliente")
         print("\n3. Comprar articulo")
-        print("\n4. Agregar articulo\n")
+        print("\n4. Agregar articulo")
         print("\n5. Consultar envios\n")
 
         choice = input("Ingrese el número de opción correspondiente o '0' para salir: ")
