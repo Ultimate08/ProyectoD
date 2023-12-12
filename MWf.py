@@ -72,7 +72,7 @@ def cliente(conn, addr):
             h = str[4]
             cl = str[5]
             cn = int(c)
-            suc = getSucId(h):
+            suc = getSucId(h)
             cur.execute('SELECT total FROM PRODUCTO WHERE idProducto = ?',(id, ))
             a = cur.fetchone()
             t = a[0]
