@@ -4,7 +4,7 @@ import sqlite3
 import time
 import MWf
 
-bd = sqlite3.connect('/home/eduardo/base.sqlite')
+bd = sqlite3.connect('/home/eduardo/base.sqlite', check_same_thread=False)
 cur = bd.cursor()
 
 if __name__ == "__main__":
