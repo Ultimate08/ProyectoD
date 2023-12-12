@@ -150,7 +150,7 @@ if __name__ == "__main__":
                 MWf.mensaje(hosts[3],port[3],msj)
         
             elif choice == '3':
-                print("\nEste es el inventario del nodo ",hn,": ")
+                print("\nEste es el inventario del nodo ",MWf.getSucId(hn),": ")
                 cur.execute('SELECT * FROM INVENTARIO')
                 print("(idSucursal, idProducto, cantidad)")
                 for fila in cur:
