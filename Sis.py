@@ -153,8 +153,8 @@ if __name__ == "__main__":
                 for fila in cur:
                     print(fila)
                 print("Donde los idProducto corresponden a: ")
-                cur.execute('SELECT * FROM PRODUCTO')
-                print("(idProducto, nombre, total)")
+                cur.execute('SELECT idProducto, nombre FROM PRODUCTO')
+                print("(idProducto, nombre)")
                 for fila in cur:
                     print(fila)
                 idp = input("\nCuál es el ID del producto que deseas comprar?: ")
