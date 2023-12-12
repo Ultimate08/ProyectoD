@@ -112,7 +112,7 @@ if __name__ == "__main__":
                 id = cur.fetchone()[0]
                 id += 1
                 ids = str(id)
-                msj = "articulo "+ids" "+a+" "+p
+                msj = "articulo "+ids+" "+a+" "+p
                 propaga(hn,msj)
                 
             elif choice == '5':
