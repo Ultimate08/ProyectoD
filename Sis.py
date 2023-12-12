@@ -7,28 +7,46 @@ import MWf
 bd = sqlite3.connect('/home/eduardo/base.sqlite', check_same_thread=False)
 cur = bd.cursor()
 
-if __name__ == "__main__":
-    # Configuración de los servidores en cada máquina virtual
-    hosts = [
-        "192.168.153.128",
-        "192.168.153.129",
-        "192.168.153.130",
-        "192.168.153.131"
-    ]
-    port = [      # Puerto para la comunicación entre las máquinas
-        1111,
-        2222,
-        3333,
-        4444
-    ]
+# Configuración de los servidores en cada máquina virtual
+hosts = [
+    "192.168.153.128",
+    "192.168.153.129",
+    "192.168.153.130",
+    "192.168.153.131"
+]
+port = [      # Puerto para la comunicación entre las máquinas
+    1111,
+    2222,
+    3333,
+    4444
+]
     
-    names = [    # Nombres dehost de las máquinas
-        "VM1",
-        "VM2",
-        "VM3",
-        "VM4"
-    ]
+names = [    # Nombres dehost de las máquinas
+    "VM1",
+    "VM2",
+    "VM3",
+    "VM4"
+]
 
+def propaga(hn, msj):
+    if (hn == names[0]):
+        MWf.mensaje(hosts[1],port[1],msj)
+        MWf.mensaje(hosts[2],port[2],msj)
+        MWf.mensaje(hosts[3],port[3],msj)
+    elif (hn == names[1]):
+        MWf.mensaje(hosts[0],port[0],msj)
+        MWf.mensaje(hosts[2],port[2],msj)
+        MWf.mensaje(hosts[3],port[3],msj)
+    elif (hn == names[2]):
+        MWf.mensaje(hosts[0],port[0],msj)
+        MWf.mensaje(hosts[1],port[1],msj)
+        MWf.mensaje(hosts[3],port[3],msj)
+    elif (hn == names[3]):
+        MWf.mensaje(hosts[0],port[0],msj)
+        MWf.mensaje(hosts[1],port[1],msj)
+        MWf.mensaje(hosts[2],port[2],msj)
+        
+if __name__ == "__main__":
     # Iniciar los servidores en cada máquina virtual
     hn = socket.gethostname()
     if (hn == names[0]):
@@ -71,23 +89,7 @@ if __name__ == "__main__":
                 ids = str(id)
                 msj = "cliente "+ids+" "+n+" "+p+" "+m
                 cur.execute('INSERT INTO CLIENTE (idCliente, nombre, apPaterno, apMaterno) VALUES (?,?,?,?)',(ids,n,p,m))
-                
-                if (hn == names[0]):
-                    MWf.mensaje(hosts[1],port[1],msj)
-                    MWf.mensaje(hosts[2],port[2],msj)
-                    MWf.mensaje(hosts[3],port[3],msj)
-                elif (hn == names[1]):
-                    MWf.mensaje(hosts[0],port[0],msj)
-                    MWf.mensaje(hosts[2],port[2],msj)
-                    MWf.mensaje(hosts[3],port[3],msj)
-                elif (hn == names[2]):
-                    MWf.mensaje(hosts[0],port[0],msj)
-                    MWf.mensaje(hosts[1],port[1],msj)
-                    MWf.mensaje(hosts[3],port[3],msj)
-                elif (hn == names[3]):
-                    MWf.mensaje(hosts[0],port[0],msj)
-                    MWf.mensaje(hosts[1],port[1],msj)
-                    MWf.mensaje(hosts[2],port[2],msj)
+                propaga(hn,msj)
 
                 #i = 0
                 #while (i < len(hosts)):
@@ -111,22 +113,7 @@ if __name__ == "__main__":
                 id += 1
                 ids = str(id)
                 msj = "articulo "+ids" "+a+" "+p
-                if (hn == names[0]):
-                    MWf.mensaje(hosts[1],port[1],msj)
-                    MWf.mensaje(hosts[2],port[2],msj)
-                    MWf.mensaje(hosts[3],port[3],msj)
-                elif (hn == names[1]):
-                    MWf.mensaje(hosts[0],port[0],msj)
-                    MWf.mensaje(hosts[2],port[2],msj)
-                    MWf.mensaje(hosts[3],port[3],msj)
-                elif (hn == names[2]):
-                    MWf.mensaje(hosts[0],port[0],msj)
-                    MWf.mensaje(hosts[1],port[1],msj)
-                    MWf.mensaje(hosts[3],port[3],msj)
-                elif (hn == names[3]):
-                    MWf.mensaje(hosts[0],port[0],msj)
-                    MWf.mensaje(hosts[1],port[1],msj)
-                    MWf.mensaje(hosts[2],port[2],msj)
+                propaga(hn,msj)
                 
             elif choice == '5':
                 cur.execute('SELECT * FROM INVENTARIO')
