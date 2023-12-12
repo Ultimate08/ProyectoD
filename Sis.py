@@ -62,7 +62,6 @@ if __name__ == "__main__":
                 for fila in cur:
                     print(fila)
             elif choice == '2':
-                #bd.execute('BEGIN EXCLUSIVE TRANSACTION')
                 n = input("\nCuál es el nombre del cliente?: ")
                 p = input("\nCuál es el apellido paterno del cliente?: ")
                 m = input("\nCuál es el apellido materno del cliente?: ")
@@ -105,14 +104,29 @@ if __name__ == "__main__":
             elif choice == '3':
                print("")
             elif choice == '4':
-                #bd.execute('BEGIN EXCLUSIVE TRANSACTION')
                 a = input("\nCuál es el nombre del nuevo articulo?: ")
                 p = input("\nCuál es la cantidad total del articulo?: ")
-                msj = "articulo "+a+" "+p
-                i = 0
-                while (i < len(hosts)):
-                    MWf.mensaje(hosts[i],port[i],msj)
-                    i += 1
+                cur.execute('SELECT COUNT(*) FROM PRODUCTO')
+                id = cur.fetchone()[0]
+                id += 1
+                ids = str(id)
+                msj = "articulo "+ids" "+a+" "+p
+                if (hn == names[0]):
+                    MWf.mensaje(hosts[1],port[1],msj)
+                    MWf.mensaje(hosts[2],port[2],msj)
+                    MWf.mensaje(hosts[3],port[3],msj)
+                elif (hn == names[1]):
+                    MWf.mensaje(hosts[0],port[0],msj)
+                    MWf.mensaje(hosts[2],port[2],msj)
+                    MWf.mensaje(hosts[3],port[3],msj)
+                elif (hn == names[2]):
+                    MWf.mensaje(hosts[0],port[0],msj)
+                    MWf.mensaje(hosts[1],port[1],msj)
+                    MWf.mensaje(hosts[3],port[3],msj)
+                elif (hn == names[3]):
+                    MWf.mensaje(hosts[0],port[0],msj)
+                    MWf.mensaje(hosts[1],port[1],msj)
+                    MWf.mensaje(hosts[2],port[2],msj)
                 
             elif choice == '5':
                 cur.execute('SELECT * FROM INVENTARIO')
