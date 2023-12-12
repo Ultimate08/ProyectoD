@@ -6,6 +6,8 @@ import MWf
 
 bd = sqlite3.connect('/home/eduardo/base.sqlite', check_same_thread=False)
 cur = bd.cursor()
+idP = 1
+idC = 1
 
 # Configuración de los servidores en cada máquina virtual
 hosts = [
@@ -47,8 +49,57 @@ def propaga(hn, msj):
         MWf.mensaje(hosts[2],port[2],msj)
         
 if __name__ == "__main__":
-    # Iniciar los servidores en cada máquina virtual
+    # Borrado de tablas
+    cur.execute('DROP TABLE IF EXISTS PRODUCTO')
+    cur.execute('DROP TABLE IF EXISTS CLIENTE')
+    cur.execute('DROP TABLE IF EXISTS INVENTARIO')
+    
+    # Creacion de tablas
+    cur.execute('CREATE TABLE PRODUCTO (idProducto INTEGER, nombre TEXT, total INTEGER)')
+    cur.execute('CREATE TABLE CLIENTE (idCliente INTEGER, nombre TEXT, apPaterno TEXT, apMaterno TEXT)')
+    cur.execute('CREATE TABLE INVENTARIO (idSucursal, producto INTEGER, cantidad INTEGER)')
+
+    #cur.execute('INSERT INTO PRODUCTOS (idProducto, nombre) VALUES (?, ?)', ('My Way', 15))
+    cur.execute('INSERT INTO PRODUCTO (idProducto, nombre, total) VALUES (?, ?, ?)',(idP,'Zapatos', 20))
+    idP += 1
+    cur.execute('INSERT INTO PRODUCTO (idProducto, nombre, total) VALUES (?, ?, ?)',(idP,'Gorra', 16))
+    idP += 1
+    cur.execute('INSERT INTO PRODUCTO (idProducto, nombre, total) VALUES (?, ?, ?)',(idP,'Hoodie', 12))
+    idP += 1
+    cur.execute('INSERT INTO CLIENTE (idCliente, nombre, apPaterno, apMaterno) VALUES (?,?,?,?)',(idC,'Brayan','Ambriz','Zuloaga'))
+    idC += 1
+    cur.execute('INSERT INTO CLIENTE (idCliente, nombre, apPaterno, apMaterno) VALUES (?,?,?,?)',(idC,'Eduardo','Fajardo','Tellez'))
+    idC += 1
+    cur.execute('INSERT INTO CLIENTE (idCliente, nombre, apPaterno, apMaterno) VALUES (?,?,?,?)',(idC,'Marcos','Vega','Alvarez'))
+    idC += 1
+
+    i = 1
+    j = -1
+    
     hn = socket.gethostname()
+    while (i < idP):
+        cur.execute('SELECT total FROM PRODUCTO WHERE idProducto = ?',(i, ))
+        a = cur.fetchone()
+        n = a[0]
+        m = len(hosts)
+        t = [n//m]*m
+        r = n % m
+        for x in range(r):
+            t[x] += 1
+        if (hn == names[0]):
+            j = 1
+        elif (hn == names[1]):
+            j = 2
+        elif (hn == names[2]):
+            j = 3
+        elif (hn == names[3]):
+            j = 4
+        cur.execute('INSERT INTO INVENTARIO (idSucursal, producto, cantidad) VALUES (?,?,?)',(j,i,t[j-1]))
+        i += 1
+    bd.commit()
+
+    
+    # Iniciar los servidores en cada máquina virtual
     if (hn == names[0]):
         vm1 = threading.Thread(target=MWf.servidor, args=(hosts[0], port[0]))
         vm1.start()
