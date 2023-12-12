@@ -72,12 +72,14 @@ def cliente(conn, addr):
             b = str[4]
             bd.execute('BEGIN EXCLUSIVE TRANSACTION')
             cur.execute('INSERT INTO PRODUCTO (idProducto, nombre, total) VALUES (?,?,?)',(id,a,b))
+            bd.commit
             n = int(b)
             m = len(hosts)
             t = [n//m]*m
             r = n % m
             for z in range(r):
                 t[z] += 1
+            bd.execute('BEGIN EXCLUSIVE TRANSACTION')
             cur.execute('INSERT INTO INVENTARIO (idSucursal, producto, cantidad) VALUES (?,?,?)',(w,id,t[w-1]))
             bd.commit()
             print("Se agrego el producto ",a," correctamente.")
@@ -127,65 +129,6 @@ def mensaje(server_ip, server_port, message):
         # Almacenar mensaje de confirmación recibido en un archivo
         with open(f"/home/eduardo/msgs.txt", "a") as file:
             file.write(f"[Recibido] {time.strftime('%Y-%m-%d_%H:%M:%S')} - {decoded_response}\n")
-            
-def what_vm(hostname):
-    v = 0
-    if (hostname == names[0]):
-        v = 1
-    elif (hostname == names[1]):
-        v = 2
-    elif (hostname == names[2]):
-        v = 3
-    elif (hostname == names[3]):
-        v = 4
-    return v
-
-if __name__ == "__main__":    
-    cur.execute('DROP TABLE IF EXISTS PRODUCTO')
-    cur.execute('DROP TABLE IF EXISTS CLIENTE')
-    cur.execute('DROP TABLE IF EXISTS INVENTARIO')
-    # Creacion de tablas
-    cur.execute('CREATE TABLE PRODUCTO (idProducto INTEGER, nombre TEXT, total INTEGER)')
-    cur.execute('CREATE TABLE CLIENTE (idCliente INTEGER, nombre TEXT, apPaterno TEXT, apMaterno TEXT)')
-    cur.execute('CREATE TABLE INVENTARIO (idSucursal, producto INTEGER, cantidad INTEGER)')
-
-    #cur.execute('INSERT INTO PRODUCTOS (idProducto, nombre) VALUES (?, ?)', ('My Way', 15))
-    cur.execute('INSERT INTO PRODUCTO (idProducto, nombre, total) VALUES (?, ?, ?)',(idP,'Zapatos', 20))
-    idP += 1
-    cur.execute('INSERT INTO PRODUCTO (idProducto, nombre, total) VALUES (?, ?, ?)',(idP,'Gorra', 16))
-    idP += 1
-    cur.execute('INSERT INTO PRODUCTO (idProducto, nombre, total) VALUES (?, ?, ?)',(idP,'Hoodie', 12))
-    idP += 1
-    cur.execute('INSERT INTO CLIENTE (idCliente, nombre, apPaterno, apMaterno) VALUES (?,?,?,?)',(idC,'Brayan','Ambriz','Zuloaga'))
-    idC += 1
-    cur.execute('INSERT INTO CLIENTE (idCliente, nombre, apPaterno, apMaterno) VALUES (?,?,?,?)',(idC,'Eduardo','Fajardo','Tellez'))
-    idC += 1
-    cur.execute('INSERT INTO CLIENTE (idCliente, nombre, apPaterno, apMaterno) VALUES (?,?,?,?)',(idC,'Marcos','Vega','Alvarez'))
-    idC += 1
-
-    i = 1
-    j = -1
-    hn = socket.gethostname()
-    while (i < idP):
-        cur.execute('SELECT total FROM PRODUCTO WHERE idProducto = ?',(i, ))
-        a = cur.fetchone()
-        n = a[0]
-        m = len(hosts)
-        t = [n//m]*m
-        r = n % m
-        for x in range(r):
-            t[x] += 1
-        if (hn == names[0]):
-            j = 1
-        elif (hn == names[1]):
-            j = 2
-        elif (hn == names[2]):
-            j = 3
-        elif (hn == names[3]):
-            j = 4
-        cur.execute('INSERT INTO INVENTARIO (idSucursal, producto, cantidad) VALUES (?,?,?)',(j,i,t[j-1]))
-        i += 1
-    bd.commit()
 
 #if __name__ == "__main__":
     # Configuración de los servidores en cada máquina virtual
