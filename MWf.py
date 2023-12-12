@@ -70,9 +70,6 @@ def cliente(conn, addr):
             id = str[2]
             a = str[3]
             b = str[4]
-            bd.execute('BEGIN EXCLUSIVE TRANSACTION')
-            cur.execute('INSERT INTO PRODUCTO (idProducto, nombre, total) VALUES (?,?,?)',(id,a,b))
-            bd.commit
             n = int(b)
             m = len(hosts)
             t = [n//m]*m
@@ -80,6 +77,7 @@ def cliente(conn, addr):
             for z in range(r):
                 t[z] += 1
             bd.execute('BEGIN EXCLUSIVE TRANSACTION')
+            cur.execute('INSERT INTO PRODUCTO (idProducto, nombre, total) VALUES (?,?,?)',(id,a,b))
             cur.execute('INSERT INTO INVENTARIO (idSucursal, producto, cantidad) VALUES (?,?,?)',(w,id,t[w-1]))
             bd.commit()
             print("Se agrego el producto ",a," correctamente.")
