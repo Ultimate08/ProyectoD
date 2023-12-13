@@ -135,8 +135,8 @@ if __name__ == "__main__":
                 print("(idArticulo, nombre)")
                 for fila in cur:
                     print(fila)
-                idp = input("\nCuál es el ID del ARTICULO que deseas comprar?: ")
-                c = input("\nQué cantidad de ARTICULO deseas comprar?: ")
+                idp = input("\nCuál es el ID del articulo que deseas comprar?: ")
+                c = input("\nQué cantidad de articulo deseas comprar?: ")
                 idc = input("\nCuál es el su ID de cliente?: ")
                 idps = str(idp)
                 cs = str(c)
