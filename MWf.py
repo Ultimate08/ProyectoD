@@ -29,7 +29,7 @@ names = [    # Nombres dehost de las máquinas
 
 maestro = 0 # Bandera que indica que nodo es el maestro
 
-def cliente(conn, addr):
+def cliente(conn, addr):    # 
     hn = socket.gethostname()
     print(f'Conectado por {addr}')
     while True:
@@ -60,10 +60,10 @@ def cliente(conn, addr):
             for z in range(r):
                 t[z] += 1
             bd.execute('BEGIN EXCLUSIVE TRANSACTION')
-            cur.execute('INSERT INTO PRODUCTO (idProducto, nombre, total) VALUES (?,?,?)',(id,a,b))
-            cur.execute('INSERT INTO INVENTARIO (idSucursal, idProducto, cantidad) VALUES (?,?,?)',(w,id,t[w-1]))
+            cur.execute('INSERT INTO ARTICULO (idArticulo, nombre, total) VALUES (?,?,?)',(id,a,b))
+            cur.execute('INSERT INTO INVENTARIO (idSucursal, idArticulo, cantidad) VALUES (?,?,?)',(w,id,t[w-1]))
             bd.commit()
-            print("Se agrego el producto ",a," correctamente.")
+            print("Se agrego el articulo ",a," correctamente.")
             
         elif str[1] == 'compra':
             id = str[2]
@@ -72,25 +72,25 @@ def cliente(conn, addr):
             cl = str[5]
             cn = int(c)
             suc = getSucId(h)
-            cur.execute('SELECT total FROM PRODUCTO WHERE idProducto = ?',(id, ))
+            cur.execute('SELECT total FROM ARTICULO WHERE idArticulo = ?',(id, ))
             a = cur.fetchone()
             t = a[0]
-            cur.execute('SELECT cantidad FROM INVENTARIO WHERE idProducto = ?',(id, ))
+            cur.execute('SELECT cantidad FROM INVENTARIO WHERE idArticulo = ?',(id, ))
             a = cur.fetchone()
             tl = a[0]
             if (h == hn) and ((tl - cn) < 0):
                 print("\nEn el inventario de este nodo no es suficiente para tu compra. Intenta en otro nodo o reduce el numero de articulos de tu compra")
             elif (h == hn) and ((tl - cn) >= 0):
                 bd.execute('BEGIN EXCLUSIVE TRANSACTION')
-                cur.execute('UPDATE PRODUCTO SET total = ? WHERE idProducto = ?',(t-cn,id))
-                cur.execute('UPDATE INVENTARIO SET cantidad = ? WHERE idProducto = ?',(tl-cn,id))
-                cur.execute('INSERT INTO ENVIO (idProducto, idSucursal, idCliente) VALUES (?,?,?)',(id,suc,cl))
+                cur.execute('UPDATE ARTICULO SET total = ? WHERE idArticulo = ?',(t-cn,id))
+                cur.execute('UPDATE INVENTARIO SET cantidad = ? WHERE idArticulo = ?',(tl-cn,id))
+                cur.execute('INSERT INTO ENVIO (idArticulo, idSucursal, idCliente) VALUES (?,?,?)',(id,suc,cl))
                 bd.commit()
                 print("La compra se realizo correctamente.")
             elif (h != hn) and ((tl - cn) >= 0):
                 bd.execute('BEGIN EXCLUSIVE TRANSACTION')
-                cur.execute('UPDATE PRODUCTO SET total = ? WHERE idProducto = ?',(t-cn,id))
-                cur.execute('INSERT INTO ENVIO (idProducto, idSucursal, idCliente) VALUES (?,?,?)',(id,suc,cl))
+                cur.execute('UPDATE ARTICULO SET total = ? WHERE idArticulo = ?',(t-cn,id))
+                cur.execute('INSERT INTO ENVIO (idArticulo, idSucursal, idCliente) VALUES (?,?,?)',(id,suc,cl))
                 bd.commit()
         #print(f'Mensaje recibido de {addr}: {received_message}')
         
@@ -105,7 +105,7 @@ def cliente(conn, addr):
 
     conn.close()
 
-def servidor(host, port):
+def servidor(host, port):        # Función para levantar el servidor
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         s.bind((host, port))
         s.listen(5)
@@ -116,7 +116,7 @@ def servidor(host, port):
             client_thread = threading.Thread(target=cliente, args=(conn, addr))
             client_thread.start()
 
-def mensaje(server_ip, server_port, message):
+def mensaje(server_ip, server_port, message):        # Función para mandar mensajes 
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         s.connect((server_ip, server_port))
         t = time.strftime("%Y-%m-%d_%H:%M:%S", time.localtime())
@@ -136,7 +136,7 @@ def mensaje(server_ip, server_port, message):
         with open(f"/home/eduardo/msgs.txt", "a") as file:
             file.write(f"[Recibido] {time.strftime('%Y-%m-%d_%H:%M:%S')} - {decoded_response}\n")
 
-def getSucId(hn):
+def getSucId(hn):    # Funcion para obtener el idSucursal a partir del hostname de la máquina virtual
     n = -1
     if (hn == names[0]):
         n = 1
@@ -147,48 +147,4 @@ def getSucId(hn):
     elif (hn == names[3]):
         n = 4
     return n
-#if __name__ == "__main__":
-    # Configuración de los servidores en cada máquina virtual
-    #hosts = [
-        #"192.168.153.128",
-        #"192.168.153.129",
-        #"192.168.153.130",
-        #"192.168.153.131"
-    #]
-    #port = [      # Puerto para la comunicación entre las máquinas
-        #1111,
-        #2222,
-        #3333,
-        #4444
-    #]
-    # Iniciar los servidores en cada máquina virtual
-    #vm1 = threading.Thread(target=servidor, args=(hosts[0], port[0]))
-    #vm1.start()
-    #vm2 = threading.Thread(target=servidor, args=(hosts[1], port[1]))
-    #vm2.start()
-    #vm3 = threading.Thread(target=servidor, args=(hosts[2], port[2]))
-    #vm3.start()
-    #vm4 = threading.Thread(target=servidor, args=(hosts[3], port[3]))
-    #vm4.start()
 
-    # Menú del cliente para enviar mensajes
-    #while True:
-        #print("\nSeleccione a qué servidor desea enviar un mensaje:")
-        #for i, host in enumerate(hosts, start=1):
-            #print(f"{i}. {host}")
-
-        #choice = input("Ingrese el número correspondiente al servidor o '0' para salir: ")
-        #if choice == '0':
-            #break
-
-        #try:
-            #choice_idx = int(choice) - 1
-            #if 0 <= choice_idx < len(hosts):
-                #server_ip = hosts[choice_idx]
-                #port_i = port[choice_idx]
-                #message = input("Ingrese el mensaje a enviar: ")
-                #mensaje(server_ip, port_i, message)
-            #else:
-                #print("Opción inválida. Intente de nuevo.")
-        #except ValueError:
-            #print("Entrada inválida. Ingrese un número válido o '0' para salir.")
