@@ -29,7 +29,7 @@ names = [    # Nombres dehost de las máquinas
 
 maestro = 0 # Bandera que indica que nodo es el maestro
 
-def cliente(conn, addr):    # 
+def cliente(conn, addr):    # Función de cliente, detecta cuando llega un mensaje al servidor desde cualquiera de las 4 máquinas virtuales
     hn = socket.gethostname()
     print(f'Conectado por {addr}')
     while True:
@@ -38,17 +38,18 @@ def cliente(conn, addr):    #
             break
         received_message = data.decode()
         str = received_message.split(sep=' ')
-        if str[1] == 'cliente':
+        
+        if str[1] == 'cliente':    # Detección del comando cliente para agregar un nuevo cliente a la base
             id = str[2]
             n = str[3]
             p = str[4]
             m = str[5]
             bd.execute('BEGIN EXCLUSIVE TRANSACTION')
-            cur.execute('INSERT INTO CLIENTE (idCliente, nombre, apPaterno, apMaterno) VALUES (?,?,?,?)',(id,n,p,m))
+            cur.execute('INSERT INTO CLIENTE (idCliente, nombre, apPaterno, apMaterno) VALUES (?,?,?,?)',(id,n,p,m)) # Inserción del nuevo ciente 
             bd.commit()
             print("Se agrego el cliente ",n," ",p," ",m," correctamente")
             
-        elif str[1] == 'articulo':
+        elif str[1] == 'articulo':    # Detección del comando articulo para agregar un nuevo articulo en general
             w = getSucId(hn)
             id = str[2]
             a = str[3]
@@ -57,15 +58,15 @@ def cliente(conn, addr):    #
             m = len(hosts)
             t = [n//m]*m
             r = n % m
-            for z in range(r):
+            for z in range(r): # Distribución del total de articulos entre las 4 sucursales
                 t[z] += 1
             bd.execute('BEGIN EXCLUSIVE TRANSACTION')
-            cur.execute('INSERT INTO ARTICULO (idArticulo, nombre, total) VALUES (?,?,?)',(id,a,b))
-            cur.execute('INSERT INTO INVENTARIO (idSucursal, idArticulo, cantidad) VALUES (?,?,?)',(w,id,t[w-1]))
+            cur.execute('INSERT INTO ARTICULO (idArticulo, nombre, total) VALUES (?,?,?)',(id,a,b))    # Inserción del articulo en el inventario general
+            cur.execute('INSERT INTO INVENTARIO (idSucursal, idArticulo, cantidad) VALUES (?,?,?)',(w,id,t[w-1])) # Inserción de los articulos correspondientes a una sucursal
             bd.commit()
             print("Se agrego el articulo ",a," correctamente.")
             
-        elif str[1] == 'compra':
+        elif str[1] == 'compra':    # Detección del comando compra para realizar la compra de un articulo en una sucursal
             id = str[2]
             c = str[3]
             h = str[4]
@@ -82,8 +83,8 @@ def cliente(conn, addr):    #
                 print("\nEn el inventario de este nodo no es suficiente para tu compra. Intenta en otro nodo o reduce el numero de articulos de tu compra")
             elif (h == hn) and ((tl - cn) >= 0):
                 bd.execute('BEGIN EXCLUSIVE TRANSACTION')
-                cur.execute('UPDATE ARTICULO SET total = ? WHERE idArticulo = ?',(t-cn,id))
-                cur.execute('UPDATE INVENTARIO SET cantidad = ? WHERE idArticulo = ?',(tl-cn,id))
+                cur.execute('UPDATE ARTICULO SET total = ? WHERE idArticulo = ?',(t-cn,id))    # Actualización del inventario general
+                cur.execute('UPDATE INVENTARIO SET cantidad = ? WHERE idArticulo = ?',(tl-cn,id))    # Actualización del inventario de la sucursal
                 cur.execute('INSERT INTO ENVIO (idArticulo, idSucursal, idCliente) VALUES (?,?,?)',(id,suc,cl))
                 bd.commit()
                 print("La compra se realizo correctamente.")
@@ -92,7 +93,6 @@ def cliente(conn, addr):    #
                 cur.execute('UPDATE ARTICULO SET total = ? WHERE idArticulo = ?',(t-cn,id))
                 cur.execute('INSERT INTO ENVIO (idArticulo, idSucursal, idCliente) VALUES (?,?,?)',(id,suc,cl))
                 bd.commit()
-        #print(f'Mensaje recibido de {addr}: {received_message}')
         
         # Almacenar mensaje recibido en un archivo
         with open(f"/home/eduardo/msgs.txt", "a") as file:
