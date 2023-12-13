@@ -2,7 +2,6 @@ import socket
 import threading
 import sqlite3
 import time
-import subprocess
 
 bd = sqlite3.connect('/home/eduardo/base.sqlite', check_same_thread=False)
 cur = bd.cursor()
