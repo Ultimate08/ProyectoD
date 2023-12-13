@@ -29,44 +29,26 @@ names = [    # Nombres dehost de las máquinas
     "VM3",
     "VM4"
 ]
-
-def propaga(hn, msj):
-    if (hn == names[0]):
-        MWf.mensaje(hosts[1],port[1],msj)
-        MWf.mensaje(hosts[2],port[2],msj)
-        MWf.mensaje(hosts[3],port[3],msj)
-    elif (hn == names[1]):
-        MWf.mensaje(hosts[0],port[0],msj)
-        MWf.mensaje(hosts[2],port[2],msj)
-        MWf.mensaje(hosts[3],port[3],msj)
-    elif (hn == names[2]):
-        MWf.mensaje(hosts[0],port[0],msj)
-        MWf.mensaje(hosts[1],port[1],msj)
-        MWf.mensaje(hosts[3],port[3],msj)
-    elif (hn == names[3]):
-        MWf.mensaje(hosts[0],port[0],msj)
-        MWf.mensaje(hosts[1],port[1],msj)
-        MWf.mensaje(hosts[2],port[2],msj)
         
 if __name__ == "__main__":
     # Borrado de tablas
-    cur.execute('DROP TABLE IF EXISTS PRODUCTO')
+    cur.execute('DROP TABLE IF EXISTS ARTICULO')
     cur.execute('DROP TABLE IF EXISTS CLIENTE')
     cur.execute('DROP TABLE IF EXISTS INVENTARIO')
     cur.execute('DROP TABLE IF EXISTS ENVIO')
     
     # Creacion de tablas
-    cur.execute('CREATE TABLE PRODUCTO (idProducto INTEGER, nombre TEXT, total INTEGER)')
+    cur.execute('CREATE TABLE ARTICULO (idArticulo INTEGER, nombre TEXT, total INTEGER)')
     cur.execute('CREATE TABLE CLIENTE (idCliente INTEGER, nombre TEXT, apPaterno TEXT, apMaterno TEXT)')
-    cur.execute('CREATE TABLE INVENTARIO (idSucursal INTEGER, idProducto INTEGER, cantidad INTEGER)')
-    cur.execute('CREATE TABLE ENVIO (idProducto INTEGER, idSucursal INTEGER, idCliente INTEGER)')
+    cur.execute('CREATE TABLE INVENTARIO (idSucursal INTEGER, idArticulo INTEGER, cantidad INTEGER)')
+    cur.execute('CREATE TABLE ENVIO (idArticulo INTEGER, idSucursal INTEGER, idCliente INTEGER)')
 
-    #cur.execute('INSERT INTO PRODUCTOS (idProducto, nombre) VALUES (?, ?)', ('My Way', 15))
-    cur.execute('INSERT INTO PRODUCTO (idProducto, nombre, total) VALUES (?, ?, ?)',(idP,'Zapatos', 20))
+    #cur.execute('INSERT INTO ARTICULO (idArticulo, nombre) VALUES (?, ?)', ('My Way', 15))
+    cur.execute('INSERT INTO ARTICULO (idArticulo, nombre, total) VALUES (?, ?, ?)',(idP,'Zapatos', 20))
     idP += 1
-    cur.execute('INSERT INTO PRODUCTO (idProducto, nombre, total) VALUES (?, ?, ?)',(idP,'Gorra', 16))
+    cur.execute('INSERT INTO ARTICULO (idArticulo, nombre, total) VALUES (?, ?, ?)',(idP,'Gorra', 16))
     idP += 1
-    cur.execute('INSERT INTO PRODUCTO (idProducto, nombre, total) VALUES (?, ?, ?)',(idP,'Hoodie', 12))
+    cur.execute('INSERT INTO ARTICULO (idArticulo, nombre, total) VALUES (?, ?, ?)',(idP,'Hoodie', 12))
     idP += 1
     cur.execute('INSERT INTO CLIENTE (idCliente, nombre, apPaterno, apMaterno) VALUES (?,?,?,?)',(idC,'Brayan','Ambriz','Zuloaga'))
     idC += 1
@@ -79,8 +61,9 @@ if __name__ == "__main__":
     j = -1
     
     hn = socket.gethostname()
+    # Llenado de la tabla de inventario local de la sucursal
     while (i < idP):
-        cur.execute('SELECT total FROM PRODUCTO WHERE idProducto = ?',(i, ))
+        cur.execute('SELECT total FROM ARTICULO WHERE idArticulo = ?',(i, ))
         a = cur.fetchone()
         n = a[0]
         m = len(hosts)
@@ -96,12 +79,12 @@ if __name__ == "__main__":
             j = 3
         elif (hn == names[3]):
             j = 4
-        cur.execute('INSERT INTO INVENTARIO (idSucursal, idProducto, cantidad) VALUES (?,?,?)',(j,i,t[j-1]))
+        cur.execute('INSERT INTO INVENTARIO (idSucursal, idArticulo, cantidad) VALUES (?,?,?)',(j,i,t[j-1]))
         i += 1
     bd.commit()
 
     
-    # Iniciar los servidores en cada máquina virtual
+    # Iniciar el servidor dependiendo la máquina virtual
     if (hn == names[0]):
         vm1 = threading.Thread(target=MWf.servidor, args=(hosts[0], port[0]))
         vm1.start()
@@ -128,12 +111,13 @@ if __name__ == "__main__":
         if choice == '0':
             break
         try:
-            if choice == '1':
+            if choice == '1':    # 1. Consultar clientes
                 cur.execute('SELECT * FROM CLIENTE')
                 print("(idCliente, nombre, apPaterno, apMaterno)")
                 for fila in cur:
                     print(fila)
-            elif choice == '2':
+                    
+            elif choice == '2':    # 2. Agregar nuevo cliente
                 n = input("\nCuál es el nombre del cliente?: ")
                 p = input("\nCuál es el apellido paterno del cliente?: ")
                 m = input("\nCuál es el apellido materno del cliente?: ")
@@ -142,26 +126,24 @@ if __name__ == "__main__":
                 id += 1
                 ids = str(id)
                 msj = "cliente "+ids+" "+n+" "+p+" "+m
-                #cur.execute('INSERT INTO CLIENTE (idCliente, nombre, apPaterno, apMaterno) VALUES (?,?,?,?)',(ids,n,p,m))
-                #propaga(hn,msj)
                 MWf.mensaje(hosts[0],port[0],msj)
                 MWf.mensaje(hosts[1],port[1],msj)
                 MWf.mensaje(hosts[2],port[2],msj)
                 MWf.mensaje(hosts[3],port[3],msj)
         
-            elif choice == '3':
+            elif choice == '3':    # 3. Comprar articulo
                 print("\nEste es el inventario del nodo ",MWf.getSucId(hn),": ")
                 cur.execute('SELECT * FROM INVENTARIO')
-                print("(idSucursal, idProducto, cantidad)")
+                print("(idSucursal, idArticulo, cantidad)")
                 for fila in cur:
                     print(fila)
-                print("Donde los idProducto corresponden a: ")
-                cur.execute('SELECT idProducto, nombre FROM PRODUCTO')
-                print("(idProducto, nombre)")
+                print("Donde los idArticulo corresponden a: ")
+                cur.execute('SELECT idArticulo, nombre FROM ARTICULO')
+                print("(idArticulo, nombre)")
                 for fila in cur:
                     print(fila)
-                idp = input("\nCuál es el ID del producto que deseas comprar?: ")
-                c = input("\nQué cantidad de producto deseas comprar?: ")
+                idp = input("\nCuál es el ID del ARTICULO que deseas comprar?: ")
+                c = input("\nQué cantidad de ARTICULO deseas comprar?: ")
                 idc = input("\nCuál es el su ID de cliente?: ")
                 idps = str(idp)
                 cs = str(c)
@@ -172,10 +154,10 @@ if __name__ == "__main__":
                 MWf.mensaje(hosts[2],port[2],msj)
                 MWf.mensaje(hosts[3],port[3],msj)
             
-            elif choice == '4':
+            elif choice == '4':    # 4. Agregar articulo
                 a = input("\nCuál es el nombre del nuevo articulo?: ")
                 p = input("\nCuál es la cantidad total del articulo?: ")
-                cur.execute('SELECT COUNT(*) FROM PRODUCTO')
+                cur.execute('SELECT COUNT(*) FROM ARTICULO')
                 id = cur.fetchone()[0]
                 id += 1
                 ids = str(id)
@@ -187,19 +169,19 @@ if __name__ == "__main__":
                 
             elif choice == '5':
                 cur.execute('SELECT * FROM ENVIO')
-                print("(idProducto, idSucursal, idCliente)")
+                print("(idArticulo, idSucursal, idCliente)")
                 for fila in cur:
                     print(fila)
                     
             elif choice == '6':
                 cur.execute('SELECT * FROM INVENTARIO')
-                print("(idSucursal, producto, cantidad)")
+                print("(idSucursal, idArticulo, cantidad)")
                 for fila in cur:
                     print(fila)
                     
             elif choice == '7':
-                cur.execute('SELECT * FROM PRODUCTO')
-                print("(idProducto, nombre, total)")
+                cur.execute('SELECT * FROM ARTICULO')
+                print("(idArticulo, nombre, total)")
                 for fila in cur:
                     print(fila)
                     
