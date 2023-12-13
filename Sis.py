@@ -161,12 +161,12 @@ if __name__ == "__main__":
                 for fila in cur:
                     print(fila)
                 idp = input("\nCuál es el ID del producto que deseas comprar?: ")
-                c = input("Qué cantidad de producto deseas comprar?: \n")
+                c = input("\nQué cantidad de producto deseas comprar?: ")
                 idc = input("\nCuál es el su ID de cliente?: ")
                 idps = str(idp)
                 cs = str(c)
                 idcs = str(idc)
-                msj = "compra "+idps+" "+cs+" "+hn+""+idcs
+                msj = "compra "+idps+" "+cs+" "+hn+" "+idcs
                 MWf.mensaje(hosts[0],port[0],msj)
                 MWf.mensaje(hosts[1],port[1],msj)
                 MWf.mensaje(hosts[2],port[2],msj)
