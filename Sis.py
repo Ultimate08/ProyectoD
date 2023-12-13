@@ -71,14 +71,7 @@ if __name__ == "__main__":
         r = n % m
         for x in range(r):
             t[x] += 1
-        if (hn == names[0]):
-            j = 1
-        elif (hn == names[1]):
-            j = 2
-        elif (hn == names[2]):
-            j = 3
-        elif (hn == names[3]):
-            j = 4
+        j = MWf.getSucId(hn)
         cur.execute('INSERT INTO INVENTARIO (idSucursal, idArticulo, cantidad) VALUES (?,?,?)',(j,i,t[j-1]))
         i += 1
     bd.commit()
